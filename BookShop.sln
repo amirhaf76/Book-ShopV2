@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookShop", "BookShop\BookShop.csproj", "{E851CFF5-B24B-46E9-8DE9-2B803769F851}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGetway", "ApiGetway", "{D03958A4-C690-46C3-9B01-2985D59566BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{93A202B4-8D9E-48F7-9A37-12A83A40FDD9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Base", "Base", "{79934826-BD61-4DF1-951B-F0B11399CC46}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Base\Infrastructure.csproj", "{F1FC88DA-2861-48B2-ACDB-227352A1916D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E851CFF5-B24B-46E9-8DE9-2B803769F851}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E851CFF5-B24B-46E9-8DE9-2B803769F851}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E851CFF5-B24B-46E9-8DE9-2B803769F851}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E851CFF5-B24B-46E9-8DE9-2B803769F851}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1FC88DA-2861-48B2-ACDB-227352A1916D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1FC88DA-2861-48B2-ACDB-227352A1916D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1FC88DA-2861-48B2-ACDB-227352A1916D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1FC88DA-2861-48B2-ACDB-227352A1916D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E851CFF5-B24B-46E9-8DE9-2B803769F851} = {D03958A4-C690-46C3-9B01-2985D59566BB}
+		{79934826-BD61-4DF1-951B-F0B11399CC46} = {93A202B4-8D9E-48F7-9A37-12A83A40FDD9}
+		{F1FC88DA-2861-48B2-ACDB-227352A1916D} = {79934826-BD61-4DF1-951B-F0B11399CC46}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {74661EEC-2EE7-4F0E-8D54-63E2BFBB0DA5}
+	EndGlobalSection
+EndGlobal
