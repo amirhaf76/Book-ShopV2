@@ -1,14 +1,14 @@
-﻿using BookShop.Models.DataBaseLayer.DataModelRepository;
-using BookShop.Models.DataBaseLayer.DataModeRepositoryAbstraction;
-using BookShop.Models.DtosExtension;
-using BookShop.Models.GetwayLayer.RequestResponseModels;
+﻿using BookShop.ModelsLayer.DataBaseLayer.DataModeRepositoryAbstraction;
+using BookShop.ModelsLayer.Dtos.FilterDtos;
+using BookShop.ModelsLayer.DtosExtension;
+using BookShop.ModelsLayer.GetwayLayer.RequestResponseModels;
 using Infrastructure.Tools;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookShop.Controllers
 {
-   
+
     [ApiController]
     [Route("api/v1/[controller]")]
     public class BookController : ControllerBase

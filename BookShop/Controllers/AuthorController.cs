@@ -1,6 +1,6 @@
 ﻿using BookShop.Models.DataBaseLayer.DataBaseModels;
-using BookShop.Models.DataBaseLayer.DataModeRepositoryAbstraction;
-using BookShop.Models.GetwayLayer.RequestResponseModels;
+using BookShop.ModelsLayer.DataBaseLayer.DataModeRepositoryAbstraction;
+using BookShop.ModelsLayer.GetwayLayer.RequestResponseModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookShop.Controllers

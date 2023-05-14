@@ -1,6 +1,7 @@
-﻿using BookShop.Models.DataBaseLayer.DataModeRepositoryAbstraction;
-using BookShop.Models.DataBaseLayer.DbContexts.BookShopDbContexts;
-using BookShop.Models.Dtos.UserAccountDtos;
+﻿using BookShop.Models.Dtos.UserAccountDtos;
+using BookShop.ModelsLayer.DataBaseLayer.DataModeRepositoryAbstraction;
+using BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts;
+using BookShop.ModelsLayer.GetwayLayer.RequestResponseModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
