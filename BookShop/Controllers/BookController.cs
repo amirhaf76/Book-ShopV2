@@ -3,10 +3,12 @@ using BookShop.Models.DataBaseLayer.DataModeRepositoryAbstraction;
 using BookShop.Models.DtosExtension;
 using BookShop.Models.GetwayLayer.RequestResponseModels;
 using Infrastructure.Tools;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookShop.Controllers
 {
+   
     [ApiController]
     [Route("api/v1/[controller]")]
     public class BookController : ControllerBase
@@ -21,7 +23,7 @@ namespace BookShop.Controllers
             _bookRepository = bookRepository;
         }
 
-
+        [Authorize]
         [HttpPost("Book")]
         public async Task<BookCreationResponse> CreateBookAsync([FromBody] BookCreationRequest createBookRequest)
         {
@@ -30,6 +32,7 @@ namespace BookShop.Controllers
             return bookCreationResult.ConvertToBookCreationResponse();
         }
 
+        [AllowAnonymous]
         [HttpGet("AllBooks")]
         public async Task<IEnumerable<BookQueryResponse>> GetAllBooks([FromQuery] PaginationFilter paginationFilter)
         {
