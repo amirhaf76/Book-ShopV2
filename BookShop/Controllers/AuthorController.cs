@@ -1,7 +1,4 @@
-﻿using BookShop.Models.DataBaseLayer.DataBaseModels;
-using BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction;
-using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
-using BookShop.ModelsLayer.DataBaseLayer.DataModeRepositoryAbstraction;
+﻿using BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction;
 using BookShop.ModelsLayer.Dtos.AuthorDtos;
 using BookShop.ModelsLayer.GetwayLayer.RequestResponseModels;
 using Microsoft.AspNetCore.Mvc;

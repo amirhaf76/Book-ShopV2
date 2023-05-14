@@ -46,7 +46,7 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
             await _dbSet.AddRangeAsync(entities);
         }
 
-        public async void AddRangeAsync(IEnumerable<TEntity> entities )
+        public async void AddRangeAsync(IEnumerable<TEntity> entities)
         {
             await _dbSet.AddRangeAsync(entities);
         }

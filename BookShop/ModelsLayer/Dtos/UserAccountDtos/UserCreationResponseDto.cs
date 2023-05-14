@@ -1,6 +1,4 @@
-﻿using BookShop.Models.GetwayLayer.RequestResponseModels;
-
-namespace BookShop.ModelsLayer.Dtos.UserAccountDtos
+﻿namespace BookShop.ModelsLayer.Dtos.UserAccountDtos
 {
     public class UserCreationResponseDto
     {

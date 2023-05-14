@@ -1,5 +1,4 @@
-﻿using Infrastructure.AutoFac.FlagInterface;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookShop.ModelsLayer.DataBaseLayer.DataBaseModels
 {

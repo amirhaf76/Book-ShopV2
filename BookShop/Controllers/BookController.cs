@@ -3,7 +3,6 @@ using BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction;
 using BookShop.ModelsLayer.Dtos.FilterDtos;
 using BookShop.ModelsLayer.DtosExtension;
 using BookShop.ModelsLayer.GetwayLayer.RequestResponseModels;
-using Infrastructure.Tools;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

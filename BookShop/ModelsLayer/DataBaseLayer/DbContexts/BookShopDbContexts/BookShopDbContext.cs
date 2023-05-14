@@ -1,8 +1,6 @@
 ﻿using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
 using Infrastructure.AutoFac.FlagInterface;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging.Console;
-using Serilog;
 
 namespace BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts
 {

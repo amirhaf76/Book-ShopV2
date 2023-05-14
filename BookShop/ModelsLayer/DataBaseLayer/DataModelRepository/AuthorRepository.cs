@@ -1,6 +1,5 @@
 ﻿using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
 using BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction;
-using BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts;
 using BookShop.ModelsLayer.Exceptions;
 using Infrastructure.AutoFac.FlagInterface;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +34,7 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
             return authors;
         }
 
-      
+
 
         public async Task<IEnumerable<Author>> FindAuthorsByIdAsync(IEnumerable<int> authorIds)
         {
@@ -97,7 +96,7 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
         public async Task<Author> FindAuthorAsync(string firstName, string lastName)
         {
             var receviedAuthor = await _dbSet
-                .Where(q => q.FirstName == firstName  && q.LastName == lastName)
+                .Where(q => q.FirstName == firstName && q.LastName == lastName)
                 .FirstOrDefaultAsync();
 
             if (receviedAuthor == default)
