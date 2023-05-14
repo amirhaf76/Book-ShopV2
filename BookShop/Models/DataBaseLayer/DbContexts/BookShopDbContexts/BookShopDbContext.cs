@@ -2,15 +2,14 @@
 using Infrastructure.AutoFac.FlagInterface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Console;
+using Serilog;
 
 namespace BookShop.Models.DataBaseLayer.DbContexts.BookShopDbContexts
 {
     public class BookShopDbContext : DbContext, IBookShopDbContext, IScope
     {
-
         public BookShopDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -26,6 +26,8 @@ namespace BookShop.Models.DataBaseLayer.DataModelRepository
 
         public async Task<UserCreationResponseDto> CreateUserAsync(UserCreationDto userCreationDto)
         {
+            userCreationDto.Username = userCreationDto.Username.Trim().ToLower();
+
             var user = await _dbContext
                 .Set<UserAccount>()
                 .Where(x => x.Username == userCreationDto.Username)
