@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Serilog;
-using Serilog.Settings.Configuration;
 using System.Text;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -16,8 +16,6 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("BookShopDB")
     ?? throw new InvalidOperationException("Connection string 'BookShopDB' not found.");
 
-
-var options = new ConfigurationReaderOptions { SectionName = "CustomSection" };
 
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
@@ -90,18 +88,32 @@ builder.Services.AddExceptionHandler(exceptionHandlerApp =>
     };
 });
 
-//builder.Services.AddScoped<IExceptionCaseService, DefaultExceptionCaseService>();
-//builder.Services.AddScoped<IHashingPasswordStrategy, HashingPassowordStrategy>();
-//builder.Services.AddScoped<IPasswordHasher<UserAccount>, BookShopPasswordHasher<UserAccount>>();
-//builder.Services.AddScoped<IBookShopDbContext, BookShopDbContext>();
-//builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
-//builder.Services.AddScoped<IBookRepository, BookRepository>();
-//builder.Services.AddScoped<IUserAccountRepository, UserAccountRepository>();
-
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    var securityScheme = new OpenApiSecurityScheme
+    {
+        Reference = new OpenApiReference
+        {
+            Type = ReferenceType.SecurityScheme,
+            Id = "Bearer"
+        },
+        Description = "JWT Token gerekiyor!",
+        In = ParameterLocation.Header, // 
+        Name = "Authorization", // 
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    };
+    options.AddSecurityDefinition("Bearer", securityScheme);
+
+    // Security Requirement
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    {
+        { securityScheme, Array.Empty<string>() }
+    });
+
+});
 
 var app = builder.Build();
 
