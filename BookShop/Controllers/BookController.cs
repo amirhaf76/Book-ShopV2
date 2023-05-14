@@ -1,4 +1,5 @@
-﻿using BookShop.ModelsLayer.DataBaseLayer.DataModeRepositoryAbstraction;
+﻿using BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction;
+using BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction;
 using BookShop.ModelsLayer.Dtos.FilterDtos;
 using BookShop.ModelsLayer.DtosExtension;
 using BookShop.ModelsLayer.GetwayLayer.RequestResponseModels;
@@ -16,18 +17,20 @@ namespace BookShop.Controllers
         private readonly ILogger<BookController> _logger;
 
         private readonly IBookRepository _bookRepository;
+        private readonly IBookService _bookService;
 
-        public BookController(ILogger<BookController> logger, IBookRepository bookRepository)
+        public BookController(ILogger<BookController> logger, IBookRepository bookRepository, IBookService bookService)
         {
             _logger = logger;
             _bookRepository = bookRepository;
+            _bookService = bookService;
         }
 
         [Authorize]
         [HttpPost("Book")]
         public async Task<BookCreationResponse> CreateBookAsync([FromBody] BookCreationRequest createBookRequest)
         {
-            var bookCreationResult = await _bookRepository.CreateBookAsync(createBookRequest.ConvertToBookCreationDto());
+            var bookCreationResult = await _bookService.CreateBookAsync(createBookRequest.ConvertToBookCreationDto());
 
             return bookCreationResult.ConvertToBookCreationResponse();
         }

@@ -1,9 +1,9 @@
 ﻿using BookShop.ModelsLayer.Dtos.AuthenticationDtos;
 using BookShop.ModelsLayer.Dtos.UserAccountDtos;
 
-namespace BookShop.ModelsLayer.DataBaseLayer.DataModeRepositoryAbstraction
+namespace BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction
 {
-    public interface IAuthenticationRepository
+    public interface IAuthenticationService
     {
         Task<TokenDto> Authenticate(UserAccountDto userAccount);
     }

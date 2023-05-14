@@ -1,8 +1,8 @@
 ﻿using BookShop.ModelsLayer.Dtos.UserAccountDtos;
 
-namespace BookShop.ModelsLayer.DataBaseLayer.DataModeRepositoryAbstraction
+namespace BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction
 {
-    public interface IUserAccountRepository
+    public interface IUserAccountService
     {
         Task<UserCreationResponseDto> CreateUserAsync(UserCreationDto userCreationDto);
     }

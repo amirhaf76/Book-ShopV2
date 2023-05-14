@@ -14,5 +14,15 @@ namespace BookShop.ModelsLayer.DtosExtension
                 LastName = author.LastName,
             };
         }
+
+        public static Author ConvertToAuthor(this AuthorDto author)
+        {
+            return new Author
+            {
+                Id = author.Id,
+                FirstName = author.FirstName,
+                LastName = author.LastName,
+            };
+        }
     }
 }

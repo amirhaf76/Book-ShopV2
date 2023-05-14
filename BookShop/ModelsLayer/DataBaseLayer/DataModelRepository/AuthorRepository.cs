@@ -1,5 +1,5 @@
 ﻿using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
-using BookShop.ModelsLayer.DataBaseLayer.DataModeRepositoryAbstraction;
+using BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction;
 using BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts;
 using BookShop.ModelsLayer.Exceptions;
 using Infrastructure.AutoFac.FlagInterface;
@@ -7,15 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
 {
-    public class AuthorRepository : IAuthorRepository, IScope
+    public class AuthorRepository : BaseRepository<Author>, IAuthorRepository, IScope
     {
-        private readonly DbContext _bookShopDbContext;
         private readonly ILogger<AuthorRepository> _logger;
 
-        public AuthorRepository(ILogger<AuthorRepository> logger, IBookShopDbContext bookShopDbContext)
+        public AuthorRepository(ILogger<AuthorRepository> logger, DbContext dbContext) : base(dbContext)
         {
             _logger = logger;
-            _bookShopDbContext = bookShopDbContext.GetDbContext();
         }
 
         private async Task<IEnumerable<Author>> GetOrAddAuthorToDbContextAsync(IEnumerable<int> authorIds)
@@ -37,23 +35,7 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
             return authors;
         }
 
-        public async Task<Author> AddAuthorIfItDoesntExistAsync(Author author)
-        {
-            var receivedAuthor = await FindAuthorOrDefaultAsync(author);
-
-            if (receivedAuthor != default)
-            {
-                return receivedAuthor;
-            }
-            else
-            {
-                var addedAuthor = await _bookShopDbContext.Set<Author>().AddAsync(author);
-
-                await _bookShopDbContext.SaveChangesAsync();
-
-                return addedAuthor.Entity;
-            }
-        }
+      
 
         public async Task<IEnumerable<Author>> FindAuthorsByIdAsync(IEnumerable<int> authorIds)
         {
@@ -61,7 +43,7 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
 
             foreach (var id in authorIds.Distinct())
             {
-                var receivedAuthor = await FindAuthorByIdAsync(id);
+                var receivedAuthor = await FindAuthorAsync(id);
 
                 if (receivedAuthor != default)
                 {
@@ -77,7 +59,7 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
         {
             try
             {
-                return await FindAuthorByIdAsync(id);
+                return await FindAuthorAsync(id);
             }
             catch (AuthorNotFoundException)
             {
@@ -99,34 +81,47 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
 
         public async Task<Author> FindAuthorAsync(Author author)
         {
-            var queryable = _bookShopDbContext.Set<Author>().Where(q => q.FirstName == author.FirstName && q.LastName == author.LastName);
-
-            _logger.LogDebug("Find author query: {query}", queryable.ToQueryString());
-
-            return await GetAuthorAsync(queryable);
-        }
-
-        public async Task<Author> FindAuthorByIdAsync(int id)
-        {
-            var queryable = _bookShopDbContext.Set<Author>().Where(q => q.Id == id);
-
-            _logger.LogDebug("Find author query: {query}", queryable.ToQueryString());
-
-            return await GetAuthorAsync(queryable);
-        }
-
-
-        private static async Task<Author> GetAuthorAsync(IQueryable<Author> queryable)
-        {
-            var receviedAuthor = await queryable.FirstOrDefaultAsync();
+            var receviedAuthor = await _dbSet
+                .Where(q => q.FirstName == author.FirstName && q.LastName == author.LastName)
+                .FirstOrDefaultAsync();
 
             if (receviedAuthor == default)
             {
-                throw new AuthorNotFoundException("There is no author like firstName: '{author.FirstName}', LastName: '{author.LastName}'!");
+                throw new AuthorNotFoundException("There is no author like firstName!");
+            }
+
+            return receviedAuthor;
+
+        }
+
+        public async Task<Author> FindAuthorAsync(string firstName, string lastName)
+        {
+            var receviedAuthor = await _dbSet
+                .Where(q => q.FirstName == firstName  && q.LastName == lastName)
+                .FirstOrDefaultAsync();
+
+            if (receviedAuthor == default)
+            {
+                throw new AuthorNotFoundException("There is no author like firstName!");
             }
 
             return receviedAuthor;
         }
+
+        public async Task<Author> FindAuthorAsync(int id)
+        {
+            var receviedAuthor = await _dbSet
+                .Where(q => q.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (receviedAuthor == default)
+            {
+                throw new AuthorNotFoundException("There is no author like firstName!");
+            }
+
+            return receviedAuthor;
+        }
+
 
 
     }

@@ -1,6 +1,7 @@
-﻿using BookShop.Models.Dtos.UserAccountDtos;
+﻿using BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction;
 using BookShop.ModelsLayer.DataBaseLayer.DataModeRepositoryAbstraction;
 using BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts;
+using BookShop.ModelsLayer.Dtos.UserAccountDtos;
 using BookShop.ModelsLayer.GetwayLayer.RequestResponseModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,14 +13,12 @@ namespace BookShop.Controllers
     public class AuthenticationController : Controller
     {
         private readonly ILogger<AuthenticationController> _logger;
-        private readonly DbContext _dbContext;
-        private readonly IAuthenticationRepository _authenticationRepository;
+        private readonly IAuthenticationService _authenticationService;
 
-        public AuthenticationController(ILogger<AuthenticationController> logger, IBookShopDbContext bookShopDbContext, IAuthenticationRepository authenticationRepository)
+        public AuthenticationController(ILogger<AuthenticationController> logger, IAuthenticationService authenticationService)
         {
             _logger = logger;
-            _dbContext = bookShopDbContext.GetDbContext();
-            _authenticationRepository = authenticationRepository;
+            _authenticationService = authenticationService;
         }
 
         [HttpPost("Token")]
@@ -31,7 +30,7 @@ namespace BookShop.Controllers
                 Password = tokenRequest.Password,
             };
 
-            var generatedToken = await _authenticationRepository.Authenticate(userAccountDto);
+            var generatedToken = await _authenticationService.Authenticate(userAccountDto);
 
             return new TokenResponse
             {

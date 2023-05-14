@@ -1,5 +1,8 @@
 ﻿using BookShop.Models.DataBaseLayer.DataBaseModels;
+using BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction;
+using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
 using BookShop.ModelsLayer.DataBaseLayer.DataModeRepositoryAbstraction;
+using BookShop.ModelsLayer.Dtos.AuthorDtos;
 using BookShop.ModelsLayer.GetwayLayer.RequestResponseModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,13 +13,12 @@ namespace BookShop.Controllers
     public class AuthorController : ControllerBase
     {
         private readonly ILogger<BookController> _logger;
+        private readonly IAuthorService _authorService;
 
-        private readonly IAuthorRepository _authorRepository;
-
-        public AuthorController(ILogger<BookController> logger, IAuthorRepository authorRepository)
+        public AuthorController(ILogger<BookController> logger, IAuthorService authorService)
         {
             _logger = logger;
-            _authorRepository = authorRepository;
+            _authorService = authorService;
         }
 
 
@@ -26,11 +28,11 @@ namespace BookShop.Controllers
             var authorSubRequests = authorCreationRequest
                 .AuthorInfos
                 .DistinctBy(x => x.FirstName + x.LastName)
-                .Select(x => new Author { FirstName = x.FirstName, LastName = x.LastName });
+                .Select(x => new AuthorDto { FirstName = x.FirstName, LastName = x.LastName });
 
             foreach (var authorReqeust in authorSubRequests)
             {
-                await _authorRepository.AddAuthorIfItDoesntExistAsync(authorReqeust);
+                await _authorService.AddAuthorIfItDoesntExistAsync(authorReqeust);
             }
         }
     }
