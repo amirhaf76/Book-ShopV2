@@ -6,9 +6,11 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataBaseModels
     {
         public int Id { get; set; }
 
-        [ForeignKey("ZipCodeEdm")]
+        public int ZipCodeId { get; set; }
+
         public ZipCode ZipCode { get; set; }
 
-        public string AddressLine { get; set; } = string.Empty;
+
+        public string AddressLine { get; set; }
     }
 }

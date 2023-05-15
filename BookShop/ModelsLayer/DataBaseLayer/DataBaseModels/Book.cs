@@ -4,9 +4,9 @@
     {
         public int Id { get; set; }
 
-        public string Title { get; set; } = string.Empty;
+        public string Title { get; set; }
 
-        public DateTime PublishedDate { get; set; } = DateTime.MinValue;
+        public DateTime? PublishedDate { get; set; }
 
         public int Pages { get; set; }
 

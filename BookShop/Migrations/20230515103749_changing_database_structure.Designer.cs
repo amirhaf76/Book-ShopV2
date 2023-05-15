@@ -4,6 +4,7 @@ using BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookShop.Migrations
 {
     [DbContext(typeof(BookShopDbContext))]
-    partial class BookShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230515103749_changing_database_structure")]
+    partial class changing_database_structure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,7 +77,7 @@ namespace BookShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Author");
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("BookShop.ModelsLayer.DataBaseLayer.DataBaseModels.Book", b =>
@@ -96,7 +99,7 @@ namespace BookShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Book");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("BookShop.ModelsLayer.DataBaseLayer.DataBaseModels.City", b =>
@@ -120,7 +123,7 @@ namespace BookShop.Migrations
 
                     b.HasIndex("ProvinceId");
 
-                    b.ToTable("City");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("BookShop.ModelsLayer.DataBaseLayer.DataBaseModels.Country", b =>
@@ -136,7 +139,7 @@ namespace BookShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Country");
+                    b.ToTable("Countries", (string)null);
                 });
 
             modelBuilder.Entity("BookShop.ModelsLayer.DataBaseLayer.DataBaseModels.Province", b =>
@@ -157,7 +160,7 @@ namespace BookShop.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("Province");
+                    b.ToTable("Provinces", (string)null);
                 });
 
             modelBuilder.Entity("BookShop.ModelsLayer.DataBaseLayer.DataBaseModels.UserAccount", b =>
@@ -179,7 +182,7 @@ namespace BookShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserAccount");
+                    b.ToTable("UserAccounts", (string)null);
                 });
 
             modelBuilder.Entity("BookShop.ModelsLayer.DataBaseLayer.DataBaseModels.ZipCode", b =>

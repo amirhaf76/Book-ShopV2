@@ -4,9 +4,9 @@
     {
         public int Id { get; set; }
 
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; }
 
-        public string PhoneNumberCode { get; set; } = string.Empty;
+        public string PhoneNumberCode { get; set; }
 
         public int ProvinceId { get; set; }
 
