@@ -1,5 +1,6 @@
 ﻿using BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction;
 using BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction;
+using BookShop.ModelsLayer.Dtos.BookDtos;
 using BookShop.ModelsLayer.Dtos.FilterDtos;
 using BookShop.ModelsLayer.DtosExtension;
 using BookShop.ModelsLayer.GetwayLayer.RequestResponseModels;
@@ -35,19 +36,41 @@ namespace BookShop.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("AllBooks")]
-        public async Task<IEnumerable<BookQueryResponse>> GetAllBooks([FromQuery] PaginationFilter paginationFilter)
+        [HttpPut("Book")]
+        public async Task<BookUpdateResponse> UpdateBookAsync([FromBody] BookUpdateRequest bookUpdateRequest)
         {
+            var bookUpdateResult = await _bookService.UpdateBookAsync(bookUpdateRequest.ConvertToBookUpdateRequest());
+
+            return bookUpdateResult.ConvertToBookUpdateResponse();
+        }
+
+        [AllowAnonymous]
+        [HttpGet("AllBooks")]
+        public async Task<IEnumerable<BookQueryResponse>> GetAllBooks([FromQuery] GetAllBooksRequest getAllBooksRequest)
+        {
+            var paginationFilter = new PaginationFilter
+            {
+                PageNumber = getAllBooksRequest.PageNumber,
+                PageSize = getAllBooksRequest.PageSize,
+            };
+
+            var bookFilterDto = new BookFilterDto
+            {
+                Id = getAllBooksRequest.Id,
+                Title = getAllBooksRequest.Title,
+                PublishedYear = getAllBooksRequest.PublishedYear,
+            };
+
             if (!paginationFilter.Validate())
             {
                 throw new Exception("Pagination has a problem");
             }
 
-            var receivedBook = await _bookRepository.GetAllBooksAsync(paginationFilter);
+            var receivedBook = await _bookRepository.GetAllBooksAsync(paginationFilter, bookFilterDto);
 
             _logger.LogInformation("{@book}", receivedBook);
 
-            return receivedBook.Select(BookDtosExtension.ConvertToBookQueryResponse);
+            return receivedBook.Select(book => book.ConvertToBookQueryResponse());
         }
     }
 

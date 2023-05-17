@@ -30,7 +30,7 @@ namespace BookShop.ModelsLayer.BusinessLayer.BusinessServices
 
             if (user != null)
             {
-                throw _exceptionCaseService.UserAccountIsExistException(user.Username);
+                throw _exceptionCaseService.CreateUserAccountIsExistException(user.Username);
             }
 
             var userAccount = new UserAccount
@@ -53,9 +53,9 @@ namespace BookShop.ModelsLayer.BusinessLayer.BusinessServices
 
             return new UserCreationResponseDto
             {
-                Id = addedUserAccount.Entity.Id,
-                UserName = addedUserAccount.Entity.Username,
-                RegeisteredDate = addedUserAccount.Entity.RegeisteredDate,
+                Id = addedUserAccount.Id,
+                UserName = addedUserAccount.Username,
+                RegeisteredDate = addedUserAccount.RegeisteredDate,
             };
         }
     }

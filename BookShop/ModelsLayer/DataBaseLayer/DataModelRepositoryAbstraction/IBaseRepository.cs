@@ -1,22 +1,58 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Linq.Expressions;
 
 namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction
 {
     public interface IBaseRepository<TEntity> where TEntity : class
     {
-        Task<EntityEntry<TEntity>> AddAsync(TEntity entity);
-        Task<TEntity> FindAsync(params object[] keyValues);
         TEntity Find(params object[] keyValues);
-        EntityEntry<TEntity> Add(TEntity entity);
-        EntityEntry<TEntity> Remove(TEntity entity);
-        EntityEntry<TEntity> Update(TEntity entity);
+
+        TEntity Add(TEntity entity);
+
+        TEntity Remove(TEntity entity);
+
+        TEntity Update(TEntity entity);
+
+
+        void AddRange(params TEntity[] entities);
+
+        void AddRange(IEnumerable<TEntity> entities);
+
+
+        Task<TEntity> FindAsync(params object[] keyValues);
+
+        Task<TEntity> AddAsync(TEntity entity);
+
+
+        Task AddRangeAsync(params TEntity[] entities);
+
+        Task AddRangeAsync(IEnumerable<TEntity> entities);
+
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+
         Task<int> SaveChangesAsync();
 
-        void AddRangeAsync(params TEntity[] entities);
-        void AddRangeAsync(IEnumerable<TEntity> entities);
-        void AddRange(params TEntity[] entities);
-        void AddRange(IEnumerable<TEntity> entities);
+        TEntity FindAndLoadProperties<TProperty>(
+            Expression<Func<TEntity, IEnumerable<TProperty>>> includeProperties,
+            params object[] keyValues) where TProperty : class;
+
+        Task<TEntity> FindAndLoadPropertiesAsync<TProperty>(
+            Expression<Func<TEntity, IEnumerable<TProperty>>> includeProperties,
+            params object[] keyValues) where TProperty : class;
+
+
+
+        IEnumerable<TEntity> Get(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            params string[] includeProperties);
+
+        Task<IEnumerable<TEntity>> GetAsync(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            params string[] includeProperties);
+
 
     }
 }

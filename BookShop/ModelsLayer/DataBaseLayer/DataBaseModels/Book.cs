@@ -2,6 +2,11 @@
 {
     public class Book
     {
+        public Book()
+        {
+            Authors = new List<Author>();
+        }
+
         public int Id { get; set; }
 
         public string Title { get; set; }

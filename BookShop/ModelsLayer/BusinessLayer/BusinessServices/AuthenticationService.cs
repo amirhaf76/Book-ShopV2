@@ -37,14 +37,14 @@ namespace BookShop.ModelsLayer.BusinessLayer.BusinessServices
 
             if (foundUserAccount == null)
             {
-                throw _exceptionCaseService.UsernameOrPasswordIsIncorrectException();
+                throw _exceptionCaseService.CreateUsernameOrPasswordIsIncorrectException();
             }
 
             var verificationResult = _passwordHasher.VerifyHashedPassword(foundUserAccount, foundUserAccount.Password, userAccount.Password);
 
             if (verificationResult == PasswordVerificationResult.Failed)
             {
-                throw _exceptionCaseService.UsernameOrPasswordIsIncorrectException();
+                throw _exceptionCaseService.CreateUsernameOrPasswordIsIncorrectException();
             }
 
             var tokenKey = Encoding.UTF8.GetBytes(_configuration["JWT:Key"]);

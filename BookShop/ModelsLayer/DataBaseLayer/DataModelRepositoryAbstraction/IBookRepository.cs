@@ -6,6 +6,8 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction
 {
     public interface IBookRepository : IBaseRepository<Book>
     {
-        Task<IEnumerable<BookQueryDto>> GetAllBooksAsync(PaginationFilter paginationFilter);
+        Task<IEnumerable<BookQueryDto>> GetAllBooksAsync(PaginationFilter paginationFilter, BookFilterDto bookFilterDto);
+
+        Task<Book> GetAndLoadBookAsync(int id);
     }
 }

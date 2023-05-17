@@ -1,7 +1,9 @@
 ﻿namespace BookShop.ModelsLayer.GetwayLayer.RequestResponseModels
 {
-    public class BookCreationRequest
+    public class BookUpdateResponse
     {
+        public int Id { get; set; }
+
         public string Title { get; set; }
 
         public int PageNumbers { get; set; }

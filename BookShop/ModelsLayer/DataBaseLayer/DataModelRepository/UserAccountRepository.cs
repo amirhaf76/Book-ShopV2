@@ -17,6 +17,7 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
 
         public async Task<UserAccount> GetUserAccountAsync(string username)
         {
+
             return await _dbSet
                 .Where(x => x.Username == username)
                 .FirstOrDefaultAsync();

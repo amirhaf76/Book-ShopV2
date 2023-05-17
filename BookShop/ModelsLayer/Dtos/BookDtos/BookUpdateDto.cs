@@ -1,8 +1,10 @@
-﻿namespace BookShop.ModelsLayer.GetwayLayer.RequestResponseModels
+﻿namespace BookShop.ModelsLayer.Dtos.BookDtos
 {
-    public class BookCreationRequest
+    public class BookUpdateDto
     {
-        public string Title { get; set; }
+        public int Id { get; set; }
+
+        public string Title { get; set; } = string.Empty;
 
         public int PageNumbers { get; set; }
 

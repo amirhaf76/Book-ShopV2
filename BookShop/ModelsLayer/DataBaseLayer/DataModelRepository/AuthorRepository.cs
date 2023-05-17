@@ -109,9 +109,7 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
 
         public async Task<Author> FindAuthorAsync(int id)
         {
-            var receviedAuthor = await _dbSet
-                .Where(q => q.Id == id)
-                .FirstOrDefaultAsync();
+            var receviedAuthor = await _dbSet.FindAsync(id);
 
             if (receviedAuthor == default)
             {

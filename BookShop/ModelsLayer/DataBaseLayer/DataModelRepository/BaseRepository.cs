@@ -1,6 +1,8 @@
 ﻿using BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Metadata;
+using System.Linq.Expressions;
 
 namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
 {
@@ -16,40 +18,28 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
             _dbSet = _dbContexts.Set<TEntity>();
         }
 
-        public EntityEntry<TEntity> Add(TEntity entity)
-        {
-            return _dbSet.Add(entity);
-        }
-
-        public EntityEntry<TEntity> Remove(TEntity entity)
-        {
-            return _dbSet.Remove(entity);
-        }
-
-        public EntityEntry<TEntity> Update(TEntity entity)
-        {
-            return _dbSet.Update(entity);
-        }
 
         public TEntity Find(params object[] keyValues)
         {
             return _dbSet.Find(keyValues);
         }
 
-        public async Task<EntityEntry<TEntity>> AddAsync(TEntity entity)
+        public TEntity Add(TEntity entity)
         {
-            return await _dbSet.AddAsync(entity);
+            return _dbSet.Add(entity).Entity;
         }
 
-        public async void AddRangeAsync(params TEntity[] entities)
+        public TEntity Remove(TEntity entity)
         {
-            await _dbSet.AddRangeAsync(entities);
+            return _dbSet.Remove(entity).Entity;
         }
 
-        public async void AddRangeAsync(IEnumerable<TEntity> entities)
+        public TEntity Update(TEntity entity)
         {
-            await _dbSet.AddRangeAsync(entities);
+
+            return _dbSet.Update(entity).Entity;
         }
+
 
         public void AddRange(params TEntity[] entities)
         {
@@ -61,10 +51,27 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
             _dbSet.AddRange(entities);
         }
 
+
         public async Task<TEntity> FindAsync(params object[] keyValues)
         {
             return await _dbSet.FindAsync(keyValues);
         }
+
+        public async Task<TEntity> AddAsync(TEntity entity)
+        {
+            return (await _dbSet.AddAsync(entity)).Entity;
+        }
+
+        public async Task AddRangeAsync(params TEntity[] entities)
+        {
+            await _dbSet.AddRangeAsync(entities);
+        }
+
+        public async Task AddRangeAsync(IEnumerable<TEntity> entities)
+        {
+            await _dbSet.AddRangeAsync(entities);
+        }
+
 
         public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
@@ -76,5 +83,96 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
             return await _dbContexts.SaveChangesAsync();
         }
 
+
+        public IEnumerable<TEntity> Get(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            params string[] includeProperties)
+        {
+            IQueryable<TEntity> query = _dbSet;
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            foreach (var includeProperty in includeProperties)
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if (orderBy != null)
+            {
+                return orderBy(query).ToList();
+            }
+            else
+            {
+                return query.ToList();
+            }
+        }
+
+        public async Task<IEnumerable<TEntity>> GetAsync(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            params string[] includeProperties)
+        {
+            IQueryable<TEntity> query = _dbSet;
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            foreach (var includeProperty in includeProperties)
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if (orderBy != null)
+            {
+                return await orderBy(query).ToListAsync();
+            }
+            else
+            {
+                return await query.ToListAsync();
+            }
+        }
+
+
+        public TEntity FindAndLoadProperties<TProperty>(
+            Expression<Func<TEntity, IEnumerable<TProperty>>> includeProperties,
+            params object[] keyValues) where TProperty : class
+        {
+            var receivedEntity = Find(keyValues);
+
+            if (receivedEntity == null)
+            {
+                return null;
+            }
+
+            var entry = _dbSet.Entry(receivedEntity);
+
+            entry.Collection(includeProperties).Load();
+
+            return receivedEntity;
+        }
+
+        public async Task<TEntity> FindAndLoadPropertiesAsync<TProperty>(
+            Expression<Func<TEntity, IEnumerable<TProperty>>> includeProperties,
+            params object[] keyValues) where TProperty : class
+        {
+            var receivedEntity = await FindAsync(keyValues);
+
+            if (receivedEntity == null)
+            {
+                return null;
+            }
+
+            var entry = _dbSet.Entry(receivedEntity);
+
+            await entry.Collection(includeProperties).LoadAsync();
+
+            return receivedEntity;
+        }
     }
 }

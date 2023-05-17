@@ -12,7 +12,7 @@ namespace BookShop.ModelsLayer.Exceptions
 
         public UserAccountIsExistException(string message) : base(message)
         {
-
+            
         }
 
         public UserAccountIsExistException(string message, Exception innerException) : base(message, innerException)
@@ -25,6 +25,4 @@ namespace BookShop.ModelsLayer.Exceptions
 
         }
     }
-
-
 }

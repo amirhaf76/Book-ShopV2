@@ -29,7 +29,7 @@ namespace BookShop.ModelsLayer.BusinessLayer.BusinessServices
 
                 await _authorRepository.SaveChangesAsync();
 
-                return addedAuthor.Entity.ConvertToAuthorDto();
+                return addedAuthor.ConvertToAuthorDto();
             }
         }
     }

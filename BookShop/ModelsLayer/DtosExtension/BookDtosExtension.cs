@@ -1,49 +1,45 @@
 ﻿using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
 using BookShop.ModelsLayer.Dtos.BookDtos;
-using BookShop.ModelsLayer.GetwayLayer.RequestResponseModels;
 
 namespace BookShop.ModelsLayer.DtosExtension
 {
     public static class BookDtosExtension
     {
-        public static BookCreationDto ConvertToBookCreationDto(this BookCreationRequest bookCreationRequest)
-        {
-            return new BookCreationDto
-            {
-                Title = bookCreationRequest.Title,
-                PageNumbers = bookCreationRequest.PageNumbers,
-                AuthorIds = bookCreationRequest.AuthorIds.ToList(),
-            };
-        }
-
-        public static BookCreationResponse ConvertToBookCreationResponse(this BookCreationDto bookCreationDto)
-        {
-            return new BookCreationResponse
-            {
-                Id = bookCreationDto.Id,
-            };
-        }
-
-        public static BookQueryResponse ConvertToBookQueryResponse(this BookQueryDto bookQueryDto)
-        {
-            return new BookQueryResponse
-            {
-                Id = bookQueryDto.Id,
-                Title = bookQueryDto.Title,
-                PageNumbers = bookQueryDto.PageNumbers,
-                Authors = bookQueryDto.Authors,
-            };
-        }
-
-        public static BookQueryDto ConvertToBookCreationDto(this Book book)
+        public static BookQueryDto ConvertToBookQueryDto(this Book book)
         {
             return new BookQueryDto
             {
                 Id = book.Id,
                 PageNumbers = book.Pages,
                 Title = book.Title,
+                PublishedDate = book.PublishedDate,
                 Authors = book.Authors.Select(AuthorDtosExtension.ConvertToAuthorDto),
             };
         }
+
+        public static BookUpdateDto ConvertToBookUpdateDto(this Book book)
+        {
+            return new BookUpdateDto
+            {
+                Id = book.Id,
+                PageNumbers = book.Pages,
+                Title = book.Title,
+                PublishedDate = book.PublishedDate,
+                AuthorIds = book.Authors.Select(x => x.Id),
+            };
+        }
+
+        public static BookCreationDto ConvertToBookCreationDto(this Book book)
+        {
+            return new BookCreationDto
+            {
+                Id = book.Id,
+                PageNumbers = book.Pages,
+                Title = book.Title,
+                PublishedDate = book.PublishedDate,
+                AuthorIds = book.Authors.Select(x => x.Id),
+            };
+        }
+
     }
 }

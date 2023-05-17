@@ -10,6 +10,8 @@ namespace BookShop.ModelsLayer.GetwayLayer.RequestResponseModels
 
         public int PageNumbers { get; set; }
 
+        public DateTime? PublishedDate { get; set; }
+
         public IEnumerable<AuthorDto> Authors { get; set; } = Array.Empty<AuthorDto>();
     }
 }

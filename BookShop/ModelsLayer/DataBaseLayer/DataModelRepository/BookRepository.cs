@@ -19,18 +19,42 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
             _dbContext = dbContext;
         }
 
-
-        public async Task<IEnumerable<BookQueryDto>> GetAllBooksAsync(PaginationFilter paginationFilter)
+        public async Task<Book> GetAndLoadBookAsync(int id)
         {
-            var receivedBooks = await _dbContext
-                .Set<Book>()
+            return await FindAndLoadPropertiesAsync(b => b.Authors, id);
+        }
+
+
+        public async Task<IEnumerable<BookQueryDto>> GetAllBooksAsync(PaginationFilter paginationFilter, BookFilterDto bookFilterDto)
+        {//??????
+            var queryable = _dbSet.AsQueryable();
+
+            if (bookFilterDto.Id != null)
+            {
+                queryable = queryable.Where(q => q.Id == bookFilterDto.Id);
+            }
+
+            if (bookFilterDto.Title != null)
+            {
+                queryable = queryable.Where(q => EF.Functions.Like(q.Title,$"%{bookFilterDto.Title}%"));
+            }
+
+            if (bookFilterDto.PublishedYear != null)
+            {
+                var year = (int)bookFilterDto.PublishedYear?.Year;
+
+                queryable = queryable.Where(q => q.PublishedDate != null && q.PublishedDate.Value.Year == year);
+            }
+
+            var receivedBooks = await queryable
                 .OrderByDescending(x => x.Id)
-                .Include(x => x.Authors)
                 .Skip(paginationFilter.GetSkipNumber())
                 .Take(paginationFilter.PageSize)
+                //.AsSplitQuery()
+                .Include(x => x.Authors)
                 .ToListAsync();
 
-            return receivedBooks.Select(BookDtosExtension.ConvertToBookCreationDto);
+            return receivedBooks.Select(book => book.ConvertToBookQueryDto());
         }
     }
 }

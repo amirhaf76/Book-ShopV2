@@ -4,10 +4,14 @@ namespace BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction
 {
     public interface IExceptionCaseService
     {
-        UserAccountIsExistException UserAccountIsExistException(string username);
+        UserAccountIsExistException CreateUserAccountIsExistException(string username);
 
-        UserAccountNotFoundException UserAccountNotFoundException(string username);
+        UserAccountNotFoundException CreateUserAccountNotFoundException(string username);
 
-        UsernameOrPasswordIsIncorrectException UsernameOrPasswordIsIncorrectException();
+        UsernameOrPasswordIsIncorrectException CreateUsernameOrPasswordIsIncorrectException();
+
+        BookNotFoundException CreateBookNotFoundException(int id);
+
+        AuthorNotFoundException CreateAuthorNotFoundException(int id);
     }
 }
