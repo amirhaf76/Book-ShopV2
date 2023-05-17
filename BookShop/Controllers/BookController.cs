@@ -4,6 +4,7 @@ using BookShop.ModelsLayer.Dtos.BookDtos;
 using BookShop.ModelsLayer.Dtos.FilterDtos;
 using BookShop.ModelsLayer.DtosExtension;
 using BookShop.ModelsLayer.GetwayLayer.RequestResponseModels;
+using BookShop.ModelsLayer.ViewModelLayer.VMExtension;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

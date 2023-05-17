@@ -1,7 +1,7 @@
 ﻿using BookShop.ModelsLayer.Dtos.BookDtos;
 using BookShop.ModelsLayer.GetwayLayer.RequestResponseModels;
 
-namespace BookShop.ModelsLayer.DtosExtension
+namespace BookShop.ModelsLayer.ViewModelLayer.VMExtension
 {
     public static class BookVMExtension
     {

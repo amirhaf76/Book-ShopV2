@@ -174,5 +174,12 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
 
             return receivedEntity;
         }
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+
+            _dbContexts.Dispose();
+        }
     }
 }

@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction
 {
-    public interface IBaseRepository<TEntity> where TEntity : class
+    public interface IBaseRepository<TEntity> : IDisposable where TEntity : class
     {
         TEntity Find(params object[] keyValues);
 

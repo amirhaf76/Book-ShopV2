@@ -11,12 +11,10 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
     public class BookRepository : BaseRepository<Book>, IBookRepository, IScope
     {
         private readonly ILogger<BookRepository> _logger;
-        private readonly DbContext _dbContext;
 
         public BookRepository(ILogger<BookRepository> logger, DbContext dbContext) : base(dbContext)
         {
             _logger = logger;
-            _dbContext = dbContext;
         }
 
         public async Task<Book> GetAndLoadBookAsync(int id)
