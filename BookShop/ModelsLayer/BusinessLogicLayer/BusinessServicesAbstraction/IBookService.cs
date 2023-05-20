@@ -7,5 +7,7 @@ namespace BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction
         Task<BookCreationDto> CreateBookAsync(BookCreationDto createBookRequest);
 
         Task<BookUpdateDto> UpdateBookAsync(BookUpdateDto bookUpdateDto);
+
+        Task RemoveBookAsync(int id);
     }
 }

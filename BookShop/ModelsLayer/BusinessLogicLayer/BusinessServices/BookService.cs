@@ -22,6 +22,16 @@ namespace BookShop.ModelsLayer.BusinessLayer.BusinessServices
             _exceptionCaseService = exceptionCaseService;
         }
 
+
+        public async Task RemoveBookAsync(int id)
+        {
+            var theBook = await _bookRepository.FindAsync(id);
+
+            _bookRepository.Remove(theBook);
+
+            await _bookRepository.SaveChangesAsync();
+        }
+
         public async Task<BookCreationDto> CreateBookAsync(BookCreationDto bookCreationDto)
         {
             ValidateBookTitle(bookCreationDto.Title);

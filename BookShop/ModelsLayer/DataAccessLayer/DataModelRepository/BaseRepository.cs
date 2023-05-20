@@ -36,7 +36,6 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
 
         public TEntity Update(TEntity entity)
         {
-
             return _dbSet.Update(entity).Entity;
         }
 

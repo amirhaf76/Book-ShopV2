@@ -36,6 +36,15 @@ namespace BookShop.Controllers
             return bookCreationResult.ConvertToBookCreationResponse();
         }
 
+
+        [AllowAnonymous]
+        [HttpDelete("Book")]
+        public async Task RemoveBookAsync([FromQuery] int id)
+        {
+            await _bookService.RemoveBookAsync(id);
+        }
+
+
         [AllowAnonymous]
         [HttpPut("Book")]
         public async Task<BookUpdateResponse> UpdateBookAsync([FromBody] BookUpdateRequest bookUpdateRequest)
@@ -46,7 +55,7 @@ namespace BookShop.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("AllBooks")]
+        [HttpGet("Book")]
         public async Task<IEnumerable<BookQueryResponse>> GetAllBooks([FromQuery] GetAllBooksRequest getAllBooksRequest)
         {
             var paginationFilter = new PaginationFilter

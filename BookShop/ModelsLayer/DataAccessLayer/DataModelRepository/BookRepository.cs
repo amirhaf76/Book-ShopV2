@@ -48,8 +48,8 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
                 .OrderByDescending(x => x.Id)
                 .Skip(paginationFilter.GetSkipNumber())
                 .Take(paginationFilter.PageSize)
-                //.AsSplitQuery()
                 .Include(x => x.Authors)
+                .AsSplitQuery()
                 .ToListAsync();
 
             return receivedBooks.Select(book => book.ConvertToBookQueryDto());
