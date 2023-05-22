@@ -39,7 +39,7 @@ builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
     
 });
 
-builder.Services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
+
 // Setting Authentication.
 builder.Services
     .AddAuthentication(authenticationOptions =>

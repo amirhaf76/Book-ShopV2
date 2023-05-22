@@ -1,4 +1,5 @@
-﻿using BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction;
+﻿using BookShop.Core.Security.Authorization;
+using BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction;
 using BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction;
 using BookShop.ModelsLayer.Dtos.BookDtos;
 using BookShop.ModelsLayer.Dtos.FilterDtos;
@@ -27,7 +28,8 @@ namespace BookShop.Controllers
             _bookService = bookService;
         }
 
-        [Authorize]
+
+        [PermissionPolicy("book_r, book_d")]
         [HttpPost("Book")]
         public async Task<BookCreationResponse> CreateBookAsync([FromBody] BookCreationRequest createBookRequest)
         {
@@ -54,7 +56,6 @@ namespace BookShop.Controllers
             return bookUpdateResult.ConvertToBookUpdateResponse();
         }
 
-        [AllowAnonymous]
         [HttpGet("Book")]
         public async Task<IEnumerable<BookQueryResponse>> GetAllBooks([FromQuery] GetAllBooksRequest getAllBooksRequest)
         {

@@ -1,4 +1,6 @@
-﻿using BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction;
+﻿using BookShop.Core.Security.Authorization;
+using BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction;
+using BookShop.ModelsLayer.BusinessLogicLayer.BusinessServices;
 using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
 using BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction;
 using BookShop.ModelsLayer.Dtos.AuthenticationDtos;
@@ -17,17 +19,19 @@ namespace BookShop.ModelsLayer.BusinessLayer.BusinessServices
         private readonly ILogger<AuthenticationService> _logger;
         private readonly IConfiguration _configuration;
         private readonly IUserAccountRepository _userAccountRepository;
+        private readonly IUserPermissionService _userPermissionService;
         private readonly IExceptionCaseService _exceptionCaseService;
         private readonly IPasswordHasher<UserAccount> _passwordHasher;
 
 
-        public AuthenticationService(ILogger<AuthenticationService> logger, IConfiguration configuration, IUserAccountRepository userAccountRepository, IExceptionCaseService exceptionCaseService, IPasswordHasher<UserAccount> passwordHasher)
+        public AuthenticationService(ILogger<AuthenticationService> logger, IConfiguration configuration, IUserAccountRepository userAccountRepository, IExceptionCaseService exceptionCaseService, IPasswordHasher<UserAccount> passwordHasher, IUserPermissionService userPermissionService)
         {
             _logger = logger;
             _configuration = configuration;
             _userAccountRepository = userAccountRepository;
             _exceptionCaseService = exceptionCaseService;
             _passwordHasher = passwordHasher;
+            _userPermissionService = userPermissionService;
         }
 
 
@@ -51,12 +55,14 @@ namespace BookShop.ModelsLayer.BusinessLayer.BusinessServices
 
             var tokenHandler = new JwtSecurityTokenHandler();
 
+            var claims = (await _userPermissionService.GetUserClaimsAsync(foundUserAccount.Id)).ToList();
+
+            claims.Add(new Claim(ClaimTypes.Name, userAccount.Username));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, foundUserAccount.Id.ToString()));
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, userAccount.Username),
-                }),
+                Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddMinutes(10),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
             };
