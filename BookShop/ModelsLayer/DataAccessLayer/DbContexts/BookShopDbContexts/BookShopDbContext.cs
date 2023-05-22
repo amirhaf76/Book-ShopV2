@@ -1,4 +1,5 @@
-﻿using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
+﻿using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
+using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
 using Infrastructure.AutoFac.FlagInterface;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +36,14 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts
             modelBuilder.Entity<UserAccount>(buildAction =>
             {
                 buildAction.HasKey(u => u.Id);
+
+                buildAction
+                    .HasMany(u => u.Permissions)
+                    .WithMany(p => p.UserAccounts)
+                    .UsingEntity<UserPermission>(
+                        right => right.HasOne(rp => rp.Permission).WithMany().HasForeignKey(rp => rp.PermissionId).HasPrincipalKey(p => p.Id),
+                        left => left.HasOne(rp => rp.UserAccount).WithMany().HasForeignKey(rp => rp.UserId).HasPrincipalKey(r => r.Id)
+                        );
             });
 
             modelBuilder.Entity<Country>(buildAction =>
@@ -73,16 +82,6 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts
                     .HasOne(z => z.City)
                     .WithMany()
                     .HasForeignKey(z => z.CityId);
-
-                buildAction
-                    .HasOne(z => z.Province)
-                    .WithMany()
-                    .HasForeignKey(z => z.ProvinceId);
-
-                buildAction
-                    .HasOne(z => z.Country)
-                    .WithMany()
-                    .HasForeignKey(z => z.CountryId);
             });
 
             modelBuilder.Entity<Address>(buildAction =>
@@ -95,6 +94,36 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts
                     .HasForeignKey(a => a.ZipCodeId);
             });
 
+            modelBuilder.Entity<Permission>(buildAction =>
+            {
+                buildAction.HasKey(p => p.Id);
+            });
+
+            modelBuilder.Entity<UserPermission>(buildAction =>
+            {
+                buildAction.HasKey(rp => new { rp.PermissionId, rp.UserId });
+
+                buildAction
+                    .HasOne(u => u.Role)
+                    .WithMany()
+                    .HasForeignKey(u => u.RoleId)
+                    .HasPrincipalKey(r => r.Id)
+                    .IsRequired(false);
+            });
+
+            modelBuilder.Entity<Role>(buildAction =>
+            {
+                buildAction.HasKey(r => r.Id);
+
+                buildAction
+                    .HasMany(r => r.Permissions)
+                    .WithMany(p => p.Roles)
+                    .UsingEntity<RolePermission>(
+                        right => right.HasOne(rp => rp.Permission).WithMany().HasForeignKey(rp => rp.PermissionId).HasPrincipalKey(p => p.Id),
+                        left => left.HasOne(rp => rp.Role).WithMany().HasForeignKey(rp => rp.RoleId).HasPrincipalKey(r => r.Id),
+                        join => join.HasKey(rp => new { rp.PermissionId, rp.RoleId })
+                        );
+            });
 
         }
 

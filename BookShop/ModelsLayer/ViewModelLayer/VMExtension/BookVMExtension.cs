@@ -24,7 +24,7 @@ namespace BookShop.ModelsLayer.ViewModelLayer.VMExtension
                 Title = bookCreationRequest.Title,
                 PageNumbers = bookCreationRequest.PageNumbers,
                 PublishedDate = bookCreationRequest.PublishedDate,
-                AuthorIds = bookCreationRequest.AuthorIds.ToList(),
+                AuthorIds = bookCreationRequest.AuthorIds?.ToList(),
             };
         }
 

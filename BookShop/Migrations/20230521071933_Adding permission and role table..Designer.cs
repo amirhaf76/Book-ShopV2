@@ -4,6 +4,7 @@ using BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookShop.Migrations
 {
     [DbContext(typeof(BookShopDbContext))]
-    partial class BookShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230521071933_Adding permission and role table.")]
+    partial class Addingpermissionandroletable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,12 +95,7 @@ namespace BookShop.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RoleId")
-                        .HasColumnType("int");
-
                     b.HasKey("PermissionId", "UserId");
-
-                    b.HasIndex("RoleId");
 
                     b.HasIndex("UserId");
 
@@ -319,10 +317,6 @@ namespace BookShop.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookShop.ModelsLayer.DataAccessLayer.DataBaseModels.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId");
-
                     b.HasOne("BookShop.ModelsLayer.DataBaseLayer.DataBaseModels.UserAccount", "UserAccount")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -330,8 +324,6 @@ namespace BookShop.Migrations
                         .IsRequired();
 
                     b.Navigation("Permission");
-
-                    b.Navigation("Role");
 
                     b.Navigation("UserAccount");
                 });

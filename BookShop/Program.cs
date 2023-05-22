@@ -1,8 +1,10 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using BookShop.Core.DIModule;
+using BookShop.Core.Security.Authorization;
 using BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -13,17 +15,19 @@ using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Preparing Configs.
 var connectionString = builder.Configuration.GetConnectionString("BookShopDB")
     ?? throw new InvalidOperationException("Connection string 'BookShopDB' not found.");
 
-
-Log.Logger = new LoggerConfiguration()
+var logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .CreateLogger();
 
-builder.Host.UseSerilog();
 
-// Auth
+// Adding Logger Service.
+builder.Host.UseSerilog(logger);
+
+// Injecting Dependency.
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
 builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
@@ -31,9 +35,12 @@ builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
     var assembly = typeof(BookShopDIModule).Assembly;
 
     builder.RegisterAssemblyModules(assembly);
+
+    
 });
 
-
+builder.Services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
+// Setting Authentication.
 builder.Services
     .AddAuthentication(authenticationOptions =>
     {
@@ -99,9 +106,9 @@ builder.Services.AddSwaggerGen(options =>
             Type = ReferenceType.SecurityScheme,
             Id = "Bearer"
         },
-        Description = "JWT Token gerekiyor!",
-        In = ParameterLocation.Header, // 
-        Name = "Authorization", // 
+        Description = "JWT Token!",
+        In = ParameterLocation.Header, 
+        Name = "Authorization", 
         Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer"
     };
@@ -117,11 +124,6 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-
-app.Logger.LogInformation("{test}", "test");
-
-//Log.CloseAndFlush();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -136,6 +138,7 @@ else
 
 
 app.UseHttpsRedirection();
+
 app.UseRouting();
 
 app.UseStaticFiles();
@@ -149,30 +152,3 @@ app.MapControllers();
 
 app.Run();
 
-
-//app.UseHsts();
-
-//app.Use(async (context, next) =>
-//{
-//    await context.Response.WriteAsync("Hello Worlds.");
-//    // Do work that can write to the Response.
-//    await next.Invoke();
-//    // Do logging or other work that doesn't write to the Response.
-//});
-
-////app.Map("/yarn", async context =>
-////{
-////    await context.Response.WriteAsync("Mapped.yarn");
-////});
-////app.Map("/", async context =>
-////{
-////    await context.Response.WriteAsync("Mapped.");
-////});
-
-
-//app.Run(async context =>
-//{
-//    await context.Response.WriteAsync("\nHello from 3nd delegate.");
-//});
-
-//app.Run();
