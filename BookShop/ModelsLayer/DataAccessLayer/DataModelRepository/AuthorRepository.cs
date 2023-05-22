@@ -15,26 +15,6 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
             _logger = logger;
         }
 
-        private async Task<IEnumerable<Author>> GetOrAddAuthorToDbContextAsync(IEnumerable<int> authorIds)
-        {
-            var authors = new List<Author>();
-
-            foreach (var aAutorId in authorIds)
-            {
-                var existedAuthor = await FindAuthorByIdOrDefaultAsync(aAutorId);
-
-                if (existedAuthor == default)
-                {
-                    throw new Exception("Author with 'Id: {authorRequest.Id}' does not exist!");
-                }
-
-                authors.Add(existedAuthor);
-            }
-
-            return authors;
-        }
-
-
 
         public async Task<IEnumerable<Author>> FindAuthorsByIdAsync(IEnumerable<int> authorIds)
         {
@@ -54,7 +34,7 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
         }
 
 
-        public async Task<Author> FindAuthorByIdOrDefaultAsync(int id)
+        public async Task<Author> FindAuthorOrDefaultAsync(int id)
         {
             try
             {
@@ -66,32 +46,7 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
             }
         }
 
-        public async Task<Author> FindAuthorOrDefaultAsync(Author author)
-        {
-            try
-            {
-                return await FindAuthorAsync(author);
-            }
-            catch (AuthorNotFoundException)
-            {
-                return default;
-            }
-        }
 
-        public async Task<Author> FindAuthorAsync(Author author)
-        {
-            var receviedAuthor = await _dbSet
-                .Where(q => q.FirstName == author.FirstName && q.LastName == author.LastName)
-                .FirstOrDefaultAsync();
-
-            if (receviedAuthor == default)
-            {
-                throw new AuthorNotFoundException("There is no author like firstName!");
-            }
-
-            return receviedAuthor;
-
-        }
 
         public async Task<Author> FindAuthorAsync(string firstName, string lastName)
         {

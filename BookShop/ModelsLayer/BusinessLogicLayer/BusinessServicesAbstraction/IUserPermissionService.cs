@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServices
+namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction
 {
     public interface IUserPermissionService
     {

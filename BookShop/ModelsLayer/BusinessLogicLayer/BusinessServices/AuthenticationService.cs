@@ -1,6 +1,6 @@
 ﻿using BookShop.Core.Security.Authorization;
 using BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction;
-using BookShop.ModelsLayer.BusinessLogicLayer.BusinessServices;
+using BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction;
 using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
 using BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction;
 using BookShop.ModelsLayer.Dtos.AuthenticationDtos;

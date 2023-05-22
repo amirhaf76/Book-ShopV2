@@ -17,7 +17,7 @@ namespace BookShop.ModelsLayer.BusinessLayer.BusinessServices
 
         public async Task<AuthorDto> AddAuthorIfItDoesntExistAsync(AuthorDto author)
         {
-            var receivedAuthor = await _authorRepository.FindAuthorOrDefaultAsync(author.ConvertToAuthor());
+            var receivedAuthor = await _authorRepository.FindAuthorOrDefaultAsync(author.Id);
 
             if (receivedAuthor != default)
             {
