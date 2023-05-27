@@ -20,11 +20,11 @@ namespace BookShop.Test.UnitTest.Scenarios
     public class AuthorServiceTestCases : BaseTestCaseScenario
     {
         private readonly DelaySettings _delaySettings;
-        private readonly ILogger<AuthorRepository> _logger;
+        private readonly ILogger<AuthorServiceTestCases> _logger;
 
         public AuthorServiceTestCases(AppConfiguration totalConfiguration, ITestOutputHelper testOutputHelper) : base(totalConfiguration, testOutputHelper)
         {
-            _logger = ResolveService<ILogger<AuthorRepository>>();
+            _logger = ResolveService<ILogger<AuthorServiceTestCases>>();
             _delaySettings = ResolveService<DelaySettings>();
         }
 

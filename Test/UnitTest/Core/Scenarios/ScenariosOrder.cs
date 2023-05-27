@@ -4,5 +4,7 @@
     {
         BaseTestAppScenario,
         EntityFrameWorkTesting,
+        RepositoryServiceTestCases,
+        ReservationServiceTestCases,
     }
 }
