@@ -19,8 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTest", "UnitTest", "{A3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookShop.Test.UnitTest", "Test\UnitTest\BookShop.Test.UnitTest.csproj", "{7F01612D-996C-4C54-AA56-6986B4AA6BA8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CerbiSharp.Test.Mock", "CerbiSharpMock\CerbiSharp.Test.Mock.csproj", "{8D7A77B6-D1C8-446E-AAEA-1D44DC092E5F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,10 +37,6 @@ Global
 		{7F01612D-996C-4C54-AA56-6986B4AA6BA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F01612D-996C-4C54-AA56-6986B4AA6BA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F01612D-996C-4C54-AA56-6986B4AA6BA8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8D7A77B6-D1C8-446E-AAEA-1D44DC092E5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D7A77B6-D1C8-446E-AAEA-1D44DC092E5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D7A77B6-D1C8-446E-AAEA-1D44DC092E5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D7A77B6-D1C8-446E-AAEA-1D44DC092E5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,7 +47,6 @@ Global
 		{F1FC88DA-2861-48B2-ACDB-227352A1916D} = {79934826-BD61-4DF1-951B-F0B11399CC46}
 		{A3B69DEF-1FD8-4E41-B45E-D19EEF3A79F3} = {4CCDA3A0-C70B-4965-8B94-BDFBC52E2EB2}
 		{7F01612D-996C-4C54-AA56-6986B4AA6BA8} = {A3B69DEF-1FD8-4E41-B45E-D19EEF3A79F3}
-		{8D7A77B6-D1C8-446E-AAEA-1D44DC092E5F} = {A3B69DEF-1FD8-4E41-B45E-D19EEF3A79F3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {74661EEC-2EE7-4F0E-8D54-63E2BFBB0DA5}
