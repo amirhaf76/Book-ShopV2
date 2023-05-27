@@ -1,4 +1,4 @@
-﻿using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.BookDtos;
+﻿using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.ReservationDtos;
 
 namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction
 {
@@ -7,5 +7,7 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction
         Task<BookReservationResultDto> ReserveBookAsync(BookReservationDto aBook);
 
         Task<ReservedBookCancellationResultDto> CancelBookReservationAsync(ReservedBookCancellationDto aBook);
+
+        Task<IEnumerable<BookReservationReportDto>> GetReservedBookAsync(object filter = null);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace BookShop.ModelsLayer.BusinessLogicLayer.Dtos.BookDtos
+﻿namespace BookShop.ModelsLayer.BusinessLogicLayer.Dtos.ReservationDtos
 {
     public class BookReservationResultDto
     {

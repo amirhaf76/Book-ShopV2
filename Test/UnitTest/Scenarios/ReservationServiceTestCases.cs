@@ -1,7 +1,8 @@
 ﻿using Autofac;
 using Autofac.Extras.Moq;
 using BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction;
-using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.BookDtos;
+using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.ReservationDtos;
+using BookShop.ModelsLayer.Exceptions;
 using BookShop.Test.UnitTest.Core.AppConfigModel;
 using BookShop.Test.UnitTest.Core.Scenarios;
 using FluentAssertions;
@@ -47,7 +48,7 @@ namespace BookShop.Test.UnitTest.Scenarios
 
             var reservationService = mock.Create<IReservationService>();
 
-            var aBook = MakeBookReservationForReservedBook();
+            var aBook = MakeBookReservationFromReservedBook();
 
             var reservationAction = async () => await reservationService.ReserveBookAsync(aBook);
 
@@ -64,14 +65,14 @@ namespace BookShop.Test.UnitTest.Scenarios
 
             var reservationService = mock.Create<IReservationService>();
 
-            var aBook = MakeReservedBookCancellationDto();
+            var aBook = MakeReservedBookCancellationFromAReservedBook();
 
-            var reservationAction = async () => await reservationService.CancelBookReservationAsync(aBook);
+            var cancellationAction = async () => await reservationService.CancelBookReservationAsync(aBook);
 
-            var reservationResult = await reservationAction.Should().NotThrowAsync();
+            var cancellationResult = await cancellationAction.Should().NotThrowAsync();
 
-            reservationResult.Subject.Should().NotBeNull();
-            reservationResult.Subject.ReservationId.Should().NotBe(default);
+            cancellationResult.Subject.Should().NotBeNull();
+            cancellationResult.Subject.ReservationId.Should().NotBe(default);
         }
 
         [Fact]
@@ -81,36 +82,81 @@ namespace BookShop.Test.UnitTest.Scenarios
 
             var reservationService = mock.Create<IReservationService>();
 
-            var aBook = MakeReservedBookCancellationDto();
+            var aBook = MakeReservedBookCancellationFromAnUnreservedBook();
 
-            var reservationAction = async () => await reservationService.CancelBookReservationAsync(aBook);
+            var cancellationAction = async () => await reservationService.CancelBookReservationAsync(aBook);
 
-            var reservationResult = await reservationAction.Should().ThrowAsync<ReservedBookNotFoundException>();
+            var cancellationResult = await cancellationAction.Should().ThrowAsync<ReservedBookNotFoundException>();
         }
 
         [Fact]
         public async Task GetReservedBook_WithoutFilter_AllReservedBookMustBeReceived()
         {
+            using var mock = AutoMock.GetStrict(builder => RegisterReservationServiceAndItsDependencies(builder));
+
+            var reservationService = mock.Create<IReservationService>();
+
+            var gettingReservationAction = async () => await reservationService.GetReservedBookAsync();
+
+            var gettingReservationResult = await gettingReservationAction.Should().NotThrowAsync();
+
+            gettingReservationResult.Subject.Should().NotBeEmpty().And.BeEquivalentTo(GetAllMockReservedBook());
         }
 
         [Fact]
         public async Task GetReservedBook_ByAnReservedBookId_TheReservationMustBeReceived()
         {
+            using var mock = AutoMock.GetStrict(builder => RegisterReservationServiceAndItsDependencies(builder));
+
+            var reservationService = mock.Create<IReservationService>();
+
+            var gettingReservationAction = async () => await reservationService.GetReservedBookAsync(MakeFilterForGettingReservedBook());
+
+            var gettingReservationResult = await gettingReservationAction.Should().NotThrowAsync();
+
+            gettingReservationResult.Subject.Should().NotBeEmpty().And.ContainEquivalentOf(GetObjectFromReservedBook());
         }
 
         [Fact]
         public async Task GetReservedBook_ByAnBookId_AllReservationOfTheBookMustBeReceived()
         {
+            using var mock = AutoMock.GetStrict(builder => RegisterReservationServiceAndItsDependencies(builder));
+
+            var reservationService = mock.Create<IReservationService>();
+
+            var gettingReservationAction = async () => await reservationService.GetReservedBookAsync(MakeFilterForGettingSpecificBook());
+
+            var gettingReservationResult = await gettingReservationAction.Should().NotThrowAsync();
+
+            gettingReservationResult.Subject.Should().NotBeEmpty().And.ContainEquivalentOf(GetObjectFromBook());
         }
 
         [Fact]
         public async Task GetReservedBook_ByUnReservedBookId_AnEmptyCollectionMustBeReceived()
         {
+            using var mock = AutoMock.GetStrict(builder => RegisterReservationServiceAndItsDependencies(builder));
+
+            var reservationService = mock.Create<IReservationService>();
+
+            var gettingReservationAction = async () => await reservationService.GetReservedBookAsync(MakeFilterForGettingUnreservedBook());
+
+            var gettingReservationResult = await gettingReservationAction.Should().NotThrowAsync();
+
+            gettingReservationResult.Subject.Should().BeEmpty();
         }
 
         [Fact]
-        public async Task GetReservedBook_ByUnBookId_AnEmptyCollectionMustBeReceived()
+        public async Task GetReservedBook_ByUnExistedBookId_AnEmptyCollectionMustBeReceived()
         {
+            using var mock = AutoMock.GetStrict(builder => RegisterReservationServiceAndItsDependencies(builder));
+
+            var reservationService = mock.Create<IReservationService>();
+
+            var gettingReservationAction = async () => await reservationService.GetReservedBookAsync(MakeFilterForGettingUnexistedBook());
+
+            var gettingReservationResult = await gettingReservationAction.Should().NotThrowAsync();
+
+            gettingReservationResult.Subject.Should().BeEmpty();
         }
 
 
@@ -118,7 +164,7 @@ namespace BookShop.Test.UnitTest.Scenarios
         {
             return builder;
         }
-
+       
         private static BookReservationDto MakeANewBookReservationDto()
         {
             return new BookReservationDto
@@ -127,7 +173,15 @@ namespace BookShop.Test.UnitTest.Scenarios
             };
         }
 
-        private static ReservedBookCancellationDto MakeReservedBookCancellationDto()
+        private static BookReservationDto MakeBookReservationFromReservedBook()
+        {
+            return new BookReservationDto
+            {
+
+            };
+        }
+
+        private static ReservedBookCancellationDto MakeReservedBookCancellationFromAReservedBook()
         {
             return new ReservedBookCancellationDto
             {
@@ -135,12 +189,48 @@ namespace BookShop.Test.UnitTest.Scenarios
             };
         }
 
-        private static BookReservationDto MakeBookReservationForReservedBook()
+        private static ReservedBookCancellationDto MakeReservedBookCancellationFromAnUnreservedBook()
         {
-            return new BookReservationDto
+            return new ReservedBookCancellationDto
             {
 
             };
+        }
+
+
+        private static IEnumerable<object> GetAllMockReservedBook()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static object MakeFilterForGettingReservedBook()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static object MakeFilterForGettingSpecificBook()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static object MakeFilterForGettingUnreservedBook()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static object MakeFilterForGettingUnexistedBook()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static object GetObjectFromReservedBook()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static object GetObjectFromBook()
+        {
+            throw new NotImplementedException();
         }
     }
 }

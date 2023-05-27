@@ -2,7 +2,7 @@
 
 namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServices
 {
-    public class AccountingService : IScope
+    public class ReservationService : IScope
     {
     }
 }

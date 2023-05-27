@@ -1,11 +1,9 @@
 using Autofac.Extras.Moq;
-using BookShop.Test.UnitTest;
 using BookShop.Test.UnitTest.Core.AppConfigModel;
 using BookShop.Test.UnitTest.Core.Scenarios;
 using BookShop.Test.UnitTest.SettingsModels;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
-using Moq;
 using Xunit.Abstractions;
 using Xunit.Extensions.Ordering;
 
@@ -55,16 +53,19 @@ namespace BookShop.Test.UnitTest.Scenarios
         [Fact]
         public void TestSampleTestCase3()
         {
-            using var mock = AutoMock.GetStrict();
-
-            mock.Mock<IFoo>().Setup(foo => foo.DoSomething("ping")).Returns(true);
-            var foo = mock.Create<IFoo>();
-
-            foo.GetCount();
+            var collection = new[] { new { myName = "Jack", Age = 45, FatherName = "Marcus" }, new { myName = "Evylin", Age = 24, FatherName = "Marcus" } };
 
 
-
+            collection.Should().ContainEquivalentOf(GetObjects());
         }
 
+        private static object GetObjects()
+        {
+            return new
+            {
+                myName = "Jack",
+                Age = 45,
+            };
+        }
     }
 }
