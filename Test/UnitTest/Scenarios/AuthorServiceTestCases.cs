@@ -9,10 +9,7 @@ using BookShop.Test.UnitTest.Core.AppConfigModel;
 using BookShop.Test.UnitTest.Core.Scenarios;
 using BookShop.Test.UnitTest.SettingsModels;
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Logging;
-using MockQueryable.Moq;
 using Moq;
 using Xunit.Abstractions;
 using Xunit.Extensions.Ordering;
@@ -39,7 +36,7 @@ namespace BookShop.Test.UnitTest.Scenarios
             {
                 { 2, new Author {Id = 2,FirstName = "TestUser",LastName = "TestUserSecond" } },
             };
-            
+
             using var mock = AutoMock.GetStrict(builder => RegisterAuthorService(builder, authors));
 
             var baseRepository = Mock.Get(mock.Create<IAuthorRepository>()).As<IBaseRepository<Author>>();
@@ -61,7 +58,7 @@ namespace BookShop.Test.UnitTest.Scenarios
 
             authors.Should().HaveCount(authorCountBeforeAddition + 1);
             authors.Should().ContainKey(newAuthor.Id);
-            authors[newAuthor.Id].FirstName.Should().Be(newAuthor.FirstName) ;
+            authors[newAuthor.Id].FirstName.Should().Be(newAuthor.FirstName);
             authors[newAuthor.Id].LastName.Should().Be(newAuthor.LastName);
             authors[newAuthor.Id].Id.Should().Be(newAuthor.Id);
 
