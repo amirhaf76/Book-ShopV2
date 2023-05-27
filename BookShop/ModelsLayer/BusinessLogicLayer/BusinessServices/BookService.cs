@@ -88,18 +88,18 @@ namespace BookShop.ModelsLayer.BusinessLayer.BusinessServices
 
         public async Task<Book> UpdateBookAsync(Book theBook, BookUpdateDto bookUpdateDto)
         {
-            var newAuthorIds = await UpdateBookAuthorsAsync(theBook.Authors, bookUpdateDto.AuthorIds);
+            var newAuthorIds = await UpdateAuthorsAsync(theBook.Authors, bookUpdateDto.AuthorIds);
                 
-            theBook.UpdateByBookUpdateDto(bookUpdateDto, newAuthorIds.ToList());
+            theBook.UpdateBook(bookUpdateDto, newAuthorIds.ToList());
 
             return theBook;
         }
 
-        public async Task<IEnumerable<Author>> UpdateBookAuthorsAsync(IEnumerable<Author>  currentBookAuthors, IEnumerable<int> newBookAuthorIds)
+        public async Task<IEnumerable<Author>> UpdateAuthorsAsync(IEnumerable<Author>  currentAuthors, IEnumerable<int> desiredAuthorIds)
         {
-            var intersectedAuthors = currentBookAuthors.IntersectBy(newBookAuthorIds, author => author.Id);
+            var intersectedAuthors = currentAuthors.IntersectBy(desiredAuthorIds, author => author.Id);
 
-            var newAuthorIds = newBookAuthorIds.ExceptBy(currentBookAuthors.Select(author => author.Id), id => id);
+            var newAuthorIds = desiredAuthorIds.ExceptBy(currentAuthors.Select(author => author.Id), id => id);
 
             var intendedAuthors = new List<Author>();
 

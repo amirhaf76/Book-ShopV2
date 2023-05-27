@@ -59,11 +59,7 @@ namespace BookShop.Controllers
         [HttpGet("Book")]
         public async Task<IEnumerable<BookQueryResponse>> GetAllBooks([FromQuery] GetAllBooksRequest getAllBooksRequest)
         {
-            var paginationFilter = new PaginationFilter
-            {
-                PageNumber = getAllBooksRequest.PageNumber,
-                PageSize = getAllBooksRequest.PageSize,
-            };
+            var paginationFilter = new PaginationFilter(getAllBooksRequest.PageSize, getAllBooksRequest.PageNumber);
 
             var bookFilterDto = new BookFilterDto
             {
@@ -71,11 +67,6 @@ namespace BookShop.Controllers
                 Title = getAllBooksRequest.Title,
                 PublishedYear = getAllBooksRequest.PublishedYear,
             };
-
-            if (!paginationFilter.Validate())
-            {
-                throw new Exception("Pagination has a problem");
-            }
 
             var receivedBook = await _bookRepository.GetAllBooksAsync(paginationFilter, bookFilterDto);
 

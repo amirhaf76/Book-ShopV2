@@ -41,7 +41,7 @@ namespace BookShop.ModelsLayer.DtosExtension
             };
         }
 
-        public static Book UpdateByBookUpdateDto(this Book book, BookUpdateDto bookUpdateDto, ICollection<Author> authors)
+        public static Book UpdateBook(this Book book, BookUpdateDto bookUpdateDto, ICollection<Author> authors)
         {
             book.Id = bookUpdateDto.Id;
             book.Pages = bookUpdateDto.PageNumbers;

@@ -1,4 +1,5 @@
 ﻿using BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction;
+using Infrastructure.AutoFac.FlagInterface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -6,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
 {
-    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
+    public class BaseRepository<TEntity> : IBaseRepository<TEntity>, IScope where TEntity : class
     {
         private readonly DbContext _dbContexts;
         protected readonly DbSet<TEntity> _dbSet;

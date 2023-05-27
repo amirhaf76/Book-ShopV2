@@ -24,7 +24,7 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
 
 
         public async Task<IEnumerable<BookQueryDto>> GetAllBooksAsync(PaginationFilter paginationFilter, BookFilterDto bookFilterDto)
-        {//??????
+        {
             var queryable = _dbSet.AsQueryable();
 
             if (bookFilterDto.Id != null)
@@ -46,7 +46,7 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
 
             var receivedBooks = await queryable
                 .OrderByDescending(x => x.Id)
-                .Skip(paginationFilter.GetSkipNumber())
+                .Skip(paginationFilter.GetSkipSize())
                 .Take(paginationFilter.PageSize)
                 .Include(x => x.Authors)
                 .AsSplitQuery()
