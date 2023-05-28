@@ -6,6 +6,13 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction
     {
         Task<StockingBookResultDto> StockBookAsync(StockingBookDto stockingBookDto);
         Task<BookReductionResultDto> ReduceBookAsync(BookReductionDto aBook);
-        Task<StockBooksResultDto> GetStockBookAsync(GettingStockBookFilter filter = null);
+        Task<StockBooksResultDto> GetStockBookAsync(GettingStockBookFilter filter);
+        Task<GettingRepositoriesResult> GetRepositoriesAsync(GettingRepositoriesFilter filter);
+
+        Task<StockBooksResultDto> GetStockBookAsync();
+        Task<GettingRepositoriesResult> GetRepositoriesAsync();
+
+        Task<RecordingRepositoryResultDto> AddRepositoryAsync(RecordingRepositoryDto aRepository);
+        Task<RemovalRespositoryResultDto> RemoveRepositoryAsync(RemovalRespositoryDto aRepository);
     }
 }

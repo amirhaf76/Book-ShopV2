@@ -2,6 +2,11 @@
 {
     public class BookReductionDto
     {
+        public BookReductionDto()
+        {
+            StockIds = new List<long>();
+        }
+
         public IEnumerable<long> StockIds { get; set; }
     }
 }

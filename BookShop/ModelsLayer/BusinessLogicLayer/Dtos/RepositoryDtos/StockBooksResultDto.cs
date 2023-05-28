@@ -2,6 +2,11 @@
 {
     public class StockBooksResultDto
     {
+        public StockBooksResultDto()
+        {
+            StockBooks = new List<StockBookResultDto>();
+        }
+
         public IEnumerable<StockBookResultDto> StockBooks { get; set; }
     }
 }
