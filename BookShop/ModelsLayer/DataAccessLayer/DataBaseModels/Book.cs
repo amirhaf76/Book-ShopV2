@@ -1,10 +1,13 @@
-﻿namespace BookShop.ModelsLayer.DataBaseLayer.DataBaseModels
+﻿using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
+
+namespace BookShop.ModelsLayer.DataBaseLayer.DataBaseModels
 {
     public class Book
     {
         public Book()
         {
             Authors = new List<Author>();
+            Stocks = new List<Stock>();
         }
 
         public int Id { get; set; }
@@ -16,5 +19,7 @@
         public int Pages { get; set; }
 
         public ICollection<Author> Authors { get; set; }
+
+        public ICollection<Stock> Stocks { get; set; }
     }
 }

@@ -19,5 +19,7 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataBaseModels
         public DateTime RegeisteredDate { get; set; }
 
         public ICollection<Permission> Permissions { get; set; }
+
+        public ICollection<Reservation> Reservations { get; set; }
     }
 }

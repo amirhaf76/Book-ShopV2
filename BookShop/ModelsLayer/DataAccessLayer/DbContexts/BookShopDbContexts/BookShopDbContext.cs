@@ -125,8 +125,63 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts
                         );
             });
 
+            modelBuilder.Entity<Stock>(buildAction =>
+            {
+                buildAction.HasKey(s => s.StockId);
+
+                buildAction
+                    .HasOne(s => s.Reservation)
+                    .WithMany(r => r.Stocks)
+                    .HasForeignKey(s => s.ReservationId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired(false);
+
+                buildAction
+                    .HasOne(s => s.Repository)
+                    .WithMany(r => r.Stocks)
+                    .HasForeignKey(s => s.RepositoryId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired(true);
+
+                buildAction
+                    .HasOne(s => s.Book)
+                    .WithMany(b => b.Stocks)
+                    .HasForeignKey(s => s.BookId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired(true);
+            });
+
+            modelBuilder.Entity<Repository>(buildAction =>
+            {
+                buildAction.HasKey(r => r.Id);
+
+                buildAction
+                    .HasOne(r => r.Address)
+                    .WithMany()
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasForeignKey(r => r.AddressId)
+                    .IsRequired(false);
+
+                buildAction
+                    .Property(r => r.IsEnable)
+                    .HasDefaultValue(false);
+            });
+
+            modelBuilder.Entity<Reservation>(buildAction =>
+            {
+                buildAction.HasKey(r => r.Id);
+
+                buildAction
+                    .HasOne(r => r.UserAccount)
+                    .WithMany(u => u.Reservations)
+                    .HasForeignKey(r => r.UserAccountId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired(true);
+            });
+
         }
 
+       
         public DbContext GetDbContext()
         {
             return this;
