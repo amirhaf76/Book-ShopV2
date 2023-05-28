@@ -25,47 +25,49 @@ namespace BookShop.Test.UnitTest.Scenarios
             _testRepository = ResolveService<ITestPermissionRepository>();
         }
 
-        [Fact]
+# pragma warning disable xUnit1004
+        [Fact(Skip = "Just for manual testing.")]
         public async Task SingleVsFirst()
         {
             await _testRepository.SingleVsFirst();
         }
 
-        [Fact]
+        [Fact(Skip = "Just for manual testing.")]
         public async Task InsertAndUpdateAsync()
         {
             await _testRepository.InsertAndUpdateAsync();
         }
 
-        [Fact]
+        [Fact(Skip = "Just for manual testing.")]
         public async Task TestEF()
         {
             await _testRepository.TestEF();
         }
 
-        [Fact]
+        [Fact(Skip = "Just for manual testing.")]
         public void Update()
         {
             _testRepository.TestUpdate(new Permission { Id = 7, Name = "Permission_7"});
         }
 
-        [Fact]
+        [Fact(Skip = "Just for manual testing.")]
         public void UpdateImmediately()
         {
             _testRepository.UpdateImmediately();
         }
 
-        [Fact]
+        [Fact(Skip = "Just for manual testing.")]
         public void CheckProjectAutors()
         {
             _testRepository.CheckProjectAutors();
         }
 
-        [Fact]
+        [Fact(Skip = "Just for manual testing.")]
         public void CheckProjectTitle()
         {
             _testRepository.CheckProjectTitle();
         }
+#pragma warning restore xUnit1004
 
     }
 }

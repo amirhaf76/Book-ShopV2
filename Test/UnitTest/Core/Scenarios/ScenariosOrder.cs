@@ -6,5 +6,6 @@
         EntityFrameWorkTesting,
         RepositoryServiceTestCases,
         ReservationServiceTestCases,
+        MoqPackageScenario,
     }
 }
