@@ -69,7 +69,7 @@ namespace BookShop.ModelsLayer.BusinessLayer.BusinessServices
 
             ValidateBookPageNumbers(bookUpdateDto.PageNumbers);
 
-            var theBook = await _bookRepository.GetAndLoadBookAsync(bookUpdateDto.Id);
+            var theBook = await _bookRepository.GetBookWithItsAuthorsAsync(bookUpdateDto.Id);
 
             if (theBook == null)
             {

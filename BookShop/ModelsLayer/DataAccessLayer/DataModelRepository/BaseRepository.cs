@@ -9,7 +9,7 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity>, IScope where TEntity : class
     {
-        private readonly DbContext _dbContexts;
+        protected readonly DbContext _dbContexts;
         protected readonly DbSet<TEntity> _dbSet;
 
         public BaseRepository(DbContext dbContexts)
@@ -81,98 +81,6 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
         public async Task<int> SaveChangesAsync()
         {
             return await _dbContexts.SaveChangesAsync();
-        }
-
-
-        public IEnumerable<TEntity> Get(
-            Expression<Func<TEntity, bool>> filter = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            params string[] includeProperties)
-        {
-            IQueryable<TEntity> query = _dbSet;
-
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            foreach (var includeProperty in includeProperties)
-            {
-                query = query.Include(includeProperty);
-            }
-
-            if (orderBy != null)
-            {
-                return orderBy(query).ToList();
-            }
-            else
-            {
-                return query.ToList();
-            }
-        }
-
-        public async Task<IEnumerable<TEntity>> GetAsync(
-            Expression<Func<TEntity, bool>> filter = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            params string[] includeProperties)
-        {
-            IQueryable<TEntity> query = _dbSet;
-
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            foreach (var includeProperty in includeProperties)
-            {
-                query = query.Include(includeProperty);
-            }
-
-            if (orderBy != null)
-            {
-                return await orderBy(query).ToListAsync();
-            }
-            else
-            {
-                return await query.ToListAsync();
-            }
-        }
-
-
-        public TEntity FindAndLoadProperties<TProperty>(
-            Expression<Func<TEntity, IEnumerable<TProperty>>> includeProperties,
-            params object[] keyValues) where TProperty : class
-        {
-            var receivedEntity = Find(keyValues);
-
-            if (receivedEntity == null)
-            {
-                return null;
-            }
-
-            var entry = _dbSet.Entry(receivedEntity);
-
-            entry.Collection(includeProperties).Load();
-
-            return receivedEntity;
-        }
-
-        public async Task<TEntity> FindAndLoadPropertiesAsync<TProperty>(
-            Expression<Func<TEntity, IEnumerable<TProperty>>> includeProperties,
-            params object[] keyValues) where TProperty : class
-        {
-            var receivedEntity = await FindAsync(keyValues);
-
-            if (receivedEntity == null)
-            {
-                return null;
-            }
-
-            var entry = _dbSet.Entry(receivedEntity);
-
-            await entry.Collection(includeProperties).LoadAsync();
-
-            return receivedEntity;
         }
 
         public void Dispose()

@@ -17,9 +17,20 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
             _logger = logger;
         }
 
-        public async Task<Book> GetAndLoadBookAsync(int id)
+        public async Task<Book> GetBookWithItsAuthorsAsync(int id)
         {
-            return await FindAndLoadPropertiesAsync(b => b.Authors, id);
+            var theBook = await FindAsync(id);
+
+            if (theBook == null)
+            {
+                return null;
+            }
+
+            var bookEntry = _dbSet.Entry(theBook);
+
+            await bookEntry.Collection(b => b.Authors).LoadAsync();
+
+            return theBook;
         }
 
 

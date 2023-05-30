@@ -12,7 +12,8 @@ using Xunit.Extensions.Ordering;
 
 namespace BookShop.Test.UnitTest.Scenarios
 {
-    [Order((int)ScenariosOrder.ReservationServiceTestCases)]
+    [Order((int)DefaultTestCollectionScenarioOrder.ReservationServiceTestCases)]
+    [Collection(nameof(CollectionTestOrder.Service))]
     public class ReservationServiceTestCases : BaseTestCaseScenario
     {
         private readonly ILogger<ReservationServiceTestCases> _logger;

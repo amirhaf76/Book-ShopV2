@@ -8,6 +8,6 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction
     {
         Task<IEnumerable<BookQueryDto>> GetAllBooksAsync(PaginationFilter paginationFilter, BookFilterDto bookFilterDto);
 
-        Task<Book> GetAndLoadBookAsync(int id);
+        Task<Book> GetBookWithItsAuthorsAsync(int id);
     }
 }

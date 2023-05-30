@@ -17,5 +17,7 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction
         void CheckProjectAutors();
 
         void CheckProjectTitle();
+
+        Task FastTesting();
     }
 }

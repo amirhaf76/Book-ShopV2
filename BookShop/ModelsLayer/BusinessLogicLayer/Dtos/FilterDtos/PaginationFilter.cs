@@ -7,16 +7,16 @@ namespace BookShop.ModelsLayer.Dtos.FilterDtos
         private readonly int _pageSize;
         private readonly int _pageNumber;
 
-        private readonly int _maxSkipSize = 50;
+        private readonly int _maxPageSize = 50;
 
-        public PaginationFilter(int pageSize, int pageNumber, int maxSkipSize) : this(pageSize, pageNumber)
+        public PaginationFilter(int pageSize, int pageNumber, int maxPageSize) : this(pageSize, pageNumber)
         {
-            if (maxSkipSize >= 0)
+            if (maxPageSize >= 0)
             {
                 throw new Exception("Maximum skip size must be greater than or equal to zero!");
             }
 
-            _maxSkipSize = maxSkipSize;
+            _maxPageSize = maxPageSize;
         }
 
         public PaginationFilter(int pageSize, int pageNumber)
@@ -30,7 +30,14 @@ namespace BookShop.ModelsLayer.Dtos.FilterDtos
             }
         }
 
-        public int PageSize { get; set; }
+        public IQueryable<T> AddPaginationTo<T>(IQueryable<T> queryable)
+        {
+            return queryable
+                .Skip(GetSkipSize())
+                .Take(PageSize);
+        }
+
+        public int PageSize { get => _pageSize; }
 
         public int PageNumber
         {
@@ -49,7 +56,7 @@ namespace BookShop.ModelsLayer.Dtos.FilterDtos
         {
             var skipSize = GetSkipSize();
 
-            return PageNumber > 0 && _maxSkipSize >= skipSize && skipSize >= 0;
+            return PageNumber > 0 && PageSize <= _maxPageSize && skipSize >= 0;
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
-using BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction;
 using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
 using BookShop.ModelsLayer.DataBaseLayer.DataModelRepository;
 using BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts;
@@ -8,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
 {
-    public class TestPermissionRepository : BaseRepository<Permission>, ITestPermissionRepository, IScope
+    public class TestPermissionRepository : BaseRepository<Permission>, IScope
     {
         private readonly ILogger<TestPermissionRepository> _logger;
         private static BookShopDbContext _dbContext;
@@ -21,7 +20,7 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
 
         private static BookShopDbContext CreateDbContext(IConfiguration configuration)
         {
-            _dbContext = new BookShopDbContext(new DbContextOptionsBuilder().UseSqlServer(configuration.GetConnectionString("BookShopDB") ?? throw new InvalidOperationException("Connection string 'BookShopDB' not found.")).Options);
+            _dbContext = new BookShopDbContext(new DbContextOptionsBuilder<BookShopDbContext>().UseSqlServer(configuration.GetConnectionString("BookShopDB") ?? throw new InvalidOperationException("Connection string 'BookShopDB' not found.")).Options);
 
             return _dbContext;
         }
@@ -116,14 +115,14 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
             {
                 _logger.LogDebug("Entity {0} {1}", entry.Entity.GetType().Name, entry.State.ToString());
             }
-            
+
             _dbContext.SaveChanges();
         }
 
         public int UpdateImmediately()
         {
             using var transaction = _dbContext.Database.BeginTransaction();
-           
+
             return _dbContext
                 .Set<Permission>()
                 .Where(x => EF.Functions.Like(x.Name, "Permission_7"))
@@ -138,7 +137,7 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
 
 
             var booksWithoutGetAll = _dbContext.Set<Book>().Select(x => x.Authors).ToList();
-            _logger.LogDebug("{@books}", booksWithoutGetAll);  
+            _logger.LogDebug("{@books}", booksWithoutGetAll);
         }
 
         public void CheckProjectTitle()
@@ -149,6 +148,194 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
 
             var booksWithoutGetAll = _dbContext.Set<Book>().Select(x => x.Title).ToList();
             _logger.LogDebug("{@books}", booksWithoutGetAll);
+        }
+
+        public async Task TestEF2()
+        {
+            var queriable = _dbContext
+                .Set<Book>()
+                .Where(q => q.Pages % 2 == 0)
+                .Where(q => q.Pages % 2 == 0)
+                .Include(b => b.Authors)
+                .SelectMany(b => b.Authors)
+                .Skip(10)
+                .Take(5)
+                .AsSplitQuery();
+
+            _logger.LogDebug(queriable.ToQueryString());
+
+            await queriable.ToListAsync();
+        }
+
+        public async Task TestEF3()
+        {
+            var queriable = _dbContext.Set<Book>()
+                .Where(q => q.Pages % 2 == 0 &&
+                            q.Pages % 2 == 1)
+                //.Include(b => b.Authors)
+                .SelectMany(b => b.Authors)
+                .Skip(10)
+                .Take(5)
+                .AsSplitQuery();
+
+            _logger.LogDebug(queriable.ToQueryString());
+
+            await queriable.ToListAsync();
+        }
+
+        public async Task TestEF4()
+        {
+            var queriable = _dbContext
+                .Set<Book>()
+                .OrderByDescending(q => q.Id)
+                .Include(b => b.Authors)
+                .Skip(2)
+                .Take(5)
+                //.SelectMany(b => b.Authors)
+                .AsSplitQuery();
+
+            _logger.LogDebug(queriable.ToQueryString());
+
+            var t = await queriable.ToListAsync();
+
+            var c = t.FirstOrDefault().Stocks;
+        }
+
+        public async Task TestEF5()
+        {
+            var q = _dbContext
+                .Set<Book>()
+                .OrderByDescending(q => q.Id)
+                .Take(20);
+
+            var queriable = q
+                .OrderByDescending(q => q.Id)
+                .Skip(2)
+                .Take(5)
+                .Include(b => b.Authors)
+                .AsSplitQuery();
+
+            _logger.LogDebug(queriable.ToQueryString());
+
+            var t = await queriable.ToListAsync();
+
+        }
+
+        public async Task TestEF6()
+        {
+            var q = _dbContext
+                .Set<Book>()
+                .OrderByDescending(q => q.Id)
+                .Skip(1)
+                .Take(20);
+
+            var queriable = q
+                .OrderByDescending(q => q.Id)
+                .Skip(2)
+                .Take(5)
+                .Include(b => b.Authors)
+                .AsSplitQuery();
+
+            _logger.LogDebug(queriable.ToQueryString());
+
+            var t = await queriable.ToListAsync();
+
+        }
+
+        public async Task TestEF7()
+        {
+            var book = new Book
+            {
+                Id = 12,
+                Pages = 4322,
+            };
+
+            // var t = _dbContext.Attach(book).Property(x => x.Pages);
+
+
+            _dbContext.ChangeTracker.TrackGraph(book, book, e =>
+           {
+               e.Entry.Property(nameof(book.Pages)).IsModified = true;
+
+               return false;
+           });
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task TestEF8()
+        {
+            var book = new Book
+            {
+                Id = 12,
+                Pages = 4322,
+            };
+
+            // var t = _dbContext.Attach(book).Property(x => x.Pages);
+
+
+            var theBook = _dbContext.Set<Book>().Where(q => q.Id == 12).AsNoTracking().FirstOrDefault();
+
+            theBook.Pages = 433;
+
+            _dbContext.Attach(theBook).Property(b => b.Pages).IsModified = true;
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task TestEF9()
+        {
+            var book = new Book
+            {
+                Id = 454646,
+                Pages = 852,
+            };
+
+            var entry = _dbContext.Attach(book).State = EntityState.Added;
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task TestEF10()
+        {
+            var query = _dbSet
+                .Where(q => Enumerable.Range(0, 10).Contains(q.Id))
+                .Where(q => Enumerable.Range(5, 9).Contains(q.Id));
+            // 0 == 1 
+            _logger.LogDebug(query.ToQueryString());
+
+            await query.ToListAsync();
+        }
+
+        public async Task TestEF11()
+        {
+            var query = _dbSet
+                .Where(q => new string[] {"hello", "me"}.Contains(q.Name));
+            _logger.LogDebug(query.ToQueryString());
+
+            await query.ToListAsync();
+        }
+
+        public async Task TestEF12()
+        {
+            var query = _dbContext.Set<Stock>()
+                .Where(q => new StockStatus[] { StockStatus.ReTurned, StockStatus.New }.Contains(q.Status));
+            _logger.LogDebug(query.ToQueryString());
+
+            await query.ToListAsync();
+        }
+
+        public async Task TestEF13()
+        {
+            var query = _dbSet
+                .Where(q => new string[] { "hello", "me" }.Contains(q.Name));
+            
+            query = query.Intersect(_dbSet
+                .Where(q => new string[] { "rew" }.Contains(q.Name)));
+
+            _logger.LogDebug(query.ToQueryString());
+
+            await query.ToListAsync();
         }
     }
 

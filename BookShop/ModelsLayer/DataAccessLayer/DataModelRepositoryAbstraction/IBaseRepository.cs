@@ -31,27 +31,5 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
         Task<int> SaveChangesAsync();
-
-        TEntity FindAndLoadProperties<TProperty>(
-            Expression<Func<TEntity, IEnumerable<TProperty>>> includeProperties,
-            params object[] keyValues) where TProperty : class;
-
-        Task<TEntity> FindAndLoadPropertiesAsync<TProperty>(
-            Expression<Func<TEntity, IEnumerable<TProperty>>> includeProperties,
-            params object[] keyValues) where TProperty : class;
-
-
-
-        IEnumerable<TEntity> Get(
-            Expression<Func<TEntity, bool>> filter = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            params string[] includeProperties);
-
-        Task<IEnumerable<TEntity>> GetAsync(
-            Expression<Func<TEntity, bool>> filter = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            params string[] includeProperties);
-
-
     }
 }

@@ -5,19 +5,87 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts
 {
-    public class BookShopDbContext : DbContext, IBookShopDbContext, IScope
+    public sealed class BookShopDbContext : DbContext, IBookShopDbContext, IScope
     {
-        public BookShopDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+        private readonly ILogger<BookShopDbContext> _logger;
+
+        public BookShopDbContext(DbContextOptions<BookShopDbContext> dbContextOptions) : base(dbContextOptions)
         {
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+          
+        }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            CreateAddressModel(modelBuilder);
+
+            CreateAuthorModel(modelBuilder);
+
+            CreateBookModel(modelBuilder);
+
+            CreateCityModel(modelBuilder);
+
+            CreateCountryModel(modelBuilder);
+
+            CreatePermissionModel(modelBuilder);
+
+            CreateProvinceModel(modelBuilder);
+
+            CreateRepositoryModel(modelBuilder);
+
+            CreateReservationModel(modelBuilder);
+
+            CreateRoleModel(modelBuilder);
+
+            CreateStockModel(modelBuilder);
+
+            CreateUserAccountModel(modelBuilder);
+
+            CreateUserPermissionModel(modelBuilder);
+
+            CreateZipCodeModel(modelBuilder);
+        }
+
+
+        private static void CreateCountryModel(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Country>(buildAction =>
+            {
+                buildAction.HasKey(c => c.Id);
+
+            });
+        }
+
+        private static void CreateUserAccountModel(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserAccount>(buildAction =>
+            {
+                buildAction.HasKey(u => u.Id);
+
+                buildAction
+                    .HasMany(u => u.Permissions)
+                    .WithMany(p => p.UserAccounts)
+                    .UsingEntity<UserPermission>(
+                        right => right.HasOne(rp => rp.Permission).WithMany().HasForeignKey(rp => rp.PermissionId).HasPrincipalKey(p => p.Id),
+                        left => left.HasOne(rp => rp.UserAccount).WithMany().HasForeignKey(rp => rp.UserId).HasPrincipalKey(r => r.Id)
+                        );
+            });
+        }
+
+        private static void CreateBookModel(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Book>(buildAction =>
             {
                 buildAction.HasKey(b => b.Id);
             });
+        }
 
+        private static void CreateAuthorModel(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Author>(buildAction =>
             {
                 buildAction.HasKey(a => a.Id);
@@ -32,26 +100,10 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts
                         join => join.HasKey(joined => new { joined.BookId, joined.AuthorId })
                         );
             });
+        }
 
-            modelBuilder.Entity<UserAccount>(buildAction =>
-            {
-                buildAction.HasKey(u => u.Id);
-
-                buildAction
-                    .HasMany(u => u.Permissions)
-                    .WithMany(p => p.UserAccounts)
-                    .UsingEntity<UserPermission>(
-                        right => right.HasOne(rp => rp.Permission).WithMany().HasForeignKey(rp => rp.PermissionId).HasPrincipalKey(p => p.Id),
-                        left => left.HasOne(rp => rp.UserAccount).WithMany().HasForeignKey(rp => rp.UserId).HasPrincipalKey(r => r.Id)
-                        );
-            });
-
-            modelBuilder.Entity<Country>(buildAction =>
-            {
-                buildAction.HasKey(c => c.Id);
-
-            });
-
+        private static void CreateProvinceModel(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Province>(buildAction =>
             {
                 buildAction.HasKey(p => p.Id);
@@ -61,7 +113,10 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts
                     .WithMany(c => c.Provinces)
                     .HasForeignKey(p => p.CountryId);
             });
+        }
 
+        private static void CreateCityModel(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<City>(buildAction =>
             {
                 buildAction.HasKey(c => c.Id);
@@ -71,7 +126,10 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts
                     .WithMany(p => p.Cities)
                     .HasForeignKey(c => c.ProvinceId);
             });
+        }
 
+        private static void CreateZipCodeModel(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<ZipCode>(buildAction =>
             {
                 buildAction.HasKey(z => z.Id);
@@ -83,7 +141,10 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts
                     .WithMany()
                     .HasForeignKey(z => z.CityId);
             });
+        }
 
+        private static void CreateAddressModel(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Address>(buildAction =>
             {
                 buildAction.HasKey(a => a.Id);
@@ -93,12 +154,18 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts
                     .WithMany()
                     .HasForeignKey(a => a.ZipCodeId);
             });
+        }
 
+        private static void CreatePermissionModel(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Permission>(buildAction =>
             {
                 buildAction.HasKey(p => p.Id);
             });
+        }
 
+        private static void CreateUserPermissionModel(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<UserPermission>(buildAction =>
             {
                 buildAction.HasKey(rp => new { rp.PermissionId, rp.UserId });
@@ -110,7 +177,10 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts
                     .HasPrincipalKey(r => r.Id)
                     .IsRequired(false);
             });
+        }
 
+        private static void CreateRoleModel(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Role>(buildAction =>
             {
                 buildAction.HasKey(r => r.Id);
@@ -124,7 +194,10 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts
                         join => join.HasKey(rp => new { rp.PermissionId, rp.RoleId })
                         );
             });
+        }
 
+        private static void CreateStockModel(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Stock>(buildAction =>
             {
                 buildAction.HasKey(s => s.StockId);
@@ -150,7 +223,10 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts
                     .OnDelete(DeleteBehavior.Restrict)
                     .IsRequired(true);
             });
+        }
 
+        private static void CreateRepositoryModel(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Repository>(buildAction =>
             {
                 buildAction.HasKey(r => r.Id);
@@ -166,7 +242,10 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts
                     .Property(r => r.IsEnable)
                     .HasDefaultValue(false);
             });
+        }
 
+        private static void CreateReservationModel(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Reservation>(buildAction =>
             {
                 buildAction.HasKey(r => r.Id);
@@ -178,10 +257,8 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts
                     .OnDelete(DeleteBehavior.Restrict)
                     .IsRequired(true);
             });
-
         }
 
-       
         public DbContext GetDbContext()
         {
             return this;

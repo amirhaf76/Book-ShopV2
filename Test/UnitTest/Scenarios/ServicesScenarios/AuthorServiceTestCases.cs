@@ -16,7 +16,8 @@ using Xunit.Extensions.Ordering;
 
 namespace BookShop.Test.UnitTest.Scenarios
 {
-    [Order((int)ScenariosOrder.BaseTestAppScenario)]
+    [Order((int)DefaultTestCollectionScenarioOrder.AuthorServiceTestCases)]
+    [Collection(nameof(ServiceTestCollection))]
     public class AuthorServiceTestCases : BaseTestCaseScenario
     {
         private readonly DelaySettings _delaySettings;
