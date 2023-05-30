@@ -12,6 +12,8 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction
         Task<IEnumerable<Repository>> GetRepositoriesWithTheirStocksAsync();
 
         Task<IEnumerable<Repository>> GetRepositoriesWithTheirStocksAsync(RepositoryFilter filter);
+
+        Repository ChangeRepositoryActivation(int id, bool isEnable);
     }
 
 

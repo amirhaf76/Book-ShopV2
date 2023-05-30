@@ -23,9 +23,9 @@ namespace BookShop.Test.UnitTest.Core.Scenarios
             {
                 var config = new ConfigurationBuilder()
                                .SetBasePath(Environment.CurrentDirectory)
-                               .AddJsonFile("appconfigs.json")
+                               .AddJsonFile("appsettings.json")
                                .Build();
-                builder.RegisterInstance<IConfiguration>(config);
+                //builder.RegisterInstance<IConfiguration>(config);
 
                 builder.RegisterSerilog(new LoggerConfiguration().ReadFrom.Configuration(config).WriteTo.TestOutput(testOutputHelper));
             });

@@ -1,6 +1,6 @@
-﻿namespace BookShop.ModelsLayer.BusinessLogicLayer.Dtos.RepositoryDtos
+﻿namespace BookShop.ModelsLayer.ViewModelLayer.GetwayLayer.RequestResponseModels
 {
-    public class RepositoryResult
+    public class RepositoryVM
     {
         public int Id { get; set; }
 

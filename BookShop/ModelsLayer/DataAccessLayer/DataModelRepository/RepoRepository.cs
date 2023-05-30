@@ -37,6 +37,26 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
             return await queryable.AsSplitQuery().ToListAsync();
         }
 
+        public Repository ChangeRepositoryActivation(int id, bool isEnable)
+        {
+            var newRepository = new Repository
+            {
+                Id = id,
+                IsEnable = isEnable,
+            };
+
+            var theNewRepositoryEntry = _dbSet.Entry(newRepository);
+
+            if (theNewRepositoryEntry.State == EntityState.Detached)
+            {
+                _dbContexts.Attach(newRepository);
+            }
+
+            theNewRepositoryEntry.Property(e => e.IsEnable).IsModified = true;
+
+            return theNewRepositoryEntry.Entity;
+        }
+
         private IQueryable<Repository> GetRepositoriesWithoutEigerLoading(RepositoryFilter filter)
         {
             var queryable = _dbSet.AsQueryable();

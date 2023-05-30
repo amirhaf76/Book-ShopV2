@@ -2,5 +2,8 @@
 {
     public class StockingBookDto
     {
+        public int RepositoryId { get; set; }
+
+        public int BookId { get; set; }
     }
 }

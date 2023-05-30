@@ -24,6 +24,7 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
     {
         private readonly DelaySettings _delaySettings;
         private readonly ILogger<AuthorServiceTestCases> _logger;
+        private int _primaryKey = 0;
 
         public AuthorServiceTestCases(AppConfiguration totalConfiguration, ITestOutputHelper testOutputHelper) : base(totalConfiguration, testOutputHelper)
         {
@@ -104,7 +105,7 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 
 
 
-        private static ContainerBuilder RegisterAuthorService(ContainerBuilder builder, Dictionary<int, Author> authorsMap)
+        private ContainerBuilder RegisterAuthorService(ContainerBuilder builder, Dictionary<int, Author> authorsMap)
         {
             builder.RegisterMock(CreateMockIAuthorRepository(authorsMap));
 
@@ -113,9 +114,10 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
             return builder;
         }
 
-        private static Mock<IAuthorRepository> CreateMockIAuthorRepository(Dictionary<int, Author> authors)
+        private Mock<IAuthorRepository> CreateMockIAuthorRepository(Dictionary<int, Author> authors)
         {
-            var mockIAuthorRepository = MockExtension.CreateMockBaseRepository<int, Author, IAuthorRepository>(authors, e => e.Id);
+            var mockIAuthorRepository = new MockRepositoryBuilder<int, Author>(x => x.Id, (k, r) => r.Id = k, () => _primaryKey++, authors)
+                .CreateMockBaseRepository<IAuthorRepository>();
 
             mockIAuthorRepository
                 .Setup(x => x.FindAuthorOrDefaultAsync(It.IsAny<int>()))

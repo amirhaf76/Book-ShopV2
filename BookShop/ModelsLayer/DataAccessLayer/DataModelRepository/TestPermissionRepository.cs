@@ -308,7 +308,7 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
         public async Task TestEF11()
         {
             var query = _dbSet
-                .Where(q => new string[] {"hello", "me"}.Contains(q.Name));
+                .Where(q => new string[] { "hello", "me" }.Contains(q.Name));
             _logger.LogDebug(query.ToQueryString());
 
             await query.ToListAsync();
@@ -327,7 +327,7 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
         {
             var query = _dbSet
                 .Where(q => new string[] { "hello", "me" }.Contains(q.Name));
-            
+
             query = query.Intersect(_dbSet
                 .Where(q => new string[] { "rew" }.Contains(q.Name)));
 
@@ -335,6 +335,32 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
 
             await query.ToListAsync();
         }
+        public async Task TestEF14()
+        {
+            var permission = await _dbSet.FirstOrDefaultAsync();
+
+            var t = _dbContext.Attach(new Permission
+            {
+                Id = permission.Id
+            });
+        }
+
+        public async Task TestEF15()
+        {
+
+            var t = new Permission
+            {
+                Id = 23
+            };
+
+            var temp = _dbSet.Entry(t);
+
+
+
+            await Task.CompletedTask;
+        }
+
+
     }
 
 

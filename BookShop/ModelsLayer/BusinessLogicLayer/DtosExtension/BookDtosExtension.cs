@@ -40,7 +40,7 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.DtosExtension
                 AuthorIds = book.Authors.Select(x => x.Id),
             };
         }
-
+        
         public static Book UpdateBook(this Book book, BookUpdateDto bookUpdateDto, ICollection<Author> authors)
         {
             book.Id = bookUpdateDto.Id;
@@ -51,6 +51,15 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.DtosExtension
 
             return book;
         }
-
+        public static StockedBookResult ConvertToStockedBookResult(this Book book)
+        {
+            return new StockedBookResult
+            {
+                Id = book.Id,
+                PageNumbers = book.Pages,
+                Title = book.Title,
+                PublishedDate = book.PublishedDate,
+            };
+        }
     }
 }

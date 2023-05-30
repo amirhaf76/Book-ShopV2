@@ -1,9 +1,6 @@
 ﻿using BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction;
 using Infrastructure.AutoFac.FlagInterface;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Metadata;
-using System.Linq.Expressions;
 
 namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
 {

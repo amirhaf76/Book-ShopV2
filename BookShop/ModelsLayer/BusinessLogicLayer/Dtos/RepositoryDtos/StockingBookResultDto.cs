@@ -6,6 +6,5 @@
 
         public long StockId { get; set; }
 
-        public int Count { get; set; }
     }
 }

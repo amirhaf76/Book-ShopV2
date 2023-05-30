@@ -1,13 +1,18 @@
 ﻿using Autofac;
 using Autofac.Extras.Moq;
+using BookShop.ModelsLayer.BusinessLogicLayer.BusinessServices;
 using BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction;
 using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.RepositoryDtos;
+using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
+using BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction;
+using BookShop.ModelsLayer.DataAccessLayer.Dtos;
 using BookShop.ModelsLayer.Exceptions;
 using BookShop.Test.UnitTest.Core.AppConfigModel;
 using BookShop.Test.UnitTest.Core.Scenarios;
 using BookShop.Test.UnitTest.Core.Scenarios.CollectionAndTestCaseOrders;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
+using Moq;
 using Xunit.Abstractions;
 using Xunit.Extensions.Ordering;
 
@@ -18,6 +23,14 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
     public class RepositoryServiceTestCases : BaseTestCaseScenario
     {
         private readonly ILogger<RepositoryServiceTestCases> _logger;
+
+        private int _primaryKey = 2;
+        private readonly Dictionary<int, Repository> _repositoryTable = new Dictionary<int, Repository>
+        {
+            { 1,  new Repository { Id = 1, Name = "Repository_1.1", IsEnable = true } },
+            { 2,  new Repository { Id = 2, Name = "Repository_1.2", IsEnable = false } },
+            { 3,  new Repository { Id = 3, Name = "Repository_1.3", IsEnable = true } },
+        };
 
         public RepositoryServiceTestCases(AppConfiguration totalConfiguration, ITestOutputHelper testOutputHelper) : base(totalConfiguration, testOutputHelper)
         {
@@ -99,7 +112,7 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 
             var gettingStockBooksResult = await gettingStockBooksAction.Should().NotThrowAsync();
 
-            gettingStockBooksResult.Subject.StockBooks.Should().BeEquivalentTo(GetAllMockStockBook());
+            gettingStockBooksResult.Subject.Should().BeEquivalentTo(GetAllMockStockBook());
         }
 
         [Fact]
@@ -109,11 +122,9 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 
             var repositoryService = mock.Create<IRepositoryService>();
 
-            var gettingStockBooksAction = async () => await repositoryService.GetStockBookAsync(MakeFilterDtoForStockedBookBaseOnBookId());
+            var gettingStockBooksResult = await repositoryService.GetStockBookAsync(MakeFilterDtoForStockedBookBaseOnBookId());
 
-            var gettingStockBooksResult = await gettingStockBooksAction.Should().NotThrowAsync();
-
-            gettingStockBooksResult.Subject.StockBooks.Should().BeEquivalentTo(GetAllStockBooksOfSpecificBook());
+            gettingStockBooksResult.Should().BeEquivalentTo(GetAllStockBooksOfSpecificBook());
         }
 
         [Fact]
@@ -123,11 +134,9 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 
             var repositoryService = mock.Create<IRepositoryService>();
 
-            var gettingStockBooksAction = async () => await repositoryService.GetStockBookAsync(MakeFilterDtoForStockedBookBaseOnUnavailableBookId());
+            var gettingStockBooksResult = await repositoryService.GetStockBookAsync(MakeFilterDtoForStockedBookBaseOnUnavailableBookId());
 
-            var gettingStockBooksResult = await gettingStockBooksAction.Should().NotThrowAsync();
-
-            gettingStockBooksResult.Subject.StockBooks.Should().BeEmpty();
+            gettingStockBooksResult.Should().BeEmpty();
         }
 
         [Fact]
@@ -141,7 +150,7 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 
             var gettingStockBooksResult = await gettingStockBooksAction.Should().NotThrowAsync();
 
-            gettingStockBooksResult.Subject.StockBooks.Should().BeEquivalentTo(GetTheStockBooks());
+            gettingStockBooksResult.Subject.Should().BeEquivalentTo(GetTheStockBooks());
         }
 
         [Fact]
@@ -155,7 +164,7 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 
             var gettingStockBooksResult = await gettingStockBooksAction.Should().NotThrowAsync();
 
-            gettingStockBooksResult.Subject.StockBooks.Should().BeEmpty();
+            gettingStockBooksResult.Subject.Should().BeEmpty();
         }
 
         [Fact]
@@ -169,7 +178,7 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 
             var gettingRepositoriesResult = await gettingRepositoriesAction.Should().NotThrowAsync();
 
-            gettingRepositoriesResult.Subject.Repositories.Should().BeEquivalentTo(GetTheRepositories());
+            gettingRepositoriesResult.Subject.Should().BeEquivalentTo(GetTheRepositories());
         }
 
         [Fact]
@@ -179,11 +188,9 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 
             var repositoryService = mock.Create<IRepositoryService>();
 
-            var gettingRepositoriesAction = async () => await repositoryService.GetRepositoriesAsync(MakeFilterDtoForGettingRepositoriesBaseOnRepositoryId());
+            var gettingRepositoriesResult = await repositoryService.GetRepositoriesAsync(MakeFilterDtoForGettingRepositoriesBaseOnRepositoryId());
 
-            var gettingRepositoriesResult = await gettingRepositoriesAction.Should().NotThrowAsync();
-
-            gettingRepositoriesResult.Subject.Repositories.Should().BeEquivalentTo(GetTheRepositories());
+            gettingRepositoriesResult.Should().BeEquivalentTo(GetTheRepositories());
         }
 
         [Fact]
@@ -193,11 +200,9 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 
             var repositoryService = mock.Create<IRepositoryService>();
 
-            var gettingRepositoriesAction = async () => await repositoryService.GetRepositoriesAsync(MakeFilterDtoForGettingRepositoriesBaseOnUnavailableRepositoryId());
+            var gettingRepositoriesResult = await repositoryService.GetRepositoriesAsync(MakeFilterDtoForGettingRepositoriesBaseOnUnavailableRepositoryId());
 
-            var gettingRepositoriesResult = await gettingRepositoriesAction.Should().NotThrowAsync();
-
-            gettingRepositoriesResult.Subject.Repositories.Should().BeEmpty();
+            gettingRepositoriesResult.Should().BeEmpty();
         }
 
         [Fact]
@@ -213,7 +218,7 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 
             var repositoryAdditionResult = await repositoryAdditionAction.Should().NotThrowAsync();
 
-            repositoryAdditionResult.Subject.RepositoryId.Should().NotBe(default);
+            repositoryAdditionResult.Subject.Id.Should().NotBe(default);
         }
 
         [Fact]
@@ -241,7 +246,7 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 
             var aRepository = MakeRemovalRepositoryDtoForAvailableRepository();
 
-            var repositoryRemovalAction = async () => await repositoryService.RemoveRepositoryAsync(aRepository);
+            var repositoryRemovalAction = async () => await repositoryService.ChangeRepositoryActivation(aRepository);
 
             var repositoryRemovalResult = await repositoryRemovalAction.Should().NotThrowAsync();
 
@@ -257,14 +262,53 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 
             var aRepository = MakeRemovalRepositoryDtoForUnavailableRepository();
 
-            var repositoryRemovalAction = async () => await repositoryService.RemoveRepositoryAsync(aRepository);
+            var repositoryRemovalAction = async () => await repositoryService.ChangeRepositoryActivation(aRepository);
 
             var repositoryRemovalResult = await repositoryRemovalAction.Should().ThrowAsync<RepositoryNotFoundException>();
         }
 
 
-        private static ContainerBuilder RegisterRepositoryServiceAndItsDependencies(ContainerBuilder builder)
+        private ContainerBuilder RegisterRepositoryServiceAndItsDependencies(ContainerBuilder builder)
         {
+            var mockRepository = new MockRepositoryBuilder<int, Repository>(x => x.Id, (k, r) => r.Id = k, () => _primaryKey++, _repositoryTable)
+                .CreateMockBaseRepository<IRepoRepository>();
+
+            builder.RegisterMock(mockRepository);
+
+            builder
+                .RegisterType<RepositoryService>()
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
+
+            mockRepository
+                .Setup(x => x.GetRepositoriesAsync(It.IsAny<RepositoryFilter>()))
+                .ReturnsAsync((RepositoryFilter filter) =>
+                {
+                    return _repositoryTable.Values
+                        .Where(q => q.Id == filter.Id);
+                });
+
+            mockRepository
+                .Setup(x => x.GetRepositoriesWithTheirStocksAsync(It.IsAny<RepositoryFilter>()))
+                .ReturnsAsync((RepositoryFilter filter) =>
+                {
+                    return new[] { _repositoryTable[filter.Id ?? 0] };
+                });
+
+            mockRepository
+                .Setup(x => x.GetRepositoriesWithTheirStocksAsync())
+                .ReturnsAsync(() =>
+                {
+                    return _repositoryTable.Values.AsEnumerable();
+                });
+
+            mockRepository
+                .Setup(x => x.GetRepositoriesAsync())
+                .ReturnsAsync(() =>
+                {
+                    return _repositoryTable.Values.AsEnumerable();
+                });
+
             return builder;
         }
 
@@ -315,7 +359,8 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
         {
             return new RecordingRepositoryDto
             {
-
+                Name = "Repository_1",
+                IsEnable = true,
             };
         }
 
@@ -353,15 +398,6 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
             };
         }
 
-        private static GettingRepositoriesFilter MakeFilterDtoForGettingRepositoriesBaseOnRepositoryId()
-        {
-            return new GettingRepositoriesFilter
-            {
-
-            };
-        }
-
-
         private static GettingStockBookFilter MakeFilterDtoForStockedBookBaseOnUnavailableBookId()
         {
             return new GettingStockBookFilter
@@ -378,11 +414,20 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
             };
         }
 
+
+        private static GettingRepositoriesFilter MakeFilterDtoForGettingRepositoriesBaseOnRepositoryId()
+        {
+            return new GettingRepositoriesFilter
+            {
+                Id = 1,
+            };
+        }
+
         private static GettingRepositoriesFilter MakeFilterDtoForGettingRepositoriesBaseOnUnavailableRepositoryId()
         {
             return new GettingRepositoriesFilter
             {
-
+                Id = 1,
             };
         }
 
@@ -411,11 +456,13 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
             };
         }
 
-        private static IEnumerable<object> GetTheRepositories()
+        private IEnumerable<object> GetTheRepositories()
         {
+            var value = _repositoryTable[1];
+
             return new object[]
             {
-
+                new { value.Id, value.IsEnable }
             };
         }
 

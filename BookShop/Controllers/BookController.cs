@@ -1,7 +1,7 @@
 ﻿using BookShop.Core.Security.Authorization;
 using BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction;
 using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.BookDtos;
-using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.FilterDtos;
+using BookShop.ModelsLayer.BusinessLogicLayer.DtosExtension;
 using BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction;
 using BookShop.ModelsLayer.ViewModelLayer.GetwayLayer.RequestResponseModels;
 using BookShop.ModelsLayer.ViewModelLayer.VMExtension;
@@ -58,16 +58,19 @@ namespace BookShop.Controllers
         [HttpGet("Book")]
         public async Task<IEnumerable<BookQueryResponse>> GetAllBooks([FromQuery] GetAllBooksRequest getAllBooksRequest)
         {
-            var paginationFilter = new PaginationFilter(getAllBooksRequest.PageSize, getAllBooksRequest.PageNumber);
-
             var bookFilterDto = new BookFilterDto
             {
                 Id = getAllBooksRequest.Id,
                 Title = getAllBooksRequest.Title,
                 PublishedYear = getAllBooksRequest.PublishedYear,
+                PaginationFilterDto = new PaginationFilterDto
+                {
+                    PageSiz = getAllBooksRequest.PageSize,
+                    PageNo = getAllBooksRequest.PageNumber,
+                }
             };
 
-            var receivedBook = await _bookRepository.GetAllBooksAsync(paginationFilter, bookFilterDto);
+            var receivedBook = await _bookRepository.GetAllBooksAsync(bookFilterDto);
 
             _logger.LogInformation("{@book}", receivedBook);
 

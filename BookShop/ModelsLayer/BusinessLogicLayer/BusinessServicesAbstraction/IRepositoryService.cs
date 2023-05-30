@@ -5,14 +5,19 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction
     public interface IRepositoryService
     {
         Task<StockingBookResultDto> StockBookAsync(StockingBookDto stockingBookDto);
-        Task<BookReductionResultDto> ReduceBookAsync(BookReductionDto aBook);
-        Task<StockBooksResultDto> GetStockBookAsync(GettingStockBookFilter filter);
-        Task<GettingRepositoriesResult> GetRepositoriesAsync(GettingRepositoriesFilter filter);
 
-        Task<StockBooksResultDto> GetStockBookAsync();
-        Task<GettingRepositoriesResult> GetRepositoriesAsync();
+        Task<BookReductionResultDto> ReduceBookAsync(BookReductionDto aBook);
+
+        Task<IEnumerable<StockBookResultDto>> GetStockBookAsync(GettingStockBookFilter filter);
+
+        Task<IEnumerable<RepositoryResult>> GetRepositoriesAsync(GettingRepositoriesFilter filter);
+
+        Task<IEnumerable<StockBookResultDto>> GetStockBookAsync();
+
+        Task<IEnumerable<RepositoryResult>> GetRepositoriesAsync();
 
         Task<RecordingRepositoryResultDto> AddRepositoryAsync(RecordingRepositoryDto aRepository);
-        Task<RemovalRespositoryResultDto> RemoveRepositoryAsync(RemovalRespositoryDto aRepository);
+
+        Task<RemovalRespositoryResultDto> ChangeRepositoryActivation(RemovalRespositoryDto aRepository);
     }
 }

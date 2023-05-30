@@ -1,8 +1,8 @@
 ﻿using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.BookDtos;
-using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.FilterDtos;
 using BookShop.ModelsLayer.BusinessLogicLayer.DtosExtension;
 using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
 using BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction;
+using BookShop.ModelsLayer.DataAccessLayer.Dtos;
 using Infrastructure.AutoFac.FlagInterface;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,8 +34,10 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
         }
 
 
-        public async Task<IEnumerable<BookQueryDto>> GetAllBooksAsync(PaginationFilter paginationFilter, BookFilterDto bookFilterDto)
+        public async Task<IEnumerable<BookQueryDto>> GetAllBooksAsync(BookFilterDto bookFilterDto)
         {
+            var paginationFilter = new PaginationFilter(bookFilterDto.PaginationFilterDto.PageSiz ?? 10, bookFilterDto.PaginationFilterDto.PageNo ?? 1);
+
             var queryable = _dbSet.AsQueryable();
 
             if (bookFilterDto.Id != null)
@@ -55,10 +57,11 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
                 queryable = queryable.Where(q => q.PublishedDate != null && q.PublishedDate.Value.Year == year);
             }
 
+            var sortedQuery = queryable.OrderByDescending(x => x.Id);
+
+            queryable = paginationFilter.AddPaginationTo(sortedQuery);
+
             var receivedBooks = await queryable
-                .OrderByDescending(x => x.Id)
-                .Skip(paginationFilter.GetSkipSize())
-                .Take(paginationFilter.PageSize)
                 .Include(x => x.Authors)
                 .AsSplitQuery()
                 .ToListAsync();

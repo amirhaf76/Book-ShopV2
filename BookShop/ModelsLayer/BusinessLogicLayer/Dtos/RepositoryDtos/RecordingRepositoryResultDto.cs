@@ -2,6 +2,10 @@
 {
     public class RecordingRepositoryResultDto
     {
-        public int RepositoryId { get; set; }
+        public int Id { get; set; }
+
+        public bool IsEnable { get; set; }
+
+        public string Name { get; set; }
     }
 }

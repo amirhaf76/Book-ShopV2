@@ -1,6 +1,4 @@
-﻿using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.FilterDtos;
-
-namespace BookShop.ModelsLayer.DataAccessLayer.Dtos
+﻿namespace BookShop.ModelsLayer.DataAccessLayer.Dtos
 {
     public class RepositoryFilter
     {
