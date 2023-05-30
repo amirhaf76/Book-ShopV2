@@ -1,4 +1,4 @@
-﻿namespace BookShop.ModelsLayer.Dtos.UserAccountDtos
+﻿namespace BookShop.ModelsLayer.BusinessLogicLayer.Dtos.UserAccountDtos
 {
     public class UserCreationResponseDto
     {

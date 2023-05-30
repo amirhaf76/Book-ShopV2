@@ -1,4 +1,4 @@
-﻿namespace BookShop.ModelsLayer.Dtos.AuthorDtos
+﻿namespace BookShop.ModelsLayer.BusinessLogicLayer.Dtos.AuthorDtos
 {
     public class AuthorDto
     {

@@ -5,12 +5,13 @@ using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.RepositoryDtos;
 using BookShop.ModelsLayer.Exceptions;
 using BookShop.Test.UnitTest.Core.AppConfigModel;
 using BookShop.Test.UnitTest.Core.Scenarios;
+using BookShop.Test.UnitTest.Core.Scenarios.CollectionAndTestCaseOrders;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 using Xunit.Extensions.Ordering;
 
-namespace BookShop.Test.UnitTest.Scenarios
+namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 {
     [Order((int)DefaultTestCollectionScenarioOrder.RepositoryServiceTestCases)]
     [Collection(nameof(CollectionTestOrder.Service))]

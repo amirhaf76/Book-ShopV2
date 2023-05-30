@@ -1,6 +1,6 @@
-﻿using BookShop.ModelsLayer.Dtos.AuthorDtos;
+﻿using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.AuthorDtos;
 
-namespace BookShop.ModelsLayer.GetwayLayer.RequestResponseModels
+namespace BookShop.ModelsLayer.ViewModelLayer.GetwayLayer.RequestResponseModels
 {
     public class BookQueryResponse
     {

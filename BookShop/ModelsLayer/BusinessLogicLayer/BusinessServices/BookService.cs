@@ -1,11 +1,11 @@
-﻿using BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction;
-using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
-using BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction;
-using BookShop.ModelsLayer.Dtos.BookDtos;
-using BookShop.ModelsLayer.DtosExtension;
+﻿using BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction;
+using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.BookDtos;
+using BookShop.ModelsLayer.BusinessLogicLayer.DtosExtension;
+using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
+using BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction;
 using Infrastructure.AutoFac.FlagInterface;
 
-namespace BookShop.ModelsLayer.BusinessLayer.BusinessServices
+namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServices
 {
     public class BookService : IBookService, IScope
     {
@@ -79,7 +79,7 @@ namespace BookShop.ModelsLayer.BusinessLayer.BusinessServices
             theBook = await UpdateBookAsync(theBook, bookUpdateDto);
 
             _bookRepository.Update(theBook);
-       
+
             await _bookRepository.SaveChangesAsync();
 
             return theBook.ConvertToBookUpdateDto();
@@ -89,13 +89,13 @@ namespace BookShop.ModelsLayer.BusinessLayer.BusinessServices
         public async Task<Book> UpdateBookAsync(Book theBook, BookUpdateDto bookUpdateDto)
         {
             var newAuthorIds = await UpdateAuthorsAsync(theBook.Authors, bookUpdateDto.AuthorIds);
-                
+
             theBook.UpdateBook(bookUpdateDto, newAuthorIds.ToList());
 
             return theBook;
         }
 
-        public async Task<IEnumerable<Author>> UpdateAuthorsAsync(IEnumerable<Author>  currentAuthors, IEnumerable<int> desiredAuthorIds)
+        public async Task<IEnumerable<Author>> UpdateAuthorsAsync(IEnumerable<Author> currentAuthors, IEnumerable<int> desiredAuthorIds)
         {
             var intersectedAuthors = currentAuthors.IntersectBy(desiredAuthorIds, author => author.Id);
 

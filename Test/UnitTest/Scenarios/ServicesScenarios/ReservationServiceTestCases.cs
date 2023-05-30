@@ -5,12 +5,13 @@ using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.ReservationDtos;
 using BookShop.ModelsLayer.Exceptions;
 using BookShop.Test.UnitTest.Core.AppConfigModel;
 using BookShop.Test.UnitTest.Core.Scenarios;
+using BookShop.Test.UnitTest.Core.Scenarios.CollectionAndTestCaseOrders;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 using Xunit.Extensions.Ordering;
 
-namespace BookShop.Test.UnitTest.Scenarios
+namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 {
     [Order((int)DefaultTestCollectionScenarioOrder.ReservationServiceTestCases)]
     [Collection(nameof(CollectionTestOrder.Service))]
@@ -165,7 +166,7 @@ namespace BookShop.Test.UnitTest.Scenarios
         {
             return builder;
         }
-       
+
         private static BookReservationDto MakeANewBookReservationDto()
         {
             return new BookReservationDto

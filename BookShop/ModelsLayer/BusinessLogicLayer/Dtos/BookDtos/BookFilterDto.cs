@@ -1,4 +1,4 @@
-﻿namespace BookShop.ModelsLayer.Dtos.BookDtos
+﻿namespace BookShop.ModelsLayer.BusinessLogicLayer.Dtos.BookDtos
 {
     public class BookFilterDto
     {

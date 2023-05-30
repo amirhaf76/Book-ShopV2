@@ -1,8 +1,8 @@
-﻿using BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction;
+﻿using BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction;
 using BookShop.ModelsLayer.Exceptions;
 using Infrastructure.AutoFac.FlagInterface;
 
-namespace BookShop.ModelsLayer.BusinessLayer.BusinessServices
+namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServices
 {
     public class DefaultExceptionCaseService : IExceptionCaseService, IScope
     {

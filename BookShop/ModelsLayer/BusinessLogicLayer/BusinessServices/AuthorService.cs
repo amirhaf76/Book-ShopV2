@@ -1,10 +1,10 @@
-﻿using BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction;
-using BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction;
-using BookShop.ModelsLayer.Dtos.AuthorDtos;
-using BookShop.ModelsLayer.DtosExtension;
+﻿using BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction;
+using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.AuthorDtos;
+using BookShop.ModelsLayer.BusinessLogicLayer.DtosExtension;
+using BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction;
 using Infrastructure.AutoFac.FlagInterface;
 
-namespace BookShop.ModelsLayer.BusinessLayer.BusinessServices
+namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServices
 {
     public class AuthorService : IAuthorService, IScope
     {

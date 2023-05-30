@@ -1,7 +1,7 @@
-﻿using BookShop.ModelsLayer.Dtos.AuthenticationDtos;
-using BookShop.ModelsLayer.Dtos.UserAccountDtos;
+﻿using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.AuthenticationDtos;
+using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.UserAccountDtos;
 
-namespace BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction
+namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction
 {
     public interface IAuthenticationService
     {

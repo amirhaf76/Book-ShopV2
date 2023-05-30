@@ -1,10 +1,9 @@
 ﻿using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
-using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
-using BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction;
+using BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction;
 using Infrastructure.AutoFac.FlagInterface;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
+namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
 {
     public class UserAccountRepository : BaseRepository<UserAccount>, IUserAccountRepository, IScope
     {

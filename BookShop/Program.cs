@@ -2,7 +2,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using BookShop.Core.DIModule;
 using BookShop.Core.Security.Authorization;
-using BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts;
+using BookShop.ModelsLayer.DataAccessLayer.DbContexts.BookShopDbContexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;

@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using BookShop.Core.DIModule;
-using BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts;
+using BookShop.ModelsLayer.DataAccessLayer.DbContexts.BookShopDbContexts;
 using BookShop.Test.UnitTest.SettingsModels;
 using Infrastructure.AutoFac;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +17,7 @@ namespace BookShop.Test.UnitTest.Core.DIModules
                 {
                     var config = new ConfigurationBuilder()
                         .SetBasePath(Environment.CurrentDirectory)
-                        .AddJsonFile("appconfigs.json")
+                        .AddJsonFile("appsettings.json")
                         .Build();
 
                     return (IConfiguration)config;

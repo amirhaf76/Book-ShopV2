@@ -1,6 +1,6 @@
-﻿using BookShop.ModelsLayer.Dtos.AuthorDtos;
+﻿using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.AuthorDtos;
 
-namespace BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction
+namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction
 {
     public interface IAuthorService
     {

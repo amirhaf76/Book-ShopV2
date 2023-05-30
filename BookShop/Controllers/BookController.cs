@@ -1,10 +1,9 @@
 ﻿using BookShop.Core.Security.Authorization;
-using BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction;
-using BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction;
-using BookShop.ModelsLayer.Dtos.BookDtos;
-using BookShop.ModelsLayer.Dtos.FilterDtos;
-using BookShop.ModelsLayer.DtosExtension;
-using BookShop.ModelsLayer.GetwayLayer.RequestResponseModels;
+using BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction;
+using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.BookDtos;
+using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.FilterDtos;
+using BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction;
+using BookShop.ModelsLayer.ViewModelLayer.GetwayLayer.RequestResponseModels;
 using BookShop.ModelsLayer.ViewModelLayer.VMExtension;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

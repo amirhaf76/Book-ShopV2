@@ -1,7 +1,6 @@
 ﻿using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
 using BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction;
 using BookShop.ModelsLayer.DataAccessLayer.Dtos;
-using BookShop.ModelsLayer.DataBaseLayer.DataModelRepository;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository

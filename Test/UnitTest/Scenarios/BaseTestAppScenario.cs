@@ -1,5 +1,6 @@
 using BookShop.Test.UnitTest.Core.AppConfigModel;
 using BookShop.Test.UnitTest.Core.Scenarios;
+using BookShop.Test.UnitTest.Core.Scenarios.CollectionAndTestCaseOrders;
 using BookShop.Test.UnitTest.SettingsModels;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -24,7 +25,6 @@ namespace BookShop.Test.UnitTest.Scenarios
         [Fact]
         public void TestSampleTestCase()
         {
-
             _delaySettings.Should().NotBeNull();
 
             _delaySettings.ShortDelay.Should().NotBe(TimeSpan.Zero);

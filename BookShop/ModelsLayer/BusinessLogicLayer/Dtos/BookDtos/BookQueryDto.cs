@@ -1,6 +1,6 @@
-﻿using BookShop.ModelsLayer.Dtos.AuthorDtos;
+﻿using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.AuthorDtos;
 
-namespace BookShop.ModelsLayer.Dtos.BookDtos
+namespace BookShop.ModelsLayer.BusinessLogicLayer.Dtos.BookDtos
 {
     public class BookQueryDto
     {

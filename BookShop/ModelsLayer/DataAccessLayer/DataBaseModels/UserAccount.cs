@@ -1,7 +1,6 @@
-﻿using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BookShop.ModelsLayer.DataBaseLayer.DataBaseModels
+namespace BookShop.ModelsLayer.DataAccessLayer.DataBaseModels
 {
     public class UserAccount
     {

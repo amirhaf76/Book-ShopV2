@@ -1,7 +1,7 @@
-﻿using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
-using BookShop.ModelsLayer.Dtos.AuthorDtos;
+﻿using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.AuthorDtos;
+using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
 
-namespace BookShop.ModelsLayer.DtosExtension
+namespace BookShop.ModelsLayer.BusinessLogicLayer.DtosExtension
 {
     public static class AuthorDtosExtension
     {

@@ -1,4 +1,4 @@
-﻿namespace BookShop.ModelsLayer.GetwayLayer.RequestResponseModels
+﻿namespace BookShop.ModelsLayer.ViewModelLayer.GetwayLayer.RequestResponseModels
 {
     public class UserCreationResponse
     {

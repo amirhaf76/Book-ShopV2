@@ -1,6 +1,6 @@
-﻿using BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction;
-using BookShop.ModelsLayer.Dtos.AuthorDtos;
-using BookShop.ModelsLayer.GetwayLayer.RequestResponseModels;
+﻿using BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction;
+using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.AuthorDtos;
+using BookShop.ModelsLayer.ViewModelLayer.GetwayLayer.RequestResponseModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookShop.Controllers

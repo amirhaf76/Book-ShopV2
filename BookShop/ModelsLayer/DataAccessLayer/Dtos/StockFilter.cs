@@ -1,5 +1,5 @@
-﻿using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
-using BookShop.ModelsLayer.Dtos.FilterDtos;
+﻿using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.FilterDtos;
+using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
 
 namespace BookShop.ModelsLayer.DataAccessLayer.Dtos
 {

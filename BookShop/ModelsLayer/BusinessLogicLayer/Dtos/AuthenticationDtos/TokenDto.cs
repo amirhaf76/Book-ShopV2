@@ -1,4 +1,4 @@
-﻿namespace BookShop.ModelsLayer.Dtos.AuthenticationDtos
+﻿namespace BookShop.ModelsLayer.BusinessLogicLayer.Dtos.AuthenticationDtos
 {
     public class TokenDto
     {

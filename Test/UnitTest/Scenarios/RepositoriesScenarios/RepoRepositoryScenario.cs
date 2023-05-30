@@ -1,6 +1,7 @@
 ﻿using BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction;
 using BookShop.Test.UnitTest.Core.AppConfigModel;
 using BookShop.Test.UnitTest.Core.Scenarios;
+using BookShop.Test.UnitTest.Core.Scenarios.CollectionAndTestCaseOrders;
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 using Xunit.Extensions.Ordering;

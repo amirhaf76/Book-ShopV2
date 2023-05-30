@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BookShop.ModelsLayer.DataBaseLayer.DataBaseModels
+namespace BookShop.ModelsLayer.DataAccessLayer.DataBaseModels
 {
     public class ZipCode
     {

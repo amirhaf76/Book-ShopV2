@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction
+namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction
 {
     public interface IBaseRepository<TEntity> : IDisposable where TEntity : class
     {

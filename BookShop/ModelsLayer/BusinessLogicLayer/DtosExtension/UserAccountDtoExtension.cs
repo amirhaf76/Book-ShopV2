@@ -1,7 +1,7 @@
-﻿using BookShop.ModelsLayer.Dtos.UserAccountDtos;
-using BookShop.ModelsLayer.GetwayLayer.RequestResponseModels;
+﻿using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.UserAccountDtos;
+using BookShop.ModelsLayer.ViewModelLayer.GetwayLayer.RequestResponseModels;
 
-namespace BookShop.ModelsLayer.DtosExtension
+namespace BookShop.ModelsLayer.BusinessLogicLayer.DtosExtension
 {
     public static class UserAccountDtoExtension
     {

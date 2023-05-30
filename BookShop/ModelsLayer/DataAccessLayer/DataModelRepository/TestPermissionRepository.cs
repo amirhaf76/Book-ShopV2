@@ -1,7 +1,5 @@
 ﻿using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
-using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
-using BookShop.ModelsLayer.DataBaseLayer.DataModelRepository;
-using BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts;
+using BookShop.ModelsLayer.DataAccessLayer.DbContexts.BookShopDbContexts;
 using Infrastructure.AutoFac.FlagInterface;
 using Microsoft.EntityFrameworkCore;
 

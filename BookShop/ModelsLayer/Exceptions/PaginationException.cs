@@ -1,4 +1,4 @@
-﻿using BookShop.ModelsLayer.Dtos.FilterDtos;
+﻿using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.FilterDtos;
 
 namespace BookShop.ModelsLayer.Exceptions
 {

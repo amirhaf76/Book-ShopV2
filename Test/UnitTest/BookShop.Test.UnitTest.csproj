@@ -34,7 +34,7 @@
 
 
   <ItemGroup>
-    <None Update="appconfigs.json">
+    <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="xunit.runner.json">

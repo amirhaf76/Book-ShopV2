@@ -1,6 +1,6 @@
-﻿using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
+﻿using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
 
-namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction
+namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction
 {
     public interface IUserAccountRepository : IBaseRepository<UserAccount>
     {

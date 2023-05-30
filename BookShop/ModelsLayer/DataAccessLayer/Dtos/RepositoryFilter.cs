@@ -1,5 +1,4 @@
-﻿using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
-using BookShop.ModelsLayer.Dtos.FilterDtos;
+﻿using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.FilterDtos;
 
 namespace BookShop.ModelsLayer.DataAccessLayer.Dtos
 {
@@ -20,18 +19,5 @@ namespace BookShop.ModelsLayer.DataAccessLayer.Dtos
 
         public int? AddressId { get; set; }
 
-    }
-
-    public class ReservationFilter
-    {
-        public int Id { get; set; }
-
-        public DateTime LastChange { get; set; }
-
-        public DateTime? ComfirmationTime { get; set; }
-
-        public ReservationStatus Status { get; set; }
-
-        public int UserAccountId { get; set; }
     }
 }

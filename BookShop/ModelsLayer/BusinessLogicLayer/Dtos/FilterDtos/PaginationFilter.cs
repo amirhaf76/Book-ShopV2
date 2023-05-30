@@ -1,6 +1,6 @@
 ﻿using BookShop.ModelsLayer.Exceptions;
 
-namespace BookShop.ModelsLayer.Dtos.FilterDtos
+namespace BookShop.ModelsLayer.BusinessLogicLayer.Dtos.FilterDtos
 {
     public class PaginationFilter
     {

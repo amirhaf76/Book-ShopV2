@@ -1,6 +1,6 @@
 ﻿using BookShop.ModelsLayer.Exceptions;
 
-namespace BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction
+namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction
 {
     public interface IExceptionCaseService
     {

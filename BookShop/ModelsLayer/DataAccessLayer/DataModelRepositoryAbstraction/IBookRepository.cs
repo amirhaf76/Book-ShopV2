@@ -1,8 +1,8 @@
-﻿using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
-using BookShop.ModelsLayer.Dtos.BookDtos;
-using BookShop.ModelsLayer.Dtos.FilterDtos;
+﻿using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.BookDtos;
+using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.FilterDtos;
+using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
 
-namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction
+namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction
 {
     public interface IBookRepository : IBaseRepository<Book>
     {

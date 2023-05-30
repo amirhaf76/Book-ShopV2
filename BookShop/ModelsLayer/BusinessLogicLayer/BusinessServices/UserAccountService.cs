@@ -1,11 +1,11 @@
-﻿using BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction;
-using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
-using BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction;
-using BookShop.ModelsLayer.Dtos.UserAccountDtos;
+﻿using BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction;
+using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.UserAccountDtos;
+using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
+using BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction;
 using Infrastructure.AutoFac.FlagInterface;
 using Microsoft.AspNetCore.Identity;
 
-namespace BookShop.ModelsLayer.BusinessLayer.BusinessServices
+namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServices
 {
     public class UserAccountService : IUserAccountService, IScope
     {

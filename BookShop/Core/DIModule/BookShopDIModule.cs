@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts;
+using BookShop.ModelsLayer.DataAccessLayer.DbContexts.BookShopDbContexts;
 using Infrastructure.AutoFac;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;

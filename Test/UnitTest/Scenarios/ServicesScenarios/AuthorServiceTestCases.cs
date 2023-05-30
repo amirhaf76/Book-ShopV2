@@ -1,12 +1,14 @@
 using Autofac;
 using Autofac.Extras.Moq;
-using BookShop.ModelsLayer.BusinessLayer.BusinessServices;
-using BookShop.ModelsLayer.BusinessLayer.BusinessServicesAbstraction;
-using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
-using BookShop.ModelsLayer.DataBaseLayer.DataModelRepository;
-using BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction;
+using BookShop.ModelsLayer.BusinessLogicLayer.BusinessServices;
+using BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction;
+using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.AuthorDtos;
+using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
+using BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction;
 using BookShop.Test.UnitTest.Core.AppConfigModel;
 using BookShop.Test.UnitTest.Core.Scenarios;
+using BookShop.Test.UnitTest.Core.Scenarios.CollectionAndTestCaseOrders;
+using BookShop.Test.UnitTest.Core.Scenarios.TestCollections;
 using BookShop.Test.UnitTest.SettingsModels;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -14,7 +16,7 @@ using Moq;
 using Xunit.Abstractions;
 using Xunit.Extensions.Ordering;
 
-namespace BookShop.Test.UnitTest.Scenarios
+namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 {
     [Order((int)DefaultTestCollectionScenarioOrder.AuthorServiceTestCases)]
     [Collection(nameof(ServiceTestCollection))]
@@ -44,7 +46,7 @@ namespace BookShop.Test.UnitTest.Scenarios
 
             var authorService = mock.Create<IAuthorService>();
 
-            var newAuthor = new ModelsLayer.Dtos.AuthorDtos.AuthorDto
+            var newAuthor = new AuthorDto
             {
                 Id = 4,
                 FirstName = "TestUser",
@@ -79,7 +81,7 @@ namespace BookShop.Test.UnitTest.Scenarios
 
             var authorService = mock.Create<IAuthorService>();
 
-            var newAuthor = new ModelsLayer.Dtos.AuthorDtos.AuthorDto
+            var newAuthor = new AuthorDto
             {
                 Id = 2,
                 FirstName = "TestUser3",

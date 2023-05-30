@@ -1,9 +1,8 @@
 ﻿using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
-using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
 using Infrastructure.AutoFac.FlagInterface;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts
+namespace BookShop.ModelsLayer.DataAccessLayer.DbContexts.BookShopDbContexts
 {
     public sealed class BookShopDbContext : DbContext, IBookShopDbContext, IScope
     {
@@ -15,7 +14,7 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DbContexts.BookShopDbContexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-          
+
         }
 
 

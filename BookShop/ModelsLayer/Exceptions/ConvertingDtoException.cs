@@ -1,4 +1,4 @@
-﻿namespace BookShop.ModelsLayer.DtosExtension
+﻿namespace BookShop.ModelsLayer.Exceptions
 {
     public class ConvertingDtoException<TFrom, TTo> : Exception
     {

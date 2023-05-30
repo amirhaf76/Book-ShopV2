@@ -1,12 +1,12 @@
-﻿using BookShop.ModelsLayer.DataBaseLayer.DataBaseModels;
-using BookShop.ModelsLayer.DataBaseLayer.DataModelRepositoryAbstraction;
-using BookShop.ModelsLayer.Dtos.BookDtos;
-using BookShop.ModelsLayer.Dtos.FilterDtos;
-using BookShop.ModelsLayer.DtosExtension;
+﻿using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.BookDtos;
+using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.FilterDtos;
+using BookShop.ModelsLayer.BusinessLogicLayer.DtosExtension;
+using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
+using BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction;
 using Infrastructure.AutoFac.FlagInterface;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
+namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
 {
     public class BookRepository : BaseRepository<Book>, IBookRepository, IScope
     {
@@ -45,7 +45,7 @@ namespace BookShop.ModelsLayer.DataBaseLayer.DataModelRepository
 
             if (bookFilterDto.Title != null)
             {
-                queryable = queryable.Where(q => EF.Functions.Like(q.Title,$"%{bookFilterDto.Title}%"));
+                queryable = queryable.Where(q => EF.Functions.Like(q.Title, $"%{bookFilterDto.Title}%"));
             }
 
             if (bookFilterDto.PublishedYear != null)

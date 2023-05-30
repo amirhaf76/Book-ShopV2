@@ -1,5 +1,5 @@
-﻿using BookShop.ModelsLayer.Dtos.BookDtos;
-using BookShop.ModelsLayer.GetwayLayer.RequestResponseModels;
+﻿using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.BookDtos;
+using BookShop.ModelsLayer.ViewModelLayer.GetwayLayer.RequestResponseModels;
 
 namespace BookShop.ModelsLayer.ViewModelLayer.VMExtension
 {

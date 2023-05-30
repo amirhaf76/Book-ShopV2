@@ -1,4 +1,4 @@
-﻿namespace BookShop.Test.UnitTest.Core.Scenarios
+﻿namespace BookShop.Test.UnitTest.Core.Scenarios.CollectionAndTestCaseOrders
 {
     public enum DefaultTestCollectionScenarioOrder
     {
