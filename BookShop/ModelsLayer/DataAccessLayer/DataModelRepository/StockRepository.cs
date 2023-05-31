@@ -18,6 +18,35 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
 
         public async Task<IEnumerable<Stock>> GetStocksAsync(StockFilter stockFilter)
         {
+            IQueryable<Stock> queryable = GetstocksWithoutLoading(stockFilter);
+
+            return await queryable.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Stock>> GetStocksCompletlyAsync()
+        {
+            return await GetStocksCompletlyAsync(new StockFilter());
+        }
+
+        public async Task<IEnumerable<Stock>> GetStocksCompletlyAsync(StockFilter stockFilter)
+        {
+            IQueryable<Stock> queryable = GetstocksWithoutLoading(stockFilter);
+
+            return await queryable.Select(s => new Stock
+            {
+                StockId = s.StockId,
+                RepositoryId = s.RepositoryId,
+                Repository = s.Repository,
+                BookId = s.BookId,
+                Book = s.Book,
+                ReservationId = s.ReservationId,
+                Reservation = s.Reservation,
+                Status = s.Status,
+            }).ToListAsync();
+        }
+
+        private IQueryable<Stock> GetstocksWithoutLoading(StockFilter stockFilter)
+        {
             var queryable = _dbSet.AsQueryable();
 
             if (stockFilter.RepositoryIds.Any())
@@ -49,10 +78,9 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
 
             queryable = stockFilter.Pagination.AddPaginationTo(sortedQueryable);
 
-            return await queryable.ToListAsync();
+            return queryable;
         }
 
-        
     }
 
 }

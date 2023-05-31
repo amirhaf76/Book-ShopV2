@@ -6,9 +6,9 @@ using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.AuthorDtos;
 using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
 using BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction;
 using BookShop.Test.UnitTest.Core.AppConfigModel;
+using BookShop.Test.UnitTest.Core.MockRepositoryPattern;
 using BookShop.Test.UnitTest.Core.Scenarios;
 using BookShop.Test.UnitTest.Core.Scenarios.CollectionAndTestCaseOrders;
-using BookShop.Test.UnitTest.Core.Scenarios.TestCollections;
 using BookShop.Test.UnitTest.SettingsModels;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -18,8 +18,8 @@ using Xunit.Extensions.Ordering;
 
 namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 {
-    [Order((int)DefaultTestCollectionScenarioOrder.AuthorServiceTestCases)]
-    [Collection(nameof(ServiceTestCollection))]
+    [Order((int)ServiceTestCollectionScenarioOrder.AuthorServiceTestCases)]
+    [Collection(nameof(CollectionTestOrder.Service))]
     public class AuthorServiceTestCases : BaseTestCaseScenario
     {
         private readonly DelaySettings _delaySettings;

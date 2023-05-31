@@ -16,6 +16,10 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
             _dbSet = _dbContexts.Set<TEntity>();
         }
 
+        public TEntity Attach(TEntity entity)
+        {
+            return _dbSet.Attach(entity).Entity;
+        }
 
         public TEntity Find(params object[] keyValues)
         {

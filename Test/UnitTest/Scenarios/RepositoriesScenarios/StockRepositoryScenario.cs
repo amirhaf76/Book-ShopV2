@@ -27,17 +27,37 @@ namespace BookShop.Test.UnitTest.Scenarios.RepositoriesScenarios
         [Fact]
         public async Task TestSampleTestCase()
         {
+            var stocks = new Stock[]
+            {
+                new Stock
+                {
+                    BookId = 12,
+                    RepositoryId = 1,
+                    Status = StockStatus.New,
+                },
+                new Stock
+                {
+                    BookId = 12,
+                    RepositoryId = 1,
+                    Status = StockStatus.New,
+                },
+            };
+
+            await _stockRepository.AddRangeAsync(stocks);
+
+            var addedStockCount = await _stockRepository.SaveChangesAsync();
+
             var stock = await _stockRepository.GetStocksAsync(new StockFilter
             {
-                StockIds = new long[] { 1L, 2L }
+                StockIds = stocks.Select(x => x.StockId),
             });
 
             stock.Should().HaveCount(2);
-            stock.Should().BeEquivalentTo(new[]
+
+            stock.Should().BeEquivalentTo(stocks.Select(x => new
             {
-                new { StockId = 1L },
-                new { StockId = 2L },
-            });
+                x.StockId
+            }));
         }
 
         [Fact]
@@ -53,6 +73,32 @@ namespace BookShop.Test.UnitTest.Scenarios.RepositoriesScenarios
             await _stockRepository.SaveChangesAsync();
 
             stock.StockId.Should().NotBe(default);
+        }
+
+        [Fact]
+        public async Task TestSampleTestCase3()
+        {
+            var stocks = new Stock[]
+            {
+                new Stock
+                {
+                    BookId = 12,
+                    RepositoryId = 1,
+                    Status = StockStatus.New,
+                },
+                new Stock
+                {
+                    BookId = 12,
+                    RepositoryId = 1,
+                    Status = StockStatus.New,
+                },
+            };
+
+            await _stockRepository.AddRangeAsync(stocks);
+
+            var addedStockCount = await _stockRepository.SaveChangesAsync();
+
+            addedStockCount.Should().Be(stocks.Length);
         }
     }
 

@@ -8,7 +8,9 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
     public class TestPermissionRepository : BaseRepository<Permission>, IScope
     {
         private readonly ILogger<TestPermissionRepository> _logger;
+
         private static BookShopDbContext _dbContext;
+
 
         public TestPermissionRepository(ILogger<TestPermissionRepository> logger, IConfiguration configuration) :
             base(CreateDbContext(configuration))
@@ -16,12 +18,17 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
             _logger = logger;
         }
 
+
         private static BookShopDbContext CreateDbContext(IConfiguration configuration)
         {
-            _dbContext = new BookShopDbContext(new DbContextOptionsBuilder<BookShopDbContext>().UseSqlServer(configuration.GetConnectionString("BookShopDB") ?? throw new InvalidOperationException("Connection string 'BookShopDB' not found.")).Options);
+            var option = new DbContextOptionsBuilder<BookShopDbContext>().UseSqlServer(configuration.GetConnectionString("BookShopDB") ??
+                    throw new InvalidOperationException("Connection string 'BookShopDB' not found.")).Options;
+
+            _dbContext = new BookShopDbContext(option);
 
             return _dbContext;
         }
+
 
         public async Task SingleVsFirst()
         {
@@ -90,13 +97,6 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
             // ',N'@p1 int, @p0 nvarchar(4000)',@p1=5,@p0=N'Updated_permission_1'
         }
 
-        public async Task TestEF()
-        {
-            var data = await _dbContext.AddAsync(new Permission() { Id = 7, Name = "Permission_2" });
-            _logger.LogDebug("{@data}", data.Entity);
-
-            _dbContext.SaveChanges();
-        }
 
         public void TestUpdate(Permission permission)
         {
@@ -127,7 +127,6 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
                 .ExecuteUpdate(setter => setter.SetProperty(p => p.Name, "Hello"));
         }
 
-
         public void CheckProjectAutors()
         {
             var booksWithGetAll = _dbContext.Set<Book>().ToList();
@@ -146,6 +145,15 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
 
             var booksWithoutGetAll = _dbContext.Set<Book>().Select(x => x.Title).ToList();
             _logger.LogDebug("{@books}", booksWithoutGetAll);
+        }
+
+
+        public async Task TestEF()
+        {
+            var data = await _dbContext.AddAsync(new Permission() { Id = 7, Name = "Permission_2" });
+            _logger.LogDebug("{@data}", data.Entity);
+
+            _dbContext.SaveChanges();
         }
 
         public async Task TestEF2()
@@ -335,6 +343,7 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
 
             await query.ToListAsync();
         }
+
         public async Task TestEF14()
         {
             var permission = await _dbSet.FirstOrDefaultAsync();
@@ -360,6 +369,40 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
             await Task.CompletedTask;
         }
 
+        public async Task TestEF16()
+        {
+            var tracker = _dbContext.ChangeTracker;
+
+            var t = new Book
+            {
+                Id = 12, Title = "Tesing Ef", Pages = 12,
+            };
+
+            var temp = _dbContext.Set<Book>().Attach(t);
+
+            t.Title = "dfsfsd";
+
+            await _dbContext.SaveChangesAsync();
+
+            await Task.CompletedTask;
+        }
+
+        public async Task TestEF17()
+        {
+
+            var temp = _dbContext.Set<Stock>().Select(x => new Stock
+            {
+                StockId = x.StockId,
+                Book = x.Book,
+                Repository = x.Repository,
+                Reservation = x.Reservation
+            }).ToList();
+
+
+  
+
+            await Task.CompletedTask;
+        }
 
     }
 

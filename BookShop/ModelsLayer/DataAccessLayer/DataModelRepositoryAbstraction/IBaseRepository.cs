@@ -6,6 +6,8 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction
     {
         TEntity Find(params object[] keyValues);
 
+        TEntity Attach(TEntity entity);
+
         TEntity Add(TEntity entity);
 
         TEntity Remove(TEntity entity);

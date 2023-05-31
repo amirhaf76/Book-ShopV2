@@ -6,17 +6,7 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.DtosExtension
 {
     public static class RepositoryDtoExtension
     {
-        public static RepositoryFilter ConvertToRepositoryFilter(this GettingStockBookFilter filter)
-        {
-            return new RepositoryFilter
-            {
-                AddressId = filter.AddressId,
-                Id = filter.Id,
-                IsEnable = filter.IsEnable,
-                Name = filter.Name,
-                Pagination = filter.Pagination?.ConvertToPaginationFilter(),
-            };
-        }
+
 
         public static RepositoryFilter ConvertToRepositoryFilter(this GettingRepositoriesFilter filter)
         {
@@ -26,7 +16,7 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.DtosExtension
                 Id = filter.Id,
                 IsEnable = filter.IsEnable,
                 Name = filter.Name,
-                Pagination = filter.Pagination?.ConvertToPaginationFilter(),
+                Pagination = filter.Pagination?.ConvertToPaginationFilter() ?? new PaginationFilter(10, 1),
             };
         }
 

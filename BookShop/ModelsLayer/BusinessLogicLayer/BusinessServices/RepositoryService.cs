@@ -48,24 +48,7 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServices
             return await GetRepositoriesAsync(new GettingRepositoriesFilter());
         }
 
-        public async Task<IEnumerable<StockBookResultDto>> GetStockBookAsync(GettingStockBookFilter filter)
-        {
-            var receivedStocks = await _repoRepository.GetRepositoriesWithTheirStocksAsync(filter.ConvertToRepositoryFilter());
-
-            return receivedStocks.SelectMany(r => r.ConvertToStockBookResultDtos());
-        }
-
-        public async Task<IEnumerable<StockBookResultDto>> GetStockBookAsync()
-        {
-            return await GetStockBookAsync(new GettingStockBookFilter());
-        }
-
-        public Task<BookReductionResultDto> ReduceBookAsync(BookReductionDto aBook)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<RemovalRespositoryResultDto> ChangeRepositoryActivation(RemovalRespositoryDto removalRepository)
+        public async Task<RemovalRespositoryResultDto> ChangeRepositoryActivationAsync(RemovalRespositoryDto removalRepository)
         {
             var theRepository = _repoRepository.ChangeRepositoryActivation(removalRepository.Id, removalRepository.IsEnable);
 
@@ -74,26 +57,5 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServices
             return theRepository.ConvertToRemovalRespositoryResultDto();
         }
 
-        public async Task<StockingBookResultDto> StockBookAsync(StockingBookDto stockingBookDto)
-        {
-            var theRepository = await _repoRepository.FindAsync(stockingBookDto.RepositoryId);
-
-            theRepository.Stocks.Add(new Stock
-            {
-                BookId = stockingBookDto.BookId,
-                RepositoryId = theRepository.Id,
-                Status = StockStatus.New,
-            });
-
-            await _repoRepository.SaveChangesAsync();
-
-            var addedStock = theRepository.Stocks.FirstOrDefault();
-
-            return new StockingBookResultDto
-            {
-                BookId = addedStock.BookId,
-                StockId = addedStock.StockId,
-            };
-        }
     }
 }

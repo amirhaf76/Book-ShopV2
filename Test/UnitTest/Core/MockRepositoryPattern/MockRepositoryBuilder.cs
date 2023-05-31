@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Moq;
 
-namespace BookShop.Test.UnitTest.Scenarios
+namespace BookShop.Test.UnitTest.Core.MockRepositoryPattern
 {
     public class MockRepositoryBuilder<TKey, TEntity> where TEntity : class
     {
@@ -17,11 +17,6 @@ namespace BookShop.Test.UnitTest.Scenarios
             _generateKey = generateKey;
             _setKey = setKey;
             _mapTable = mapTable;
-        }
-
-        public MockRepositoryBuilder()
-        {
-
         }
 
         public Mock<TRepository> CreateMockBaseRepository<TRepository>()
@@ -121,12 +116,12 @@ namespace BookShop.Test.UnitTest.Scenarios
 
         public EntityEntry<TEntity> AddEntry(TEntity entity)
         {
-            if(_getKey(entity).Equals(default(TKey)))
+            if (!_mapTable.ContainsKey(_getKey(entity)))
             {
                 _setKey(_generateKey(), entity);
-            }
 
-            _mapTable.Add(_getKey(entity), entity);
+                _mapTable.Add(_getKey(entity), entity);
+            }
 
             return CreateEntityEntry(entity);
         }

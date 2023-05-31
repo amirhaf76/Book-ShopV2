@@ -2,6 +2,8 @@
 {
     public enum CollectionTestOrder
     {
+        Default,
+        Package,
         Repository,
         Service,
     }

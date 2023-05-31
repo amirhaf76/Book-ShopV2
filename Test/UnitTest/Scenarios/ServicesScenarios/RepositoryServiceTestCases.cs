@@ -8,6 +8,7 @@ using BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction;
 using BookShop.ModelsLayer.DataAccessLayer.Dtos;
 using BookShop.ModelsLayer.Exceptions;
 using BookShop.Test.UnitTest.Core.AppConfigModel;
+using BookShop.Test.UnitTest.Core.MockRepositoryPattern;
 using BookShop.Test.UnitTest.Core.Scenarios;
 using BookShop.Test.UnitTest.Core.Scenarios.CollectionAndTestCaseOrders;
 using FluentAssertions;
@@ -18,13 +19,13 @@ using Xunit.Extensions.Ordering;
 
 namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 {
-    [Order((int)DefaultTestCollectionScenarioOrder.RepositoryServiceTestCases)]
+    [Order((int)ServiceTestCollectionScenarioOrder.RepositoryServiceTestCases)]
     [Collection(nameof(CollectionTestOrder.Service))]
     public class RepositoryServiceTestCases : BaseTestCaseScenario
     {
         private readonly ILogger<RepositoryServiceTestCases> _logger;
 
-        private int _primaryKey = 2;
+        private int _primaryKey = 4;
         private readonly Dictionary<int, Repository> _repositoryTable = new Dictionary<int, Repository>
         {
             { 1,  new Repository { Id = 1, Name = "Repository_1.1", IsEnable = true } },
@@ -38,204 +39,188 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
         }
 
         [Fact]
-        public async Task StockBook_AnUnRecordedInstanceBook_TheBookMustBeAddedSuccessfully()
-        {
-            using var mock = AutoMock.GetStrict(builder => RegisterRepositoryServiceAndItsDependencies(builder));
-
-            var repositoryService = mock.Create<IRepositoryService>();
-
-            var aBook = MakeStockingDtoForUnavailableBook();
-
-            var additionAction = async () => await repositoryService.StockBookAsync(aBook);
-
-            var additionResult = await additionAction.Should().NotThrowAsync();
-
-            additionResult.Subject.StockId.Should().NotBe(default);
-        }
-
-        [Fact]
-        public async Task StockBook_AnRecordedInstanceBook_MustNotBeAddedNewRecordAndSameCountAsBefore()
-        {
-            using var mock = AutoMock.GetStrict(builder => RegisterRepositoryServiceAndItsDependencies(builder));
-
-            var repositoryService = mock.Create<IRepositoryService>();
-
-            var aBook = MakeStockingDtoForAvailableBook();
-
-            var stockedBookId = GetStockIdOfAvailableBook();
-
-            var additionAction = async () => await repositoryService.StockBookAsync(aBook);
-
-            var additionResult = await additionAction.Should().NotThrowAsync();
-
-            additionResult.Subject.StockId.Should().Be(stockedBookId);
-        }
-
-        [Fact]
-        public async Task RemoveBook_AnRecordedInstanceBook_TheBookMustBeRemovedSuccessfully()
-        {
-            using var mock = AutoMock.GetStrict(builder => RegisterRepositoryServiceAndItsDependencies(builder));
-
-            var repositoryService = mock.Create<IRepositoryService>();
-
-            var aBook = MakeReductionDtoForAvailableBooks();
-
-            var reductionAction = async () => await repositoryService.ReduceBookAsync(aBook);
-
-            var reductionResult = await reductionAction.Should().NotThrowAsync();
-
-            reductionResult.Subject.ReducedQuantity.Should().BeEquivalentTo(aBook.StockIds);
-        }
-
-        [Fact]
-        public async Task RemoveBook_AnUnRecordedInstanceBook_AnRelatedExceptionMustBeThrow()
-        {
-            using var mock = AutoMock.GetStrict(builder => RegisterRepositoryServiceAndItsDependencies(builder));
-
-            var repositoryService = mock.Create<IRepositoryService>();
-
-            var aBook = MakeReductionDtoForAvailableBooksAndAnUnavailableBook();
-
-            var reductionAction = async () => await repositoryService.ReduceBookAsync(aBook);
-
-            var reductionResult = await reductionAction.Should().ThrowAsync<StockedBookNotFoundException>();
-        }
-
-        [Fact]
-        public async Task GetBooks_WithoutFilter_AllBooksMustBeReceived()
-        {
-            using var mock = AutoMock.GetStrict(builder => RegisterRepositoryServiceAndItsDependencies(builder));
-
-            var repositoryService = mock.Create<IRepositoryService>();
-
-            var gettingStockBooksAction = async () => await repositoryService.GetStockBookAsync();
-
-            var gettingStockBooksResult = await gettingStockBooksAction.Should().NotThrowAsync();
-
-            gettingStockBooksResult.Subject.Should().BeEquivalentTo(GetAllMockStockBook());
-        }
-
-        [Fact]
-        public async Task GetBooks_ByAnAvailableBookId_TheBookWithAllItsInstanceMustBeReceivedSuccessfully()
-        {
-            using var mock = AutoMock.GetStrict(builder => RegisterRepositoryServiceAndItsDependencies(builder));
-
-            var repositoryService = mock.Create<IRepositoryService>();
-
-            var gettingStockBooksResult = await repositoryService.GetStockBookAsync(MakeFilterDtoForStockedBookBaseOnBookId());
-
-            gettingStockBooksResult.Should().BeEquivalentTo(GetAllStockBooksOfSpecificBook());
-        }
-
-        [Fact]
-        public async Task GetBooks_ByAnUnavailableBookId_AnEmptyCollectionMustBeReceived()
-        {
-            using var mock = AutoMock.GetStrict(builder => RegisterRepositoryServiceAndItsDependencies(builder));
-
-            var repositoryService = mock.Create<IRepositoryService>();
-
-            var gettingStockBooksResult = await repositoryService.GetStockBookAsync(MakeFilterDtoForStockedBookBaseOnUnavailableBookId());
-
-            gettingStockBooksResult.Should().BeEmpty();
-        }
-
-        [Fact]
-        public async Task GetBooks_ByAnAvailableStockedBookId_TheStockedBookMustBeReceivedSuccessfull()
-        {
-            using var mock = AutoMock.GetStrict(builder => RegisterRepositoryServiceAndItsDependencies(builder));
-
-            var repositoryService = mock.Create<IRepositoryService>();
-
-            var gettingStockBooksAction = async () => await repositoryService.GetStockBookAsync(MakeFilterDtoForStockedBookBaseOnStockBookId());
-
-            var gettingStockBooksResult = await gettingStockBooksAction.Should().NotThrowAsync();
-
-            gettingStockBooksResult.Subject.Should().BeEquivalentTo(GetTheStockBooks());
-        }
-
-        [Fact]
-        public async Task GetBooks_ByAnUnavailableStockedBookId_AnEmptyCollectionMustBeReceived()
-        {
-            using var mock = AutoMock.GetStrict(builder => RegisterRepositoryServiceAndItsDependencies(builder));
-
-            var repositoryService = mock.Create<IRepositoryService>();
-
-            var gettingStockBooksAction = async () => await repositoryService.GetStockBookAsync(MakeFilterDtoForStockedBookBaseOnUnavailableStockBookId());
-
-            var gettingStockBooksResult = await gettingStockBooksAction.Should().NotThrowAsync();
-
-            gettingStockBooksResult.Subject.Should().BeEmpty();
-        }
-
-        [Fact]
         public async Task GetRepositories_WithoutFilter_AllRepositoriesMustBeReceived()
         {
-            using var mock = AutoMock.GetStrict(builder => RegisterRepositoryServiceAndItsDependencies(builder));
+            // Arrangement.
+            var repositoryTable = new List<Repository>
+            {
+                new Repository { Id = 1, Name = "Repository_1.1", IsEnable = true },
+                new Repository { Id = 2, Name = "Repository_1.2", IsEnable = false },
+                new Repository { Id = 3, Name = "Repository_1.3", IsEnable = true },
+            };
+
+            using var mock = AutoMock.GetStrict(builder =>
+            {
+                var repositoryMock = new Mock<IRepoRepository>();
+
+                repositoryMock
+                    .Setup(x => x.GetRepositoriesAsync(It.IsAny<RepositoryFilter>()))
+                    .ReturnsAsync(() => repositoryTable);
+
+                builder.RegisterMock(repositoryMock);
+
+                builder
+                    .RegisterType<RepositoryService>()
+                    .As<IRepositoryService>();
+            });
 
             var repositoryService = mock.Create<IRepositoryService>();
 
-            var gettingRepositoriesAction = async () => await repositoryService.GetRepositoriesAsync();
+            // Action.
+            var gettingRepositoriesResult = await repositoryService.GetRepositoriesAsync();
 
-            var gettingRepositoriesResult = await gettingRepositoriesAction.Should().NotThrowAsync();
-
-            gettingRepositoriesResult.Subject.Should().BeEquivalentTo(GetTheRepositories());
+            // Assertion.
+            gettingRepositoriesResult.Should().BeEquivalentTo(repositoryTable.Select(x => new
+            {
+                x.Id,
+                x.Name,
+                x.IsEnable,
+                x.AddressId
+            }));
         }
 
         [Fact]
         public async Task GetRepositories_ByAnAvailableRepositoryId_TheRepositoryMustBeReceivedSuccessfully()
         {
-            using var mock = AutoMock.GetStrict(builder => RegisterRepositoryServiceAndItsDependencies(builder));
+            // Arrangement
+            const int AVAILABLE_ID = 1;
+
+            var repositoryTable = new List<Repository>
+            {
+                new Repository { Id = AVAILABLE_ID, Name = "Repository_1.1", IsEnable = true },
+                new Repository { Id = 2, Name = "Repository_1.2", IsEnable = true },
+            };
+
+            using var mock = AutoMock.GetStrict(builder =>
+            {
+                var repositoryMock = new Mock<IRepoRepository>();
+
+                repositoryMock
+                    .Setup(x => x.GetRepositoriesAsync(It.IsAny<RepositoryFilter>()))
+                    .ReturnsAsync((RepositoryFilter filter) => repositoryTable.Where(x => x.Id == filter.Id ));
+
+                builder.RegisterMock(repositoryMock);
+
+                builder
+                    .RegisterType<RepositoryService>()
+                    .As<IRepositoryService>();
+            });
 
             var repositoryService = mock.Create<IRepositoryService>();
 
-            var gettingRepositoriesResult = await repositoryService.GetRepositoriesAsync(MakeFilterDtoForGettingRepositoriesBaseOnRepositoryId());
+            var repositoryFilter = new GettingRepositoriesFilter
+            {
+                Id = AVAILABLE_ID,
+            };
 
-            gettingRepositoriesResult.Should().BeEquivalentTo(GetTheRepositories());
+            // Action.
+            var gettingRepositoriesResult = await repositoryService.GetRepositoriesAsync(repositoryFilter);
+
+            // Assertion.
+            gettingRepositoriesResult.Should().BeEquivalentTo(new []
+            {
+                new RepositoryResult { Id = 1, Name = "Repository_1.1", IsEnable = true, AddressId = null, }
+            });
         }
 
         [Fact]
         public async Task GetRepositories_ByAnUnavailableRepositoryId_AnEmptyCollectionMustBeReceived()
         {
-            using var mock = AutoMock.GetStrict(builder => RegisterRepositoryServiceAndItsDependencies(builder));
+            // Arrangement
+            const int UNAVAILABLE_ID = 50;
+
+            var repositoryTable = new List<Repository>
+            {
+                new Repository { Id = 1, Name = "Repository_1.1", IsEnable = true },
+                new Repository { Id = 2, Name = "Repository_1.2", IsEnable = true },
+            };
+
+            using var mock = AutoMock.GetStrict(builder =>
+            {
+                var repositoryMock = new Mock<IRepoRepository>();
+
+                repositoryMock
+                    .Setup(x => x.GetRepositoriesAsync(It.IsAny<RepositoryFilter>()))
+                    .ReturnsAsync((RepositoryFilter filter) => repositoryTable.Where(x => x.Id == filter.Id));
+
+                builder.RegisterMock(repositoryMock);
+
+                builder
+                    .RegisterType<RepositoryService>()
+                    .As<IRepositoryService>();
+            });
 
             var repositoryService = mock.Create<IRepositoryService>();
 
-            var gettingRepositoriesResult = await repositoryService.GetRepositoriesAsync(MakeFilterDtoForGettingRepositoriesBaseOnUnavailableRepositoryId());
+            var repositoryFilter = new GettingRepositoriesFilter
+            {
+                Id = UNAVAILABLE_ID,
+            };
 
+            // Action.
+            var gettingRepositoriesResult = await repositoryService.GetRepositoriesAsync(repositoryFilter);
+
+            // Assertion.
             gettingRepositoriesResult.Should().BeEmpty();
         }
 
         [Fact]
-        public async Task AddRepository_AnUnRecordedRepository_TheRepositoryMustBeAddedSuccessfully()
+        public async Task AddRepository_NormalInformationRepository_TheRepositoryMustBeAddedSuccessfully()
         {
-            using var mock = AutoMock.GetStrict(builder => RegisterRepositoryServiceAndItsDependencies(builder));
+            // Arrangement
+            const int NEW_ID = 3;
+
+            var repositoryTable = new List<Repository>
+            {
+                new Repository { Id = 1, Name = "Repository_1.1", IsEnable = true },
+                new Repository { Id = 2, Name = "Repository_1.2", IsEnable = false },
+            };
+
+            var currentTableCount = repositoryTable.Count;
+
+            using var mock = AutoMock.GetStrict(builder =>
+            {
+                var repositoryMock = new Mock<IRepoRepository>();
+
+                repositoryMock
+                    .Setup(x => x.AddAsync(It.IsAny<Repository>()))
+                    .Callback((Repository repository) =>
+                    {
+                        repository.Id = NEW_ID;
+
+                        repositoryTable.Add(repository);
+                    })
+                    .ReturnsAsync((Repository repository) => repository);
+
+                builder.RegisterMock(repositoryMock);
+
+                builder
+                    .RegisterType<RepositoryService>()
+                    .As<IRepositoryService>();
+            });
 
             var repositoryService = mock.Create<IRepositoryService>();
 
-            var aRepository = MakeRecordingRepositoryDtoForUnavailableRepository();
+            var aRepository = new RecordingRepositoryDto
+            {
+                Name = "Repository_1.2",
+                IsEnable = true,
+            };
 
-            var repositoryAdditionAction = async () => await repositoryService.AddRepositoryAsync(aRepository);
+            // Action.
+            var gettingRepositoriesResult = await repositoryService.AddRepositoryAsync(aRepository);
 
-            var repositoryAdditionResult = await repositoryAdditionAction.Should().NotThrowAsync();
+            // Assertion.
+            (repositoryTable.Count - currentTableCount).Should().Be(1);
 
-            repositoryAdditionResult.Subject.Id.Should().NotBe(default);
+            gettingRepositoriesResult.Should().BeEquivalentTo(new
+            {
+                aRepository.Name,
+                aRepository.IsEnable,
+            });
+
         }
 
-        [Fact]
-        public async Task AddRepository_ARecordedRepository_JustReturnRecordedRepositoryInfo()
-        {
-            using var mock = AutoMock.GetStrict(builder => RegisterRepositoryServiceAndItsDependencies(builder));
-
-            var repositoryService = mock.Create<IRepositoryService>();
-
-            var aRepository = MakeRecordingRepositoryDtoForAvailableRepository();
-
-            var repositoryAdditionAction = async () => await repositoryService.AddRepositoryAsync(aRepository);
-
-            var repositoryAdditionResult = await repositoryAdditionAction.Should().NotThrowAsync();
-
-            repositoryAdditionResult.Subject.Should().BeEquivalentTo(GetTheRepository());
-        }
 
         [Fact]
         public async Task RemoveRepository_ARecordedRepository_TheRepositoryMustBeRemovedSuccessfully()
@@ -246,7 +231,7 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 
             var aRepository = MakeRemovalRepositoryDtoForAvailableRepository();
 
-            var repositoryRemovalAction = async () => await repositoryService.ChangeRepositoryActivation(aRepository);
+            var repositoryRemovalAction = async () => await repositoryService.ChangeRepositoryActivationAsync(aRepository);
 
             var repositoryRemovalResult = await repositoryRemovalAction.Should().NotThrowAsync();
 
@@ -262,7 +247,7 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 
             var aRepository = MakeRemovalRepositoryDtoForUnavailableRepository();
 
-            var repositoryRemovalAction = async () => await repositoryService.ChangeRepositoryActivation(aRepository);
+            var repositoryRemovalAction = async () => await repositoryService.ChangeRepositoryActivationAsync(aRepository);
 
             var repositoryRemovalResult = await repositoryRemovalAction.Should().ThrowAsync<RepositoryNotFoundException>();
         }
@@ -280,88 +265,9 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
 
-            mockRepository
-                .Setup(x => x.GetRepositoriesAsync(It.IsAny<RepositoryFilter>()))
-                .ReturnsAsync((RepositoryFilter filter) =>
-                {
-                    return _repositoryTable.Values
-                        .Where(q => q.Id == filter.Id);
-                });
 
-            mockRepository
-                .Setup(x => x.GetRepositoriesWithTheirStocksAsync(It.IsAny<RepositoryFilter>()))
-                .ReturnsAsync((RepositoryFilter filter) =>
-                {
-                    return new[] { _repositoryTable[filter.Id ?? 0] };
-                });
-
-            mockRepository
-                .Setup(x => x.GetRepositoriesWithTheirStocksAsync())
-                .ReturnsAsync(() =>
-                {
-                    return _repositoryTable.Values.AsEnumerable();
-                });
-
-            mockRepository
-                .Setup(x => x.GetRepositoriesAsync())
-                .ReturnsAsync(() =>
-                {
-                    return _repositoryTable.Values.AsEnumerable();
-                });
 
             return builder;
-        }
-
-
-        private static StockingBookDto MakeStockingDtoForUnavailableBook()
-        {
-            return new StockingBookDto
-            {
-
-            };
-        }
-
-        private static StockingBookDto MakeStockingDtoForAvailableBook()
-        {
-            return new StockingBookDto
-            {
-
-            };
-        }
-
-
-        private static BookReductionDto MakeReductionDtoForAvailableBooks()
-        {
-            return new BookReductionDto
-            {
-
-            };
-        }
-
-        private static BookReductionDto MakeReductionDtoForAvailableBooksAndAnUnavailableBook()
-        {
-            return new BookReductionDto
-            {
-
-            };
-        }
-
-
-        private static RecordingRepositoryDto MakeRecordingRepositoryDtoForAvailableRepository()
-        {
-            return new RecordingRepositoryDto
-            {
-
-            };
-        }
-
-        private static RecordingRepositoryDto MakeRecordingRepositoryDtoForUnavailableRepository()
-        {
-            return new RecordingRepositoryDto
-            {
-                Name = "Repository_1",
-                IsEnable = true,
-            };
         }
 
 
@@ -382,102 +288,18 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
         }
 
 
-        private static GettingStockBookFilter MakeFilterDtoForStockedBookBaseOnBookId()
+ 
+
+
+        private object GetTheRepository()
         {
-            return new GettingStockBookFilter
-            {
+            var repository = _repositoryTable[2];
 
-            };
-        }
-
-        private static GettingStockBookFilter MakeFilterDtoForStockedBookBaseOnStockBookId()
-        {
-            return new GettingStockBookFilter
-            {
-
-            };
-        }
-
-        private static GettingStockBookFilter MakeFilterDtoForStockedBookBaseOnUnavailableBookId()
-        {
-            return new GettingStockBookFilter
-            {
-
-            };
-        }
-
-        private static GettingStockBookFilter MakeFilterDtoForStockedBookBaseOnUnavailableStockBookId()
-        {
-            return new GettingStockBookFilter
-            {
-
-            };
-        }
-
-
-        private static GettingRepositoriesFilter MakeFilterDtoForGettingRepositoriesBaseOnRepositoryId()
-        {
-            return new GettingRepositoriesFilter
-            {
-                Id = 1,
-            };
-        }
-
-        private static GettingRepositoriesFilter MakeFilterDtoForGettingRepositoriesBaseOnUnavailableRepositoryId()
-        {
-            return new GettingRepositoriesFilter
-            {
-                Id = 1,
-            };
-        }
-
-
-        private static IEnumerable<object> GetAllMockStockBook()
-        {
-            return new object[]
-            {
-
-            };
-        }
-
-        private static IEnumerable<object> GetAllStockBooksOfSpecificBook()
-        {
-            return new object[]
-            {
-
-            };
-        }
-
-        private static IEnumerable<object> GetTheStockBooks()
-        {
-            return new object[]
-            {
-
-            };
-        }
-
-        private IEnumerable<object> GetTheRepositories()
-        {
-            var value = _repositoryTable[1];
-
-            return new object[]
-            {
-                new { value.Id, value.IsEnable }
-            };
-        }
-
-
-        private static object GetTheRepository()
-        {
             return new
             {
-                Id = 1,
+                repository.Name,
+                repository.IsEnable,
             };
-        }
-
-        private static long GetStockIdOfAvailableBook()
-        {
-            return default;
         }
 
     }

@@ -1,5 +1,4 @@
-﻿using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
-using BookShop.ModelsLayer.DataAccessLayer.DataModelRepository;
+﻿using BookShop.ModelsLayer.DataAccessLayer.DataModelRepository;
 using BookShop.Test.UnitTest.Core.AppConfigModel;
 using BookShop.Test.UnitTest.Core.Scenarios;
 using BookShop.Test.UnitTest.Core.Scenarios.CollectionAndTestCaseOrders;
@@ -11,7 +10,7 @@ using Xunit.Extensions.Ordering;
 namespace BookShop.Test.UnitTest.Scenarios
 {
     [Order((int)DefaultTestCollectionScenarioOrder.EntityFrameWorkTesting)]
-    [Collection(nameof(CollectionTestOrder.Repository))]
+    [Collection(nameof(CollectionTestOrder.Default))]
     public class EntityFrameWorkTesting : BaseTestCaseScenario
     {
         private readonly DelaySettings _delaySettings;
@@ -28,52 +27,10 @@ namespace BookShop.Test.UnitTest.Scenarios
         }
 
 # pragma warning disable xUnit1004
-        [Fact(Skip = "Just for manual testing.")]
-        public async Task SingleVsFirst()
-        {
-            await _testRepository.SingleVsFirst();
-        }
-
-        [Fact(Skip = "Just for manual testing.")]
-        public async Task InsertAndUpdateAsync()
-        {
-            await _testRepository.InsertAndUpdateAsync();
-        }
-
-        [Fact(Skip = "Just for manual testing.")]
-        public async Task TestEF()
-        {
-            await _testRepository.TestEF();
-        }
-
-        [Fact(Skip = "Just for manual testing.")]
-        public void Update()
-        {
-            _testRepository.TestUpdate(new Permission { Id = 7, Name = "Permission_7" });
-        }
-
-        [Fact(Skip = "Just for manual testing.")]
-        public void UpdateImmediately()
-        {
-            _testRepository.UpdateImmediately();
-        }
-
-        [Fact(Skip = "Just for manual testing.")]
-        public void CheckProjectAutors()
-        {
-            _testRepository.CheckProjectAutors();
-        }
-
-        [Fact(Skip = "Just for manual testing.")]
-        public void CheckProjectTitle()
-        {
-            _testRepository.CheckProjectTitle();
-        }
-
         [Fact()]
         public async Task FastTesting()
         {
-            await _testRepository.TestEF15();
+            await _testRepository.TestEF16();
         }
 #pragma warning restore xUnit1004
 

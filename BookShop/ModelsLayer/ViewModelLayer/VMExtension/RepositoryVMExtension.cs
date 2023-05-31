@@ -32,5 +32,42 @@ namespace BookShop.ModelsLayer.ViewModelLayer.VMExtension
                 Name = repository.Name,
             };
         }
+
+        public static RecordingRepositoryDto ConvertToRecordingRepositoryDto(this RecordingRepositoryVM repository)
+        {
+            return new RecordingRepositoryDto
+            {
+                Name = repository.Name,
+                IsEnable =repository.IsEnable,
+            };
+        }
+
+        public static RecordingRepositoryResultVM ConvertToRecordingRepositoryVM(this RecordingRepositoryResultDto repository)
+        {
+            return new RecordingRepositoryResultVM
+            {
+                Id = repository.Id,
+                Name = repository.Name,
+                IsEnable = repository.IsEnable,
+            };
+        }
+        public static RemovalRespositoryDto ConvertToRemovalRespositoryDto(this RemovalRespositoryVM repository)
+        {
+            return new RemovalRespositoryDto
+            {
+                Id = repository.Id,
+                IsEnable = repository.IsEnable,
+            };
+        }
+        public static RemovalRespositoryResultVM ConvertToRemovalRespositoryDto(this RemovalRespositoryResultDto repository)
+        {
+            return new RemovalRespositoryResultVM
+            {
+                Id = repository.Id,
+                IsEnable = repository.IsEnable,
+            };
+        }
+
+
     }
 }

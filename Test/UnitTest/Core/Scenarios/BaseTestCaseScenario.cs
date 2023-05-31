@@ -28,6 +28,8 @@ namespace BookShop.Test.UnitTest.Core.Scenarios
                 //builder.RegisterInstance<IConfiguration>(config);
 
                 builder.RegisterSerilog(new LoggerConfiguration().ReadFrom.Configuration(config).WriteTo.TestOutput(testOutputHelper));
+
+                RegisterWhileCreationScope(builder);
             });
         }
 
@@ -40,6 +42,11 @@ namespace BookShop.Test.UnitTest.Core.Scenarios
         protected T ResolveService<T>(params Parameter[] parameters)
         {
             return _scope.Resolve<T>(parameters);
+        }
+
+        protected void RegisterWhileCreationScope(ContainerBuilder builder)
+        {
+
         }
 
         public void Dispose()

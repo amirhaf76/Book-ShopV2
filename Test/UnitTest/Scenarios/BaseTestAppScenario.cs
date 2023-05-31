@@ -10,7 +10,7 @@ using Xunit.Extensions.Ordering;
 namespace BookShop.Test.UnitTest.Scenarios
 {
     [Order((int)DefaultTestCollectionScenarioOrder.BaseTestAppScenario)]
-    [Collection(nameof(CollectionTestOrder.Service))]
+    [Collection(nameof(CollectionTestOrder.Default))]
     public class BaseTestAppScenario : BaseTestCaseScenario
     {
         private readonly DelaySettings _delaySettings;

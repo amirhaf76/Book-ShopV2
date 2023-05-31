@@ -4,9 +4,5 @@
     {
         BaseTestAppScenario,
         EntityFrameWorkTesting,
-        RepositoryServiceTestCases,
-        ReservationServiceTestCases,
-        MoqPackageScenario,
-        AuthorServiceTestCases
     }
 }

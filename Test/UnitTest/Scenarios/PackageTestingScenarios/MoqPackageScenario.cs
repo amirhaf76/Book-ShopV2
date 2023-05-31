@@ -7,13 +7,14 @@ using System.Text.RegularExpressions;
 using Xunit.Abstractions;
 using Xunit.Extensions.Ordering;
 
-namespace BookShop.Test.UnitTest.Scenarios
+namespace BookShop.Test.UnitTest.Scenarios.PackageTestingScenarios
 {
-    [Order((int)DefaultTestCollectionScenarioOrder.MoqPackageScenario)]
-    [Collection(nameof(CollectionTestOrder.Service))]
+    [Order((int)PackageTestCollectionScenarioOrder.MoqPackageScenario)]
+    [Collection(nameof(CollectionTestOrder.Package))]
     public class MoqPackageScenario : BaseTestCaseScenario
     {
         private static Mock<IFoo> mock = new Mock<IFoo>();
+
         public MoqPackageScenario(AppConfiguration totalConfiguration, ITestOutputHelper testOutputHelper) : base(totalConfiguration, testOutputHelper)
         {
         }
@@ -78,7 +79,7 @@ namespace BookShop.Test.UnitTest.Scenarios
 
 
             // matching ranges
-            mock.Setup(foo => foo.Add(It.IsInRange<int>(0, 10, Moq.Range.Inclusive))).Returns(true);
+            mock.Setup(foo => foo.Add(It.IsInRange(0, 10, Moq.Range.Inclusive))).Returns(true);
 
 
             // matching regex

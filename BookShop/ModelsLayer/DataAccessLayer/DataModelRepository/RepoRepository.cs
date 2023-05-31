@@ -45,14 +45,26 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
                 IsEnable = isEnable,
             };
 
+            var e = Find(newRepository.Id);
+
+            if (e == null)
+            {
+                throw new Exception("Null!");
+            }
+
             var theNewRepositoryEntry = _dbSet.Entry(newRepository);
+            
+            if (!theNewRepositoryEntry.IsKeySet)
+            {
+                throw new Exception("Id is not correct!");
+            }
 
             if (theNewRepositoryEntry.State == EntityState.Detached)
             {
                 _dbContexts.Attach(newRepository);
             }
 
-            theNewRepositoryEntry.Property(e => e.IsEnable).IsModified = true;
+            theNewRepositoryEntry.Property(r => r.IsEnable).IsModified = true;
 
             return theNewRepositoryEntry.Entity;
         }

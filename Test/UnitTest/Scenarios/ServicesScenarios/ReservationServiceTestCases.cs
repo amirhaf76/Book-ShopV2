@@ -13,7 +13,7 @@ using Xunit.Extensions.Ordering;
 
 namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 {
-    [Order((int)DefaultTestCollectionScenarioOrder.ReservationServiceTestCases)]
+    [Order((int)ServiceTestCollectionScenarioOrder.ReservationServiceTestCases)]
     [Collection(nameof(CollectionTestOrder.Service))]
     public class ReservationServiceTestCases : BaseTestCaseScenario
     {

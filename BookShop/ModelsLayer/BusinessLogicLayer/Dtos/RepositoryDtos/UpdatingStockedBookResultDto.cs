@@ -1,10 +1,10 @@
 ﻿namespace BookShop.ModelsLayer.BusinessLogicLayer.Dtos.RepositoryDtos
 {
-    public class StockingBookResultDto
+    public class UpdatingStockedBookResultDto
     {
-        public long StockId { get; set; }
-
         public int BookId { get; set; }
+
+        public long StockId { get; set; }
 
         public int RepositoryId { get; set; }
 
@@ -13,4 +13,5 @@
         public StockStatusVariety Status { get; set; }
 
     }
+
 }
