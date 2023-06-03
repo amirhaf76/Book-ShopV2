@@ -398,10 +398,47 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
                 Reservation = x.Reservation
             }).ToList();
 
-
-  
-
             await Task.CompletedTask;
+        }
+
+        public async Task TestEF18()
+        {
+
+            var temp = _dbContext.Set<RolePermission>();
+
+            var entry = new RolePermission
+            {
+                RoleId = 1000,
+                PermissionId = 1200,
+            };
+            _dbContext.Entry(entry).Property("Test1").CurrentValue = 2;
+
+            var t = temp.Update(entry);
+
+            await SaveChangesAsync();
+        }
+
+        public async Task TestEF19()
+        {
+            var theBook = await _dbContext.Set<Book>().FindAsync(12);
+
+            theBook.Pages = 3211;
+
+            await SaveChangesAsync();
+        }
+
+        public async Task TestEF20()
+        {
+            var publishedDate = new DateTime?[] { DateTime.Now, null };
+
+            var queryable = _dbContext.Set<Book>().AsQueryable();
+
+            queryable = queryable.Where(b => publishedDate.Contains(b.PublishedDate));
+
+            _logger.LogDebug("@{queryable}", queryable);
+
+            var books = await queryable.ToListAsync();
+
         }
 
     }

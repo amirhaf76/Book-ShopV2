@@ -36,12 +36,12 @@ namespace BookShop.Controllers
             return repository.ConvertToRecordingRepositoryVM();
         }
 
-        [HttpPost("ChangeRepositoryState")]
-        public async Task<RemovalRespositoryResultVM> ChangeRepositoryActivationAsync([FromBody] RemovalRespositoryVM removalRespositoryVM)
+        [HttpPut("UpdateRepository")]
+        public async Task<UpdateRespositoryResultVM> UpdateRepositoryAsync([FromBody] UpdateRespositoryVM updateRespositoryVM)
         {
-            var repository = await _repositoryService.ChangeRepositoryActivationAsync(removalRespositoryVM.ConvertToRemovalRespositoryDto());
+            var repository = await _repositoryService.UpdateRepositoryAsync(updateRespositoryVM.ConvertToRemovalRespositoryDto());
 
-            return repository.ConvertToRemovalRespositoryDto();
+            return repository.ConvertToUpdateRespositoryVM();
         }
     }
 

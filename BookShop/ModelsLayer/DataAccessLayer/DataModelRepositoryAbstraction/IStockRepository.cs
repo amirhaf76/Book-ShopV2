@@ -9,9 +9,14 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction
 
         Task<IEnumerable<Stock>> GetStocksAsync(StockFilter stockFilter);
 
-        Task<IEnumerable<Stock>> GetStocksCompletlyAsync();
+        Task<IEnumerable<Stock>> GetStocksCompletelyAsync();
 
-        Task<IEnumerable<Stock>> GetStocksCompletlyAsync(StockFilter stockFilter);
+        Task<IEnumerable<Stock>> GetStocksCompletelyAsync(StockFilter stockFilter);
+
+        Task<IEnumerable<Stock>> GetReservedStocksCompletelyAsync(ReservedStockFilter stockFilter);
+
+        Task<IEnumerable<Stock>> GetReservedStocksAsync(ReservedStockFilter stockFilter);
+
 
 
 

@@ -10,6 +10,6 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction
 
         Task<RecordingRepositoryResultDto> AddRepositoryAsync(RecordingRepositoryDto aRepository);
 
-        Task<RemovalRespositoryResultDto> ChangeRepositoryActivationAsync(RemovalRespositoryDto aRepository);
+        Task<UpdateRespositoryResultDto> UpdateRepositoryAsync(UpdateRespositoryDto aRepository);
     }
 }

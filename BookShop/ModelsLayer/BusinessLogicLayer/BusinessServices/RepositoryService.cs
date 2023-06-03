@@ -3,6 +3,7 @@ using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.RepositoryDtos;
 using BookShop.ModelsLayer.BusinessLogicLayer.DtosExtension;
 using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
 using BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction;
+using BookShop.ModelsLayer.Exceptions;
 using Infrastructure.AutoFac.FlagInterface;
 
 namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServices
@@ -21,7 +22,7 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServices
             var newRepository = new Repository
             {
                 IsEnable = aRepository.IsEnable,
-                Name =aRepository.Name
+                Name = aRepository.Name
             };
 
             var addedRepository = await _repoRepository.AddAsync(newRepository);
@@ -48,13 +49,22 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServices
             return await GetRepositoriesAsync(new GettingRepositoriesFilter());
         }
 
-        public async Task<RemovalRespositoryResultDto> ChangeRepositoryActivationAsync(RemovalRespositoryDto removalRepository)
+        public async Task<UpdateRespositoryResultDto> UpdateRepositoryAsync(UpdateRespositoryDto updateRespository)
         {
-            var theRepository = _repoRepository.ChangeRepositoryActivation(removalRepository.Id, removalRepository.IsEnable);
+            var theRepository = await _repoRepository.FindAsync(updateRespository.Id);
+
+            if (theRepository == null)
+            {
+                throw new RepositoryNotFoundException(updateRespository.Id);
+            }
+
+            theRepository.Name = updateRespository.Name;
+            theRepository.AddressId = updateRespository.AddressId;
+            theRepository.IsEnable = updateRespository.IsEnable;
 
             await _repoRepository.SaveChangesAsync();
 
-            return theRepository.ConvertToRemovalRespositoryResultDto();
+            return theRepository.ConvertToUpdateRespositoryResultDto();
         }
 
     }

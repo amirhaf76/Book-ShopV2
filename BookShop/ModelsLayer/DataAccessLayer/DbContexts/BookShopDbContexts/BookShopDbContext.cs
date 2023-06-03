@@ -190,8 +190,11 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DbContexts.BookShopDbContexts
                     .UsingEntity<RolePermission>(
                         right => right.HasOne(rp => rp.Permission).WithMany().HasForeignKey(rp => rp.PermissionId).HasPrincipalKey(p => p.Id),
                         left => left.HasOne(rp => rp.Role).WithMany().HasForeignKey(rp => rp.RoleId).HasPrincipalKey(r => r.Id),
-                        join => join.HasKey(rp => new { rp.PermissionId, rp.RoleId })
-                        );
+                        join =>
+                        {
+                            join.HasKey(rp => new { rp.PermissionId, rp.RoleId });
+                            join.Property<int?>("Test1").IsRequired(false);
+                        });
             });
         }
 

@@ -1,6 +1,7 @@
 ﻿using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
 using BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction;
 using BookShop.ModelsLayer.DataAccessLayer.Dtos;
+using BookShop.ModelsLayer.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
@@ -37,36 +38,18 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
             return await queryable.AsSplitQuery().ToListAsync();
         }
 
-        public Repository ChangeRepositoryActivation(int id, bool isEnable)
+        public async Task<Repository> ChangeRepositoryActivationAsync(int id, bool isEnable)
         {
-            var newRepository = new Repository
-            {
-                Id = id,
-                IsEnable = isEnable,
-            };
+            var theRepository = await FindAsync(id);
 
-            var e = Find(newRepository.Id);
-
-            if (e == null)
+            if (theRepository == null)
             {
-                throw new Exception("Null!");
+                throw new RepositoryNotFoundException(id);
             }
 
-            var theNewRepositoryEntry = _dbSet.Entry(newRepository);
-            
-            if (!theNewRepositoryEntry.IsKeySet)
-            {
-                throw new Exception("Id is not correct!");
-            }
+            theRepository.IsEnable = isEnable;
 
-            if (theNewRepositoryEntry.State == EntityState.Detached)
-            {
-                _dbContexts.Attach(newRepository);
-            }
-
-            theNewRepositoryEntry.Property(r => r.IsEnable).IsModified = true;
-
-            return theNewRepositoryEntry.Entity;
+            return theRepository;
         }
 
         private IQueryable<Repository> GetRepositoriesWithoutEigerLoading(RepositoryFilter filter)

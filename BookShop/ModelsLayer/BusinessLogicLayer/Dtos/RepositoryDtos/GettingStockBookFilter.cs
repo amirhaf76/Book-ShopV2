@@ -10,7 +10,7 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.Dtos.RepositoryDtos
             StockIds = new List<long>();
             RepositoryIds = new List<int>();
             BookIds = new List<int>();
-            ReservationIds = new List<int>();
+            ReservationIds = new List<int?>();
             Statuses = new List<StockStatusVariety>();
         }
 
@@ -22,7 +22,7 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.Dtos.RepositoryDtos
 
         public IEnumerable<int> BookIds { get; set; }
 
-        public IEnumerable<int> ReservationIds { get; set; }
+        public IEnumerable<int?> ReservationIds { get; set; }
 
         public IEnumerable<StockStatusVariety> Statuses { get; set; }
     }

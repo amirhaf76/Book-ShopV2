@@ -1,5 +1,6 @@
 ﻿using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.BookDtos;
 using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.RepositoryDtos;
+using BookShop.ModelsLayer.BusinessLogicLayer.Dtos.StockDtos;
 using BookShop.ModelsLayer.DataAccessLayer.DataBaseModels;
 using BookShop.ModelsLayer.DataAccessLayer.Dtos;
 
@@ -32,7 +33,7 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.DtosExtension
             return stock;
         }
 
-        public static UpdatingStockedBookResultDto ConvertToUpdatingStockedBooResultDto(this Stock stock)
+        public static UpdatingStockedBookResultDto ConvertToUpdatingStockedBookResultDto(this Stock stock)
         {
             return new UpdatingStockedBookResultDto
             {
@@ -91,6 +92,14 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.DtosExtension
             };
         }
 
+        public static StockStatusUpdateResultDto ConvertToStockStatusUpdateResultDto(this Stock stock)
+        {
+            return new StockStatusUpdateResultDto
+            {
+                StockId = stock.StockId,
+                Status = stock.Status.ConvertToStockStatusVariety(),
+            };
+        }
 
     }
 }

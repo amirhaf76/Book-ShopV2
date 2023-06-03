@@ -51,20 +51,24 @@ namespace BookShop.ModelsLayer.ViewModelLayer.VMExtension
                 IsEnable = repository.IsEnable,
             };
         }
-        public static RemovalRespositoryDto ConvertToRemovalRespositoryDto(this RemovalRespositoryVM repository)
+        public static UpdateRespositoryDto ConvertToRemovalRespositoryDto(this UpdateRespositoryVM repository)
         {
-            return new RemovalRespositoryDto
+            return new UpdateRespositoryDto
             {
                 Id = repository.Id,
                 IsEnable = repository.IsEnable,
+                AddressId = repository.AddressId,
+                Name = repository.Name,
             };
         }
-        public static RemovalRespositoryResultVM ConvertToRemovalRespositoryDto(this RemovalRespositoryResultDto repository)
+        public static UpdateRespositoryResultVM ConvertToUpdateRespositoryVM(this UpdateRespositoryResultDto repository)
         {
-            return new RemovalRespositoryResultVM
+            return new UpdateRespositoryResultVM
             {
                 Id = repository.Id,
                 IsEnable = repository.IsEnable,
+                Name = repository.Name,
+                AddressId = repository.AddressId,
             };
         }
 

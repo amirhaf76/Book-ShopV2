@@ -43,12 +43,14 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.DtosExtension
         }
 
         
-        public static RemovalRespositoryResultDto ConvertToRemovalRespositoryResultDto(this Repository repository)
+        public static UpdateRespositoryResultDto ConvertToUpdateRespositoryResultDto(this Repository repository)
         {
-            return new RemovalRespositoryResultDto
+            return new UpdateRespositoryResultDto
             {
                 Id = repository.Id,
+                Name = repository.Name,
                 IsEnable = repository.IsEnable,
+                AddressId = repository.AddressId,
             };
         }
 

@@ -30,7 +30,7 @@ namespace BookShop.Test.UnitTest.Scenarios
         [Fact()]
         public async Task FastTesting()
         {
-            await _testRepository.TestEF16();
+            await _testRepository.TestEF20();
         }
 #pragma warning restore xUnit1004
 

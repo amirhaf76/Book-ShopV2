@@ -231,7 +231,7 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 
             var aRepository = MakeRemovalRepositoryDtoForAvailableRepository();
 
-            var repositoryRemovalAction = async () => await repositoryService.ChangeRepositoryActivationAsync(aRepository);
+            var repositoryRemovalAction = async () => await repositoryService.UpdateRepositoryAsync(aRepository);
 
             var repositoryRemovalResult = await repositoryRemovalAction.Should().NotThrowAsync();
 
@@ -247,7 +247,7 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
 
             var aRepository = MakeRemovalRepositoryDtoForUnavailableRepository();
 
-            var repositoryRemovalAction = async () => await repositoryService.ChangeRepositoryActivationAsync(aRepository);
+            var repositoryRemovalAction = async () => await repositoryService.UpdateRepositoryAsync(aRepository);
 
             var repositoryRemovalResult = await repositoryRemovalAction.Should().ThrowAsync<RepositoryNotFoundException>();
         }
@@ -271,17 +271,17 @@ namespace BookShop.Test.UnitTest.Scenarios.ServicesScenarios
         }
 
 
-        private static RemovalRespositoryDto MakeRemovalRepositoryDtoForAvailableRepository()
+        private static UpdateRespositoryDto MakeRemovalRepositoryDtoForAvailableRepository()
         {
-            return new RemovalRespositoryDto
+            return new UpdateRespositoryDto
             {
 
             };
         }
 
-        private static RemovalRespositoryDto MakeRemovalRepositoryDtoForUnavailableRepository()
+        private static UpdateRespositoryDto MakeRemovalRepositoryDtoForUnavailableRepository()
         {
-            return new RemovalRespositoryDto
+            return new UpdateRespositoryDto
             {
 
             };

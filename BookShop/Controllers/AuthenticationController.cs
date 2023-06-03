@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BookShop.Controllers
 {
     [ApiController]
-    [Route("v1/api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class AuthenticationController : Controller
     {
         private readonly ILogger<AuthenticationController> _logger;
