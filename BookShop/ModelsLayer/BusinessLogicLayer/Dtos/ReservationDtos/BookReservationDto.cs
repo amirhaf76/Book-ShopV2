@@ -2,6 +2,8 @@
 {
     public class BookReservationDto
     {
-        public int InstanceBookId { get; set; }
+        public IEnumerable<int> BookIds { get; set; }
+
+        public int UserAccountId { get; set; }
     }
 }

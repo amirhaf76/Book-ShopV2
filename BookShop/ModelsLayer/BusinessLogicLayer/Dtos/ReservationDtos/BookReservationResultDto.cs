@@ -2,6 +2,8 @@
 {
     public class BookReservationResultDto
     {
-        public long ReservationId { get; set; }
+        public IEnumerable<long> StockId { get; set; }
+
+        public long? ReservationId { get; set; }
     }
 }

@@ -9,7 +9,11 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction
 
         Task<StockStatusUpdateResultDto> UpdateStockStatus(StockStatusUpdateDto updateStockStatus);
 
-        Task<StockReservationResultDto> ReserveStockWithCheckingAsync(StockReservationDto stockReservation);
+        Task<StockReservationResultDto> ReserveStockAsync(StockReservationDto stockReservation);
+
+        Task<StockReservationResultDto> ReserveStockAsync(IEnumerable<int> bookIds, int reservationId);
+
+        Task<ReservationCancellationResultDto> CancelStocksAsync(IEnumerable<long> stockIds);
 
         Task<UpdatingStockedBookResultDto> UpdateStockAsync(UpdatingStockedBookDto stock);
 

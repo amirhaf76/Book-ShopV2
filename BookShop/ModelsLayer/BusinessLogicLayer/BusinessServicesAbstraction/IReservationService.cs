@@ -8,6 +8,6 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.BusinessServicesAbstraction
 
         Task<ReservedBookCancellationResultDto> CancelBookReservationAsync(ReservedBookCancellationDto aBook);
 
-        Task<IEnumerable<BookReservationReportDto>> GetReservedBookAsync(object filter = null);
+        Task<IEnumerable<BookReservationReportDto>> GetReservedBookAsync(ReservedBookFilterDto filter);
     }
 }

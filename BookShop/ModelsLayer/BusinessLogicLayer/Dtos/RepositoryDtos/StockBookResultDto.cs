@@ -10,9 +10,9 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.Dtos.RepositoryDtos
 
         public StockedBookResult Book { get; set; }
 
-        // public int? ReservationId { get; set; }
+        public int? ReservationId { get; set; }
 
-        //public Reservation Reservation { get; set; }
+        // public Reservation Reservation { get; set; }
 
 
         public StockStatusVariety Status { get; set; }

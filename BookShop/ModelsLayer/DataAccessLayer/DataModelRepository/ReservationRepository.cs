@@ -13,12 +13,22 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
         {
         }
 
-        public async Task<IEnumerable<Reservation>> GetReservationAsync()
+        public  async Task<Reservation> GetReservationAsync(int id)
         {
-            return await GetReservationAsync(new ReservationFilter());
+            var theReservation = await FindAsync(id);
+
+            await _dbSet.Entry(theReservation).Collection(x => x.Stocks).LoadAsync();
+            await _dbSet.Entry(theReservation).Reference(x => x.UserAccount).LoadAsync();
+
+            return theReservation;
         }
 
-        public async Task<IEnumerable<Reservation>> GetReservationAsync(ReservationFilter reservationFilter)
+        public async Task<IEnumerable<Reservation>> GetReservationsAsync()
+        {
+            return await GetReservationsAsync(new ReservationFilter());
+        }
+
+        public async Task<IEnumerable<Reservation>> GetReservationsAsync(ReservationFilter reservationFilter)
         {
             var queryable = GetReservationAsQueryable(reservationFilter);
 
@@ -56,6 +66,7 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepository
             {
                 throw new ReservedBookNotFoundException();
             }
+
             using var transaction = _dbContexts.Database.BeginTransaction(System.Data.IsolationLevel.RepeatableRead);
 
             try

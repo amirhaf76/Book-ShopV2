@@ -5,9 +5,11 @@ namespace BookShop.ModelsLayer.DataAccessLayer.DataModelRepositoryAbstraction
 {
     public interface IReservationRepository : IBaseRepository<Reservation>
     {
-        Task<IEnumerable<Reservation>> GetReservationAsync();
+        Task<IEnumerable<Reservation>> GetReservationsAsync();
 
-        Task<IEnumerable<Reservation>> GetReservationAsync(ReservationFilter reservationFilter);
+        Task<IEnumerable<Reservation>> GetReservationsAsync(ReservationFilter reservationFilter);
+
+        Task<Reservation> GetReservationAsync(int id);
 
         Task<IEnumerable<Reservation>> GetReservationWithTheirStocksAsync();
 

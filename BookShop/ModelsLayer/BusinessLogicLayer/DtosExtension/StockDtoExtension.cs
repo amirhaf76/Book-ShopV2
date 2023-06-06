@@ -86,6 +86,7 @@ namespace BookShop.ModelsLayer.BusinessLogicLayer.DtosExtension
             return new StockBookResultDto
             {
                 StockId = stock.StockId,
+                ReservationId = stock.ReservationId,
                 Book = stock.Book.ConvertToStockedBookResult(),
                 Repository = stock.Repository.ConvertToRespositoryMinResult(),
                 Status = stock.Status.ConvertToStockStatusVariety(),
